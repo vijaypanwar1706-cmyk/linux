@@ -1270,6 +1270,7 @@ __soc_pcm_hw_params (struct snd_soc_pcm_runtime *rtd,
                      struct snd_pcm_hw_params *params)
 {
     printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    printk("ASoC: soc_pcm_hw_params() called\n");
     ; /* avoid -Wswitch-unreachable */
     struct snd_soc_dai *cpu_dai;
     struct snd_soc_dai *codec_dai;
