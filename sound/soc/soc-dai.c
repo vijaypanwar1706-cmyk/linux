@@ -11,25 +11,26 @@
 #include <sound/soc-link.h>
 
 #define soc_dai_ret(dai, ret) _soc_dai_ret(dai, __func__, ret)
-static inline int _soc_dai_ret(const struct snd_soc_dai *dai,
-			       const char *func, int ret)
+static inline int
+_soc_dai_ret (const struct snd_soc_dai *dai, const char *func, int ret)
 {
-	/* Positive, Zero values are not errors */
-	if (ret >= 0)
-		return ret;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    /* Positive, Zero values are not errors */
+    if (ret >= 0)
+        return ret;
 
-	/* Negative values might be errors */
-	switch (ret) {
-	case -EPROBE_DEFER:
-	case -ENOTSUPP:
-		break;
-	default:
-		dev_err(dai->dev,
-			"ASoC: error at %s on %s: %d\n",
-			func, dai->name, ret);
-	}
+    /* Negative values might be errors */
+    switch (ret) {
+    case -EPROBE_DEFER:
+    case -ENOTSUPP:
+        break;
+    default:
+        dev_err (dai->dev,
+                 "ASoC: error at %s on %s: %d\n", func, dai->name, ret);
+    }
 
-	return ret;
+    return ret;
 }
 
 /*
@@ -49,21 +50,24 @@ static inline int _soc_dai_ret(const struct snd_soc_dai *dai,
  *
  * Configures the DAI master (MCLK) or system (SYSCLK) clocking.
  */
-int snd_soc_dai_set_sysclk(struct snd_soc_dai *dai, int clk_id,
-			   unsigned int freq, int dir)
+int
+snd_soc_dai_set_sysclk (struct snd_soc_dai *dai, int clk_id,
+                        unsigned int freq, int dir)
 {
-	int ret;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret;
 
-	if (dai->driver->ops &&
-	    dai->driver->ops->set_sysclk)
-		ret = dai->driver->ops->set_sysclk(dai, clk_id, freq, dir);
-	else
-		ret = snd_soc_component_set_sysclk(dai->component, clk_id, 0,
-						   freq, dir);
+    if (dai->driver->ops && dai->driver->ops->set_sysclk)
+        ret = dai->driver->ops->set_sysclk (dai, clk_id, freq, dir);
+    else
+        ret = snd_soc_component_set_sysclk (dai->component, clk_id, 0,
+                                            freq, dir);
 
-	return soc_dai_ret(dai, ret);
+    return soc_dai_ret (dai, ret);
 }
-EXPORT_SYMBOL_GPL(snd_soc_dai_set_sysclk);
+
+EXPORT_SYMBOL_GPL (snd_soc_dai_set_sysclk);
 
 /**
  * snd_soc_dai_set_clkdiv - configure DAI clock dividers.
@@ -75,18 +79,20 @@ EXPORT_SYMBOL_GPL(snd_soc_dai_set_sysclk);
  * frame clocks from the system or master clock. It's best to set the DAI bit
  * and frame clocks as low as possible to save system power.
  */
-int snd_soc_dai_set_clkdiv(struct snd_soc_dai *dai,
-			   int div_id, int div)
+int
+snd_soc_dai_set_clkdiv (struct snd_soc_dai *dai, int div_id, int div)
 {
-	int ret = -EINVAL;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = -EINVAL;
 
-	if (dai->driver->ops &&
-	    dai->driver->ops->set_clkdiv)
-		ret = dai->driver->ops->set_clkdiv(dai, div_id, div);
+    if (dai->driver->ops && dai->driver->ops->set_clkdiv)
+        ret = dai->driver->ops->set_clkdiv (dai, div_id, div);
 
-	return soc_dai_ret(dai, ret);
+    return soc_dai_ret (dai, ret);
 }
-EXPORT_SYMBOL_GPL(snd_soc_dai_set_clkdiv);
+
+EXPORT_SYMBOL_GPL (snd_soc_dai_set_clkdiv);
 
 /**
  * snd_soc_dai_set_pll - configure DAI PLL.
@@ -98,22 +104,25 @@ EXPORT_SYMBOL_GPL(snd_soc_dai_set_clkdiv);
  *
  * Configures and enables PLL to generate output clock based on input clock.
  */
-int snd_soc_dai_set_pll(struct snd_soc_dai *dai, int pll_id, int source,
-			unsigned int freq_in, unsigned int freq_out)
+int
+snd_soc_dai_set_pll (struct snd_soc_dai *dai, int pll_id, int source,
+                     unsigned int freq_in, unsigned int freq_out)
 {
-	int ret;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret;
 
-	if (dai->driver->ops &&
-	    dai->driver->ops->set_pll)
-		ret = dai->driver->ops->set_pll(dai, pll_id, source,
-						freq_in, freq_out);
-	else
-		ret = snd_soc_component_set_pll(dai->component, pll_id, source,
-						freq_in, freq_out);
+    if (dai->driver->ops && dai->driver->ops->set_pll)
+        ret = dai->driver->ops->set_pll (dai, pll_id, source,
+                                         freq_in, freq_out);
+    else
+        ret = snd_soc_component_set_pll (dai->component, pll_id, source,
+                                         freq_in, freq_out);
 
-	return soc_dai_ret(dai, ret);
+    return soc_dai_ret (dai, ret);
 }
-EXPORT_SYMBOL_GPL(snd_soc_dai_set_pll);
+
+EXPORT_SYMBOL_GPL (snd_soc_dai_set_pll);
 
 /**
  * snd_soc_dai_set_bclk_ratio - configure BCLK to sample rate ratio.
@@ -122,35 +131,40 @@ EXPORT_SYMBOL_GPL(snd_soc_dai_set_pll);
  *
  * Configures the DAI for a preset BCLK to sample rate ratio.
  */
-int snd_soc_dai_set_bclk_ratio(struct snd_soc_dai *dai, unsigned int ratio)
+int
+snd_soc_dai_set_bclk_ratio (struct snd_soc_dai *dai, unsigned int ratio)
 {
-	int ret = -ENOTSUPP;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = -ENOTSUPP;
 
-	if (dai->driver->ops &&
-	    dai->driver->ops->set_bclk_ratio)
-		ret = dai->driver->ops->set_bclk_ratio(dai, ratio);
+    if (dai->driver->ops && dai->driver->ops->set_bclk_ratio)
+        ret = dai->driver->ops->set_bclk_ratio (dai, ratio);
 
-	return soc_dai_ret(dai, ret);
+    return soc_dai_ret (dai, ret);
 }
-EXPORT_SYMBOL_GPL(snd_soc_dai_set_bclk_ratio);
 
-int snd_soc_dai_get_fmt_max_priority(const struct snd_soc_pcm_runtime *rtd)
+EXPORT_SYMBOL_GPL (snd_soc_dai_set_bclk_ratio);
+
+int
+snd_soc_dai_get_fmt_max_priority (const struct snd_soc_pcm_runtime *rtd)
 {
-	struct snd_soc_dai *dai;
-	int i, max = 0;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    struct snd_soc_dai *dai;
+    int i, max = 0;
 
-	/*
-	 * return max num if *ALL* DAIs have .auto_selectable_formats
-	 */
-	for_each_rtd_dais(rtd, i, dai) {
-		if (dai->driver->ops &&
-		    dai->driver->ops->num_auto_selectable_formats)
-			max = max(max, dai->driver->ops->num_auto_selectable_formats);
-		else
-			return 0;
-	}
+    /*
+     * return max num if *ALL* DAIs have .auto_selectable_formats
+     */
+    for_each_rtd_dais (rtd, i, dai) {
+        if (dai->driver->ops && dai->driver->ops->num_auto_selectable_formats)
+            max = max (max, dai->driver->ops->num_auto_selectable_formats);
+        else
+            return 0;
+    }
 
-	return max;
+    return max;
 }
 
 /**
@@ -166,35 +180,38 @@ int snd_soc_dai_get_fmt_max_priority(const struct snd_soc_pcm_runtime *rtd)
  * modes.  This will mean that sometimes fewer formats
  * are reported here than are supported by set_fmt().
  */
-u64 snd_soc_dai_get_fmt(const struct snd_soc_dai *dai, int priority)
+u64
+snd_soc_dai_get_fmt (const struct snd_soc_dai *dai, int priority)
 {
-	const struct snd_soc_dai_ops *ops = dai->driver->ops;
-	u64 fmt = 0;
-	int i, max = 0, until = priority;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    const struct snd_soc_dai_ops *ops = dai->driver->ops;
+    u64 fmt = 0;
+    int i, max = 0, until = priority;
 
-	/*
-	 * Collect auto_selectable_formats until priority
-	 *
-	 * ex)
-	 *	auto_selectable_formats[] = { A, B, C };
-	 *	(A, B, C = SND_SOC_POSSIBLE_DAIFMT_xxx)
-	 *
-	 * priority = 1 :	A
-	 * priority = 2 :	A | B
-	 * priority = 3 :	A | B | C
-	 * priority = 4 :	A | B | C
-	 * ...
-	 */
-	if (ops)
-		max = ops->num_auto_selectable_formats;
+    /*
+     * Collect auto_selectable_formats until priority
+     *
+     * ex)
+     *      auto_selectable_formats[] = { A, B, C };
+     *      (A, B, C = SND_SOC_POSSIBLE_DAIFMT_xxx)
+     *
+     * priority = 1 :       A
+     * priority = 2 :       A | B
+     * priority = 3 :       A | B | C
+     * priority = 4 :       A | B | C
+     * ...
+     */
+    if (ops)
+        max = ops->num_auto_selectable_formats;
 
-	if (max < until)
-		until = max;
+    if (max < until)
+        until = max;
 
-	for (i = 0; i < until; i++)
-		fmt |= ops->auto_selectable_formats[i];
+    for (i = 0; i < until; i++)
+        fmt |= ops->auto_selectable_formats[i];
 
-	return fmt;
+    return fmt;
 }
 
 /**
@@ -204,16 +221,20 @@ u64 snd_soc_dai_get_fmt(const struct snd_soc_dai *dai, int priority)
  *
  * Configures the DAI hardware format and clocking.
  */
-int snd_soc_dai_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
+int
+snd_soc_dai_set_fmt (struct snd_soc_dai *dai, unsigned int fmt)
 {
-	int ret = -ENOTSUPP;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = -ENOTSUPP;
 
-	if (dai->driver->ops && dai->driver->ops->set_fmt)
-		ret = dai->driver->ops->set_fmt(dai, fmt);
+    if (dai->driver->ops && dai->driver->ops->set_fmt)
+        ret = dai->driver->ops->set_fmt (dai, fmt);
 
-	return soc_dai_ret(dai, ret);
+    return soc_dai_ret (dai, ret);
 }
-EXPORT_SYMBOL_GPL(snd_soc_dai_set_fmt);
+
+EXPORT_SYMBOL_GPL (snd_soc_dai_set_fmt);
 
 /**
  * snd_soc_xlate_tdm_slot_mask - generate tx/rx slot mask.
@@ -223,20 +244,22 @@ EXPORT_SYMBOL_GPL(snd_soc_dai_set_fmt);
  *
  * Generates the TDM tx and rx slot default masks for DAI.
  */
-static int snd_soc_xlate_tdm_slot_mask(unsigned int slots,
-				       unsigned int *tx_mask,
-				       unsigned int *rx_mask)
+static int
+snd_soc_xlate_tdm_slot_mask (unsigned int slots,
+                             unsigned int *tx_mask, unsigned int *rx_mask)
 {
-	if (*tx_mask || *rx_mask)
-		return 0;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    if (*tx_mask || *rx_mask)
+        return 0;
 
-	if (!slots)
-		return -EINVAL;
+    if (!slots)
+        return -EINVAL;
 
-	*tx_mask = (1 << slots) - 1;
-	*rx_mask = (1 << slots) - 1;
+    *tx_mask = (1 << slots) - 1;
+    *rx_mask = (1 << slots) - 1;
 
-	return 0;
+    return 0;
 }
 
 /**
@@ -262,38 +285,42 @@ static int snd_soc_xlate_tdm_slot_mask(unsigned int slots,
  *
  * Returns 0 on success, a negative error code otherwise.
  */
-int snd_soc_dai_set_tdm_slot(struct snd_soc_dai *dai,
-			     unsigned int tx_mask, unsigned int rx_mask,
-			     int slots, int slot_width)
+int
+snd_soc_dai_set_tdm_slot (struct snd_soc_dai *dai,
+                          unsigned int tx_mask, unsigned int rx_mask,
+                          int slots, int slot_width)
 {
-	int ret = -ENOTSUPP;
-	int stream;
-	unsigned int *tdm_mask[] = {
-		&tx_mask,
-		&rx_mask,
-	};
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = -ENOTSUPP;
+    int stream;
+    unsigned int *tdm_mask[] = {
+        &tx_mask,
+        &rx_mask,
+    };
 
-	if (slots) {
-		if (dai->driver->ops &&
-		    dai->driver->ops->xlate_tdm_slot_mask)
-			ret = dai->driver->ops->xlate_tdm_slot_mask(slots, &tx_mask, &rx_mask);
-		else
-			ret = snd_soc_xlate_tdm_slot_mask(slots, &tx_mask, &rx_mask);
-		if (ret)
-			goto err;
-	}
+    if (slots) {
+        if (dai->driver->ops && dai->driver->ops->xlate_tdm_slot_mask)
+            ret =
+                dai->driver->ops->xlate_tdm_slot_mask (slots, &tx_mask,
+                                                       &rx_mask);
+        else
+            ret = snd_soc_xlate_tdm_slot_mask (slots, &tx_mask, &rx_mask);
+        if (ret)
+            goto err;
+    }
 
-	for_each_pcm_streams(stream)
-		snd_soc_dai_tdm_mask_set(dai, stream, *tdm_mask[stream]);
+    for_each_pcm_streams (stream)
+        snd_soc_dai_tdm_mask_set (dai, stream, *tdm_mask[stream]);
 
-	if (dai->driver->ops &&
-	    dai->driver->ops->set_tdm_slot)
-		ret = dai->driver->ops->set_tdm_slot(dai, tx_mask, rx_mask,
-						      slots, slot_width);
-err:
-	return soc_dai_ret(dai, ret);
+    if (dai->driver->ops && dai->driver->ops->set_tdm_slot)
+        ret = dai->driver->ops->set_tdm_slot (dai, tx_mask, rx_mask,
+                                              slots, slot_width);
+  err:
+    return soc_dai_ret (dai, ret);
 }
-EXPORT_SYMBOL_GPL(snd_soc_dai_set_tdm_slot);
+
+EXPORT_SYMBOL_GPL (snd_soc_dai_set_tdm_slot);
 
 /**
  * snd_soc_dai_set_channel_map - configure DAI audio channel map
@@ -307,19 +334,22 @@ EXPORT_SYMBOL_GPL(snd_soc_dai_set_tdm_slot);
  *
  * configure the relationship between channel number and TDM slot number.
  */
-int snd_soc_dai_set_channel_map(struct snd_soc_dai *dai,
-				unsigned int tx_num, const unsigned int *tx_slot,
-				unsigned int rx_num, const unsigned int *rx_slot)
+int
+snd_soc_dai_set_channel_map (struct snd_soc_dai *dai,
+                             unsigned int tx_num, const unsigned int *tx_slot,
+                             unsigned int rx_num, const unsigned int *rx_slot)
 {
-	int ret = -ENOTSUPP;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = -ENOTSUPP;
 
-	if (dai->driver->ops &&
-	    dai->driver->ops->set_channel_map)
-		ret = dai->driver->ops->set_channel_map(dai, tx_num, tx_slot,
-							rx_num, rx_slot);
-	return soc_dai_ret(dai, ret);
+    if (dai->driver->ops && dai->driver->ops->set_channel_map)
+        ret = dai->driver->ops->set_channel_map (dai, tx_num, tx_slot,
+                                                 rx_num, rx_slot);
+    return soc_dai_ret (dai, ret);
 }
-EXPORT_SYMBOL_GPL(snd_soc_dai_set_channel_map);
+
+EXPORT_SYMBOL_GPL (snd_soc_dai_set_channel_map);
 
 /**
  * snd_soc_dai_get_channel_map - Get DAI audio channel map
@@ -331,19 +361,22 @@ EXPORT_SYMBOL_GPL(snd_soc_dai_set_channel_map);
  * @rx_slot: pointer to an array which imply the RX slot number channel
  *           0~num-1 uses
  */
-int snd_soc_dai_get_channel_map(const struct snd_soc_dai *dai,
-				unsigned int *tx_num, unsigned int *tx_slot,
-				unsigned int *rx_num, unsigned int *rx_slot)
+int
+snd_soc_dai_get_channel_map (const struct snd_soc_dai *dai,
+                             unsigned int *tx_num, unsigned int *tx_slot,
+                             unsigned int *rx_num, unsigned int *rx_slot)
 {
-	int ret = -ENOTSUPP;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = -ENOTSUPP;
 
-	if (dai->driver->ops &&
-	    dai->driver->ops->get_channel_map)
-		ret = dai->driver->ops->get_channel_map(dai, tx_num, tx_slot,
-							rx_num, rx_slot);
-	return soc_dai_ret(dai, ret);
+    if (dai->driver->ops && dai->driver->ops->get_channel_map)
+        ret = dai->driver->ops->get_channel_map (dai, tx_num, tx_slot,
+                                                 rx_num, rx_slot);
+    return soc_dai_ret (dai, ret);
 }
-EXPORT_SYMBOL_GPL(snd_soc_dai_get_channel_map);
+
+EXPORT_SYMBOL_GPL (snd_soc_dai_get_channel_map);
 
 /**
  * snd_soc_dai_set_tristate - configure DAI system or master clock.
@@ -352,17 +385,20 @@ EXPORT_SYMBOL_GPL(snd_soc_dai_get_channel_map);
  *
  * Tristates the DAI so that others can use it.
  */
-int snd_soc_dai_set_tristate(struct snd_soc_dai *dai, int tristate)
+int
+snd_soc_dai_set_tristate (struct snd_soc_dai *dai, int tristate)
 {
-	int ret = -EINVAL;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = -EINVAL;
 
-	if (dai->driver->ops &&
-	    dai->driver->ops->set_tristate)
-		ret = dai->driver->ops->set_tristate(dai, tristate);
+    if (dai->driver->ops && dai->driver->ops->set_tristate)
+        ret = dai->driver->ops->set_tristate (dai, tristate);
 
-	return soc_dai_ret(dai, ret);
+    return soc_dai_ret (dai, ret);
 }
-EXPORT_SYMBOL_GPL(snd_soc_dai_set_tristate);
+
+EXPORT_SYMBOL_GPL (snd_soc_dai_set_tristate);
 
 /**
  * snd_soc_dai_digital_mute - configure DAI system or master clock.
@@ -372,102 +408,113 @@ EXPORT_SYMBOL_GPL(snd_soc_dai_set_tristate);
  *
  * Mutes the DAI DAC.
  */
-int snd_soc_dai_digital_mute(struct snd_soc_dai *dai, int mute,
-			     int direction)
+int
+snd_soc_dai_digital_mute (struct snd_soc_dai *dai, int mute, int direction)
 {
-	int ret = -ENOTSUPP;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = -ENOTSUPP;
 
-	/*
-	 * ignore if direction was CAPTURE
-	 * and it had .no_capture_mute flag
-	 */
-	if (dai->driver->ops &&
-	    dai->driver->ops->mute_stream &&
-	    (direction == SNDRV_PCM_STREAM_PLAYBACK ||
-	     !dai->driver->ops->no_capture_mute))
-		ret = dai->driver->ops->mute_stream(dai, mute, direction);
+    /*
+     * ignore if direction was CAPTURE
+     * and it had .no_capture_mute flag
+     */
+    if (dai->driver->ops &&
+        dai->driver->ops->mute_stream &&
+        (direction == SNDRV_PCM_STREAM_PLAYBACK ||
+         !dai->driver->ops->no_capture_mute))
+        ret = dai->driver->ops->mute_stream (dai, mute, direction);
 
-	return soc_dai_ret(dai, ret);
-}
-EXPORT_SYMBOL_GPL(snd_soc_dai_digital_mute);
-
-int snd_soc_dai_hw_params(struct snd_soc_dai *dai,
-			  struct snd_pcm_substream *substream,
-			  struct snd_pcm_hw_params *params)
-{
-	int ret = 0;
-
-	if (dai->driver->ops &&
-	    dai->driver->ops->hw_params)
-		ret = dai->driver->ops->hw_params(substream, params, dai);
-
-	/* mark substream if succeeded */
-	if (ret == 0)
-		soc_dai_mark_push(dai, substream, hw_params);
-
-	return soc_dai_ret(dai, ret);
+    return soc_dai_ret (dai, ret);
 }
 
-void snd_soc_dai_hw_free(struct snd_soc_dai *dai,
-			 struct snd_pcm_substream *substream,
-			 int rollback)
+EXPORT_SYMBOL_GPL (snd_soc_dai_digital_mute);
+
+int
+snd_soc_dai_hw_params (struct snd_soc_dai *dai,
+                       struct snd_pcm_substream *substream,
+                       struct snd_pcm_hw_params *params)
 {
-	if (rollback && !soc_dai_mark_match(dai, substream, hw_params))
-		return;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = 0;
 
-	if (dai->driver->ops &&
-	    dai->driver->ops->hw_free)
-		dai->driver->ops->hw_free(substream, dai);
+    if (dai->driver->ops && dai->driver->ops->hw_params)
+        ret = dai->driver->ops->hw_params (substream, params, dai);
 
-	/* remove marked substream */
-	soc_dai_mark_pop(dai, substream, hw_params);
+    /* mark substream if succeeded */
+    if (ret == 0)
+        soc_dai_mark_push (dai, substream, hw_params);
+
+    return soc_dai_ret (dai, ret);
 }
 
-int snd_soc_dai_startup(struct snd_soc_dai *dai,
-			struct snd_pcm_substream *substream)
+void
+snd_soc_dai_hw_free (struct snd_soc_dai *dai,
+                     struct snd_pcm_substream *substream, int rollback)
 {
-	int ret = 0;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    if (rollback && !soc_dai_mark_match (dai, substream, hw_params))
+        return;
 
-	if (!snd_soc_dai_stream_valid(dai, substream->stream))
-		return 0;
+    if (dai->driver->ops && dai->driver->ops->hw_free)
+        dai->driver->ops->hw_free (substream, dai);
 
-	if (dai->driver->ops &&
-	    dai->driver->ops->startup)
-		ret = dai->driver->ops->startup(substream, dai);
-
-	/* mark substream if succeeded */
-	if (ret == 0)
-		soc_dai_mark_push(dai, substream, startup);
-
-	return soc_dai_ret(dai, ret);
+    /* remove marked substream */
+    soc_dai_mark_pop (dai, substream, hw_params);
 }
 
-void snd_soc_dai_shutdown(struct snd_soc_dai *dai,
-			  struct snd_pcm_substream *substream,
-			  int rollback)
+int
+snd_soc_dai_startup (struct snd_soc_dai *dai,
+                     struct snd_pcm_substream *substream)
 {
-	if (!snd_soc_dai_stream_valid(dai, substream->stream))
-		return;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = 0;
 
-	if (rollback && !soc_dai_mark_match(dai, substream, startup))
-		return;
+    if (!snd_soc_dai_stream_valid (dai, substream->stream))
+        return 0;
 
-	if (dai->driver->ops &&
-	    dai->driver->ops->shutdown)
-		dai->driver->ops->shutdown(substream, dai);
+    if (dai->driver->ops && dai->driver->ops->startup)
+        ret = dai->driver->ops->startup (substream, dai);
 
-	/* remove marked substream */
-	soc_dai_mark_pop(dai, substream, startup);
+    /* mark substream if succeeded */
+    if (ret == 0)
+        soc_dai_mark_push (dai, substream, startup);
+
+    return soc_dai_ret (dai, ret);
 }
 
-int snd_soc_dai_compress_new(struct snd_soc_dai *dai,
-			     struct snd_soc_pcm_runtime *rtd, int num)
+void
+snd_soc_dai_shutdown (struct snd_soc_dai *dai,
+                      struct snd_pcm_substream *substream, int rollback)
 {
-	int ret = -ENOTSUPP;
-	if (dai->driver->ops &&
-	    dai->driver->ops->compress_new)
-		ret = dai->driver->ops->compress_new(rtd, num);
-	return soc_dai_ret(dai, ret);
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    if (!snd_soc_dai_stream_valid (dai, substream->stream))
+        return;
+
+    if (rollback && !soc_dai_mark_match (dai, substream, startup))
+        return;
+
+    if (dai->driver->ops && dai->driver->ops->shutdown)
+        dai->driver->ops->shutdown (substream, dai);
+
+    /* remove marked substream */
+    soc_dai_mark_pop (dai, substream, startup);
+}
+
+int
+snd_soc_dai_compress_new (struct snd_soc_dai *dai,
+                          struct snd_soc_pcm_runtime *rtd, int num)
+{
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = -ENOTSUPP;
+    if (dai->driver->ops && dai->driver->ops->compress_new)
+        ret = dai->driver->ops->compress_new (rtd, num);
+    return soc_dai_ret (dai, ret);
 }
 
 /*
@@ -475,336 +522,398 @@ int snd_soc_dai_compress_new(struct snd_soc_dai *dai,
  *
  * Returns true if the DAI supports the indicated stream type.
  */
-bool snd_soc_dai_stream_valid(const struct snd_soc_dai *dai, int dir)
+bool
+snd_soc_dai_stream_valid (const struct snd_soc_dai *dai, int dir)
 {
-	const struct snd_soc_pcm_stream *stream = snd_soc_dai_get_pcm_stream(dai, dir);
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    const struct snd_soc_pcm_stream *stream =
+        snd_soc_dai_get_pcm_stream (dai, dir);
 
-	/* If the codec specifies any channels at all, it supports the stream */
-	return stream->channels_min;
+    /* If the codec specifies any channels at all, it supports the stream */
+    return stream->channels_min;
 }
 
-void snd_soc_dai_action(struct snd_soc_dai *dai,
-			int stream, int action)
+void
+snd_soc_dai_action (struct snd_soc_dai *dai, int stream, int action)
 {
-	/* see snd_soc_dai_stream_active() */
-	dai->stream[stream].active	+= action;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    /* see snd_soc_dai_stream_active() */
+    dai->stream[stream].active += action;
 
-	/* see snd_soc_component_active() */
-	dai->component->active		+= action;
-}
-EXPORT_SYMBOL_GPL(snd_soc_dai_action);
-
-int snd_soc_dai_active(const struct snd_soc_dai *dai)
-{
-	int stream, active;
-
-	active = 0;
-	for_each_pcm_streams(stream)
-		active += dai->stream[stream].active;
-
-	return active;
-}
-EXPORT_SYMBOL_GPL(snd_soc_dai_active);
-
-int snd_soc_pcm_dai_probe(struct snd_soc_pcm_runtime *rtd, int order)
-{
-	struct snd_soc_dai *dai;
-	int i;
-
-	for_each_rtd_dais(rtd, i, dai) {
-		if (dai->probed)
-			continue;
-
-		if (dai->driver->ops) {
-			if (dai->driver->ops->probe_order != order)
-				continue;
-
-			if (dai->driver->ops->probe) {
-				int ret = dai->driver->ops->probe(dai);
-
-				if (ret < 0)
-					return soc_dai_ret(dai, ret);
-			}
-		}
-		dai->probed = 1;
-	}
-
-	return 0;
+    /* see snd_soc_component_active() */
+    dai->component->active += action;
 }
 
-int snd_soc_pcm_dai_remove(struct snd_soc_pcm_runtime *rtd, int order)
+EXPORT_SYMBOL_GPL (snd_soc_dai_action);
+
+int
+snd_soc_dai_active (const struct snd_soc_dai *dai)
 {
-	struct snd_soc_dai *dai;
-	int i, r, ret = 0;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int stream, active;
 
-	for_each_rtd_dais(rtd, i, dai) {
-		if (!dai->probed)
-			continue;
+    active = 0;
+    for_each_pcm_streams (stream)
+        active += dai->stream[stream].active;
 
-		if (dai->driver->ops) {
-			if (dai->driver->ops->remove_order != order)
-				continue;
-
-			if (dai->driver->ops->remove) {
-				r = dai->driver->ops->remove(dai);
-				if (r < 0)
-					ret = r; /* use last error */
-			}
-		}
-		dai->probed = 0;
-	}
-
-	return ret;
+    return active;
 }
 
-int snd_soc_pcm_dai_new(struct snd_soc_pcm_runtime *rtd)
+EXPORT_SYMBOL_GPL (snd_soc_dai_active);
+
+int
+snd_soc_pcm_dai_probe (struct snd_soc_pcm_runtime *rtd, int order)
 {
-	struct snd_soc_dai *dai;
-	int i;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    struct snd_soc_dai *dai;
+    int i;
 
-	for_each_rtd_dais(rtd, i, dai) {
-		if (dai->driver->ops &&
-		    dai->driver->ops->pcm_new) {
-			int ret = dai->driver->ops->pcm_new(rtd, dai);
-			if (ret < 0)
-				return soc_dai_ret(dai, ret);
-		}
-	}
+    for_each_rtd_dais (rtd, i, dai) {
+        if (dai->probed)
+            continue;
 
-	return 0;
+        if (dai->driver->ops) {
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+            if (dai->driver->ops->probe_order != order)
+                continue;
+
+            if (dai->driver->ops->probe) {
+                int ret = dai->driver->ops->probe (dai);
+
+                if (ret < 0)
+                    return soc_dai_ret (dai, ret);
+            }
+        }
+        dai->probed = 1;
+    }
+
+    return 0;
 }
 
-int snd_soc_pcm_dai_prepare(struct snd_pcm_substream *substream)
+int
+snd_soc_pcm_dai_remove (struct snd_soc_pcm_runtime *rtd, int order)
 {
-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-	struct snd_soc_dai *dai;
-	int i, ret;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    struct snd_soc_dai *dai;
+    int i, r, ret = 0;
 
-	for_each_rtd_dais(rtd, i, dai) {
-		if (!snd_soc_dai_stream_valid(dai, substream->stream))
-			continue;
-		if (dai->driver->ops &&
-		    dai->driver->ops->prepare) {
-			ret = dai->driver->ops->prepare(substream, dai);
-			if (ret < 0)
-				return soc_dai_ret(dai, ret);
-		}
-	}
+    for_each_rtd_dais (rtd, i, dai) {
+        if (!dai->probed)
+            continue;
 
-	return 0;
+        if (dai->driver->ops) {
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+            if (dai->driver->ops->remove_order != order)
+                continue;
+
+            if (dai->driver->ops->remove) {
+                r = dai->driver->ops->remove (dai);
+                if (r < 0)
+                    ret = r;    /* use last error */
+            }
+        }
+        dai->probed = 0;
+    }
+
+    return ret;
 }
 
-static int soc_dai_trigger(struct snd_soc_dai *dai,
-			   struct snd_pcm_substream *substream, int cmd)
+int
+snd_soc_pcm_dai_new (struct snd_soc_pcm_runtime *rtd)
 {
-	int ret = 0;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    struct snd_soc_dai *dai;
+    int i;
 
-	if (!snd_soc_dai_stream_valid(dai, substream->stream))
-		return 0;
+    for_each_rtd_dais (rtd, i, dai) {
+        if (dai->driver->ops && dai->driver->ops->pcm_new) {
+            int ret = dai->driver->ops->pcm_new (rtd, dai);
+            if (ret < 0)
+                return soc_dai_ret (dai, ret);
+        }
+    }
 
-	if (dai->driver->ops &&
-	    dai->driver->ops->trigger)
-		ret = dai->driver->ops->trigger(substream, cmd, dai);
-
-	return soc_dai_ret(dai, ret);
+    return 0;
 }
 
-int snd_soc_pcm_dai_trigger(struct snd_pcm_substream *substream,
-			    int cmd, int rollback)
+int
+snd_soc_pcm_dai_prepare (struct snd_pcm_substream *substream)
 {
-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-	struct snd_soc_dai *dai;
-	int i, r, ret = 0;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd (substream);
+    struct snd_soc_dai *dai;
+    int i, ret;
 
-	switch (cmd) {
-	case SNDRV_PCM_TRIGGER_START:
-	case SNDRV_PCM_TRIGGER_RESUME:
-	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-		for_each_rtd_dais(rtd, i, dai) {
-			ret = soc_dai_trigger(dai, substream, cmd);
-			if (ret < 0)
-				break;
+    for_each_rtd_dais (rtd, i, dai) {
+        if (!snd_soc_dai_stream_valid (dai, substream->stream))
+            continue;
+        if (dai->driver->ops && dai->driver->ops->prepare) {
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+            ret = dai->driver->ops->prepare (substream, dai);
+            if (ret < 0)
+                return soc_dai_ret (dai, ret);
+        }
+    }
 
-			if (dai->driver->ops && dai->driver->ops->mute_unmute_on_trigger)
-				snd_soc_dai_digital_mute(dai, 0, substream->stream);
-
-			soc_dai_mark_push(dai, substream, trigger);
-		}
-		break;
-	case SNDRV_PCM_TRIGGER_STOP:
-	case SNDRV_PCM_TRIGGER_SUSPEND:
-	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-		for_each_rtd_dais(rtd, i, dai) {
-			if (rollback && !soc_dai_mark_match(dai, substream, trigger))
-				continue;
-
-			if (dai->driver->ops && dai->driver->ops->mute_unmute_on_trigger)
-				snd_soc_dai_digital_mute(dai, 1, substream->stream);
-
-			r = soc_dai_trigger(dai, substream, cmd);
-			if (r < 0)
-				ret = r; /* use last ret */
-			soc_dai_mark_pop(dai, substream, trigger);
-		}
-	}
-
-	return ret;
+    return 0;
 }
 
-void snd_soc_pcm_dai_delay(struct snd_pcm_substream *substream,
-			   snd_pcm_sframes_t *cpu_delay,
-			   snd_pcm_sframes_t *codec_delay)
+static int
+soc_dai_trigger (struct snd_soc_dai *dai,
+                 struct snd_pcm_substream *substream, int cmd)
 {
-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-	struct snd_soc_dai *dai;
-	int i;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = 0;
 
-	/*
-	 * We're looking for the delay through the full audio path so it needs to
-	 * be the maximum of the DAIs doing transmit and the maximum of the DAIs
-	 * doing receive (ie, all CPUs and all CODECs) rather than just the maximum
-	 * of all DAIs.
-	 */
+    if (!snd_soc_dai_stream_valid (dai, substream->stream))
+        return 0;
 
-	/* for CPU */
-	for_each_rtd_cpu_dais(rtd, i, dai)
-		if (dai->driver->ops &&
-		    dai->driver->ops->delay)
-			*cpu_delay = max(*cpu_delay, dai->driver->ops->delay(substream, dai));
+    if (dai->driver->ops && dai->driver->ops->trigger)
+        ret = dai->driver->ops->trigger (substream, cmd, dai);
 
-	/* for Codec */
-	for_each_rtd_codec_dais(rtd, i, dai)
-		if (dai->driver->ops &&
-		    dai->driver->ops->delay)
-			*codec_delay = max(*codec_delay, dai->driver->ops->delay(substream, dai));
+    return soc_dai_ret (dai, ret);
 }
 
-int snd_soc_dai_compr_startup(struct snd_soc_dai *dai,
-			      struct snd_compr_stream *cstream)
+int
+snd_soc_pcm_dai_trigger (struct snd_pcm_substream *substream,
+                         int cmd, int rollback)
 {
-	int ret = 0;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd (substream);
+    struct snd_soc_dai *dai;
+    int i, r, ret = 0;
 
-	if (dai->driver->cops &&
-	    dai->driver->cops->startup)
-		ret = dai->driver->cops->startup(cstream, dai);
+    switch (cmd) {
+    case SNDRV_PCM_TRIGGER_START:
+    case SNDRV_PCM_TRIGGER_RESUME:
+    case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+        for_each_rtd_dais (rtd, i, dai) {
+            ret = soc_dai_trigger (dai, substream, cmd);
+            if (ret < 0)
+                break;
 
-	/* mark cstream if succeeded */
-	if (ret == 0)
-		soc_dai_mark_push(dai, cstream, compr_startup);
+            if (dai->driver->ops && dai->driver->ops->mute_unmute_on_trigger)
+                snd_soc_dai_digital_mute (dai, 0, substream->stream);
 
-	return soc_dai_ret(dai, ret);
+            soc_dai_mark_push (dai, substream, trigger);
+        }
+        break;
+    case SNDRV_PCM_TRIGGER_STOP:
+    case SNDRV_PCM_TRIGGER_SUSPEND:
+    case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+        for_each_rtd_dais (rtd, i, dai) {
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+            if (rollback && !soc_dai_mark_match (dai, substream, trigger))
+                continue;
+
+            if (dai->driver->ops && dai->driver->ops->mute_unmute_on_trigger)
+                snd_soc_dai_digital_mute (dai, 1, substream->stream);
+
+            r = soc_dai_trigger (dai, substream, cmd);
+            if (r < 0)
+                ret = r;        /* use last ret */
+            soc_dai_mark_pop (dai, substream, trigger);
+        }
+    }
+
+    return ret;
 }
-EXPORT_SYMBOL_GPL(snd_soc_dai_compr_startup);
 
-void snd_soc_dai_compr_shutdown(struct snd_soc_dai *dai,
-				struct snd_compr_stream *cstream,
-				int rollback)
+void
+snd_soc_pcm_dai_delay (struct snd_pcm_substream *substream,
+                       snd_pcm_sframes_t * cpu_delay,
+                       snd_pcm_sframes_t * codec_delay)
 {
-	if (rollback && !soc_dai_mark_match(dai, cstream, compr_startup))
-		return;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd (substream);
+    struct snd_soc_dai *dai;
+    int i;
 
-	if (dai->driver->cops &&
-	    dai->driver->cops->shutdown)
-		dai->driver->cops->shutdown(cstream, dai);
+    /*
+     * We're looking for the delay through the full audio path so it needs to
+     * be the maximum of the DAIs doing transmit and the maximum of the DAIs
+     * doing receive (ie, all CPUs and all CODECs) rather than just the maximum
+     * of all DAIs.
+     */
 
-	/* remove marked cstream */
-	soc_dai_mark_pop(dai, cstream, compr_startup);
+    /* for CPU */
+    for_each_rtd_cpu_dais (rtd, i, dai)
+        if (dai->driver->ops && dai->driver->ops->delay)
+        *cpu_delay =
+            max (*cpu_delay, dai->driver->ops->delay (substream, dai));
+
+    /* for Codec */
+    for_each_rtd_codec_dais (rtd, i, dai)
+        if (dai->driver->ops && dai->driver->ops->delay)
+        *codec_delay =
+            max (*codec_delay, dai->driver->ops->delay (substream, dai));
 }
-EXPORT_SYMBOL_GPL(snd_soc_dai_compr_shutdown);
 
-int snd_soc_dai_compr_trigger(struct snd_soc_dai *dai,
-			      struct snd_compr_stream *cstream, int cmd)
+int
+snd_soc_dai_compr_startup (struct snd_soc_dai *dai,
+                           struct snd_compr_stream *cstream)
 {
-	int ret = 0;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = 0;
 
-	if (dai->driver->cops &&
-	    dai->driver->cops->trigger)
-		ret = dai->driver->cops->trigger(cstream, cmd, dai);
+    if (dai->driver->cops && dai->driver->cops->startup)
+        ret = dai->driver->cops->startup (cstream, dai);
 
-	return soc_dai_ret(dai, ret);
+    /* mark cstream if succeeded */
+    if (ret == 0)
+        soc_dai_mark_push (dai, cstream, compr_startup);
+
+    return soc_dai_ret (dai, ret);
 }
-EXPORT_SYMBOL_GPL(snd_soc_dai_compr_trigger);
 
-int snd_soc_dai_compr_set_params(struct snd_soc_dai *dai,
-				 struct snd_compr_stream *cstream,
-				 struct snd_compr_params *params)
+EXPORT_SYMBOL_GPL (snd_soc_dai_compr_startup);
+
+void
+snd_soc_dai_compr_shutdown (struct snd_soc_dai *dai,
+                            struct snd_compr_stream *cstream, int rollback)
 {
-	int ret = 0;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    if (rollback && !soc_dai_mark_match (dai, cstream, compr_startup))
+        return;
 
-	if (dai->driver->cops &&
-	    dai->driver->cops->set_params)
-		ret = dai->driver->cops->set_params(cstream, params, dai);
+    if (dai->driver->cops && dai->driver->cops->shutdown)
+        dai->driver->cops->shutdown (cstream, dai);
 
-	return soc_dai_ret(dai, ret);
+    /* remove marked cstream */
+    soc_dai_mark_pop (dai, cstream, compr_startup);
 }
-EXPORT_SYMBOL_GPL(snd_soc_dai_compr_set_params);
 
-int snd_soc_dai_compr_get_params(struct snd_soc_dai *dai,
-				 struct snd_compr_stream *cstream,
-				 struct snd_codec *params)
+EXPORT_SYMBOL_GPL (snd_soc_dai_compr_shutdown);
+
+int
+snd_soc_dai_compr_trigger (struct snd_soc_dai *dai,
+                           struct snd_compr_stream *cstream, int cmd)
 {
-	int ret = 0;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = 0;
 
-	if (dai->driver->cops &&
-	    dai->driver->cops->get_params)
-		ret = dai->driver->cops->get_params(cstream, params, dai);
+    if (dai->driver->cops && dai->driver->cops->trigger)
+        ret = dai->driver->cops->trigger (cstream, cmd, dai);
 
-	return soc_dai_ret(dai, ret);
+    return soc_dai_ret (dai, ret);
 }
-EXPORT_SYMBOL_GPL(snd_soc_dai_compr_get_params);
 
-int snd_soc_dai_compr_ack(struct snd_soc_dai *dai,
-			  struct snd_compr_stream *cstream,
-			  size_t bytes)
+EXPORT_SYMBOL_GPL (snd_soc_dai_compr_trigger);
+
+int
+snd_soc_dai_compr_set_params (struct snd_soc_dai *dai,
+                              struct snd_compr_stream *cstream,
+                              struct snd_compr_params *params)
 {
-	int ret = 0;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = 0;
 
-	if (dai->driver->cops &&
-	    dai->driver->cops->ack)
-		ret = dai->driver->cops->ack(cstream, bytes, dai);
+    if (dai->driver->cops && dai->driver->cops->set_params)
+        ret = dai->driver->cops->set_params (cstream, params, dai);
 
-	return soc_dai_ret(dai, ret);
+    return soc_dai_ret (dai, ret);
 }
-EXPORT_SYMBOL_GPL(snd_soc_dai_compr_ack);
 
-int snd_soc_dai_compr_pointer(struct snd_soc_dai *dai,
-			      struct snd_compr_stream *cstream,
-			      struct snd_compr_tstamp *tstamp)
+EXPORT_SYMBOL_GPL (snd_soc_dai_compr_set_params);
+
+int
+snd_soc_dai_compr_get_params (struct snd_soc_dai *dai,
+                              struct snd_compr_stream *cstream,
+                              struct snd_codec *params)
 {
-	int ret = 0;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = 0;
 
-	if (dai->driver->cops &&
-	    dai->driver->cops->pointer)
-		ret = dai->driver->cops->pointer(cstream, tstamp, dai);
+    if (dai->driver->cops && dai->driver->cops->get_params)
+        ret = dai->driver->cops->get_params (cstream, params, dai);
 
-	return soc_dai_ret(dai, ret);
+    return soc_dai_ret (dai, ret);
 }
-EXPORT_SYMBOL_GPL(snd_soc_dai_compr_pointer);
 
-int snd_soc_dai_compr_set_metadata(struct snd_soc_dai *dai,
-				   struct snd_compr_stream *cstream,
-				   struct snd_compr_metadata *metadata)
+EXPORT_SYMBOL_GPL (snd_soc_dai_compr_get_params);
+
+int
+snd_soc_dai_compr_ack (struct snd_soc_dai *dai,
+                       struct snd_compr_stream *cstream, size_t bytes)
 {
-	int ret = 0;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = 0;
 
-	if (dai->driver->cops &&
-	    dai->driver->cops->set_metadata)
-		ret = dai->driver->cops->set_metadata(cstream, metadata, dai);
+    if (dai->driver->cops && dai->driver->cops->ack)
+        ret = dai->driver->cops->ack (cstream, bytes, dai);
 
-	return soc_dai_ret(dai, ret);
+    return soc_dai_ret (dai, ret);
 }
-EXPORT_SYMBOL_GPL(snd_soc_dai_compr_set_metadata);
 
-int snd_soc_dai_compr_get_metadata(struct snd_soc_dai *dai,
-				   struct snd_compr_stream *cstream,
-				   struct snd_compr_metadata *metadata)
+EXPORT_SYMBOL_GPL (snd_soc_dai_compr_ack);
+
+int
+snd_soc_dai_compr_pointer (struct snd_soc_dai *dai,
+                           struct snd_compr_stream *cstream,
+                           struct snd_compr_tstamp *tstamp)
 {
-	int ret = 0;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = 0;
 
-	if (dai->driver->cops &&
-	    dai->driver->cops->get_metadata)
-		ret = dai->driver->cops->get_metadata(cstream, metadata, dai);
+    if (dai->driver->cops && dai->driver->cops->pointer)
+        ret = dai->driver->cops->pointer (cstream, tstamp, dai);
 
-	return soc_dai_ret(dai, ret);
+    return soc_dai_ret (dai, ret);
 }
-EXPORT_SYMBOL_GPL(snd_soc_dai_compr_get_metadata);
+
+EXPORT_SYMBOL_GPL (snd_soc_dai_compr_pointer);
+
+int
+snd_soc_dai_compr_set_metadata (struct snd_soc_dai *dai,
+                                struct snd_compr_stream *cstream,
+                                struct snd_compr_metadata *metadata)
+{
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = 0;
+
+    if (dai->driver->cops && dai->driver->cops->set_metadata)
+        ret = dai->driver->cops->set_metadata (cstream, metadata, dai);
+
+    return soc_dai_ret (dai, ret);
+}
+
+EXPORT_SYMBOL_GPL (snd_soc_dai_compr_set_metadata);
+
+int
+snd_soc_dai_compr_get_metadata (struct snd_soc_dai *dai,
+                                struct snd_compr_stream *cstream,
+                                struct snd_compr_metadata *metadata)
+{
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    int ret = 0;
+
+    if (dai->driver->cops && dai->driver->cops->get_metadata)
+        ret = dai->driver->cops->get_metadata (cstream, metadata, dai);
+
+    return soc_dai_ret (dai, ret);
+}
+
+EXPORT_SYMBOL_GPL (snd_soc_dai_compr_get_metadata);
