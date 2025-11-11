@@ -1011,6 +1011,44 @@ snd_pcm_hw_params_user (struct snd_pcm_substream *substream,
            params_rate(params),
            params_channels(params),
            params_format(params));
+	
+/* --- Debug print for hw_params coming from user space --- */
+
+unsigned int fmt = params_format(params);
+
+printk(KERN_INFO "=== snd_pcm_hw_params_user(): User-space request ===\n");
+
+printk(KERN_INFO "rate=%u, channels=%u, format=%u\n",
+       params_rate(params),
+       params_channels(params),
+       fmt);
+
+printk(KERN_INFO "buffer_size=%u, period_size=%u, periods=%u\n",
+       params_buffer_size(params),
+       params_period_size(params),
+       params_periods(params));
+
+printk(KERN_INFO "access=%u (0=MMAP_INTERLEAVED, 1=MMAP_NONINTERLEAVED, "
+                 "2=RW_INTERLEAVED, 3=RW_NONINTERLEAVED)\n",
+       params_access(params));
+
+printk(KERN_INFO "sample_bits=%u\n",
+       snd_pcm_format_width(fmt));
+
+printk(KERN_INFO "sample_bytes=%u\n",
+       snd_pcm_format_physical_width(fmt) / 8);
+
+printk(KERN_INFO "frame_bits=%u\n",
+       snd_pcm_format_width(fmt) * params_channels(params));
+
+printk(KERN_INFO "=== raw hw_params struct dump ===\n");
+print_hex_dump(KERN_INFO, "hw_params raw: ",
+               DUMP_PREFIX_OFFSET, 16, 1,
+               params, sizeof(*params), true);
+
+/* --- end debug block --- */
+
+
 
     err = snd_pcm_hw_params (substream, params);
     if (err < 0)
