@@ -848,149 +848,176 @@ EXPORT_SYMBOL_GPL (snd_pcm_runtime_buffer_set_silence);
 #else
 #define is_oss_stream(substream)	false
 #endif
-
-static int
-snd_pcm_hw_params (struct snd_pcm_substream *substream,
-                   struct snd_pcm_hw_params *params)
+static int snd_pcm_hw_params(struct snd_pcm_substream *substream,
+			     struct snd_pcm_hw_params *params)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    struct snd_pcm_runtime *runtime;
-    int err, usecs;
-    unsigned int bits;
-    snd_pcm_uframes_t frames;
+	struct snd_pcm_runtime *runtime;
+	int err, usecs;
+	unsigned int bits;
+	snd_pcm_uframes_t frames;
 
-    if (PCM_RUNTIME_CHECK (substream))
-        return -ENXIO;
-    runtime = substream->runtime;
-    err = snd_pcm_buffer_access_lock (runtime);
-    if (err < 0)
-        return err;
-    scoped_guard (pcm_stream_lock_irq, substream) {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-        switch (runtime->state) {
-        case SNDRV_PCM_STATE_OPEN:
-        case SNDRV_PCM_STATE_SETUP:
-        case SNDRV_PCM_STATE_PREPARED:
-            if (!is_oss_stream (substream) &&
-                atomic_read (&substream->mmap_count))
-                err = -EBADFD;
-            break;
-        default:
-            err = -EBADFD;
-            break;
-        }
-    }
-    if (err)
-        goto unlock;
+	// 🔍 DEBUG: Entry log
+	printk(KERN_INFO "==> snd_pcm_hw_params(): ENTER card=%d device=%d stream=%d\n",
+	       substream->pcm->card->number, substream->pcm->device, substream->stream);
 
-    snd_pcm_sync_stop (substream, true);
+	if (PCM_RUNTIME_CHECK(substream))
+		return -ENXIO;
+	runtime = substream->runtime;
 
-    params->rmask = ~0U;
-    err = snd_pcm_hw_refine (substream, params);
-    if (err < 0)
-        goto _error;
+	err = snd_pcm_buffer_access_lock(runtime);
+	if (err < 0)
+		return err;
 
-    err = snd_pcm_hw_params_choose (substream, params);
-    if (err < 0)
-        goto _error;
+	// 🔍 DEBUG: Current runtime state
+	printk(KERN_INFO "snd_pcm_hw_params(): runtime state=%d\n", runtime->state);
 
-    err = fixup_unreferenced_params (substream, params);
-    if (err < 0)
-        goto _error;
+	scoped_guard(pcm_stream_lock_irq, substream) {
+		switch (runtime->state) {
+		case SNDRV_PCM_STATE_OPEN:
+		case SNDRV_PCM_STATE_SETUP:
+		case SNDRV_PCM_STATE_PREPARED:
+			if (!is_oss_stream(substream) &&
+			    atomic_read(&substream->mmap_count))
+				err = -EBADFD;
+			break;
+		default:
+			err = -EBADFD;
+			break;
+		}
+	}
+	if (err)
+		goto unlock;
 
-    if (substream->managed_buffer_alloc) {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-        err = snd_pcm_lib_malloc_pages (substream,
-                                        params_buffer_bytes (params));
-        if (err < 0)
-            goto _error;
-        runtime->buffer_changed = err > 0;
-    }
+	snd_pcm_sync_stop(substream, true);
 
-    if (substream->ops->hw_params != NULL) {
-        err = substream->ops->hw_params (substream, params);
-        if (err < 0)
-            goto _error;
-    }
+	params->rmask = ~0U;
 
-    runtime->access = params_access (params);
-    runtime->format = params_format (params);
-    runtime->subformat = params_subformat (params);
-    runtime->channels = params_channels (params);
-    runtime->rate = params_rate (params);
-    runtime->period_size = params_period_size (params);
-    runtime->periods = params_periods (params);
-    runtime->buffer_size = params_buffer_size (params);
-    runtime->info = params->info;
-    runtime->rate_num = params->rate_num;
-    runtime->rate_den = params->rate_den;
-    runtime->no_period_wakeup =
-        (params->info & SNDRV_PCM_INFO_NO_PERIOD_WAKEUP) &&
-        (params->flags & SNDRV_PCM_HW_PARAMS_NO_PERIOD_WAKEUP);
+	// 🔍 DEBUG: Print requested params from user-space
+	printk(KERN_INFO "snd_pcm_hw_params(): Requested params:\n");
+	printk(KERN_INFO "   rate=%u, channels=%u, format=%u\n",
+	       params_rate(params), params_channels(params), params_format(params));
+	printk(KERN_INFO "   buffer_size=%lu frames, period_size=%lu frames\n",
+	       (unsigned long)params_buffer_size(params),
+	       (unsigned long)params_period_size(params));
+	printk(KERN_INFO "   periods=%u, buffer_bytes=%u\n",
+	       params_periods(params), params_buffer_bytes(params));
 
-    bits = snd_pcm_format_physical_width (runtime->format);
-    runtime->sample_bits = bits;
-    bits *= runtime->channels;
-    runtime->frame_bits = bits;
-    frames = 1;
-    while (bits % 8 != 0) {
-        bits *= 2;
-        frames *= 2;
-    }
-    runtime->byte_align = bits / 8;
-    runtime->min_align = frames;
+	err = snd_pcm_hw_refine(substream, params);
+	if (err < 0)
+		goto _error;
 
-    /* Default sw params */
-    runtime->tstamp_mode = SNDRV_PCM_TSTAMP_NONE;
-    runtime->period_step = 1;
-    runtime->control->avail_min = runtime->period_size;
-    runtime->start_threshold = 1;
-    runtime->stop_threshold = runtime->buffer_size;
-    runtime->silence_threshold = 0;
-    runtime->silence_size = 0;
-    runtime->boundary = runtime->buffer_size;
-    while (runtime->boundary * 2 <= LONG_MAX - runtime->buffer_size)
-        runtime->boundary *= 2;
+	err = snd_pcm_hw_params_choose(substream, params);
+	if (err < 0)
+		goto _error;
 
-    /* clear the buffer for avoiding possible kernel info leaks */
-    if (runtime->dma_area && !substream->ops->copy) {
-        size_t size = runtime->dma_bytes;
+	err = fixup_unreferenced_params(substream, params);
+	if (err < 0)
+		goto _error;
 
-        if (runtime->info & SNDRV_PCM_INFO_MMAP)
-            size = PAGE_ALIGN (size);
-        memset (runtime->dma_area, 0, size);
-    }
+	if (substream->managed_buffer_alloc) {
+		printk(KERN_INFO "snd_pcm_hw_params(): allocating buffer (%u bytes)\n",
+		       params_buffer_bytes(params));
+		err = snd_pcm_lib_malloc_pages(substream,
+					       params_buffer_bytes(params));
+		if (err < 0)
+			goto _error;
+		runtime->buffer_changed = err > 0;
+	}
 
-    snd_pcm_timer_resolution_change (substream);
-    snd_pcm_set_state (substream, SNDRV_PCM_STATE_SETUP);
+	if (substream->ops->hw_params != NULL) {
+		printk(KERN_INFO "snd_pcm_hw_params(): calling driver hw_params()...\n");
+		err = substream->ops->hw_params(substream, params);
+		if (err < 0)
+			goto _error;
+	}
 
-    if (cpu_latency_qos_request_active (&substream->latency_pm_qos_req))
-        cpu_latency_qos_remove_request (&substream->latency_pm_qos_req);
-    usecs = period_to_usecs (runtime);
-    if (usecs >= 0)
-        cpu_latency_qos_add_request (&substream->latency_pm_qos_req, usecs);
-    err = 0;
-  _error:
-    if (err) {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-        /* hardware might be unusable from this time,
-         * so we force application to retry to set
-         * the correct hardware parameter settings
-         */
-        snd_pcm_set_state (substream, SNDRV_PCM_STATE_OPEN);
-        if (substream->ops->hw_free != NULL)
-            substream->ops->hw_free (substream);
-        if (substream->managed_buffer_alloc)
-            snd_pcm_lib_free_pages (substream);
-    }
-  unlock:
-    snd_pcm_buffer_access_unlock (runtime);
-    return err;
+	// 🔍 DEBUG: runtime setup log
+	printk(KERN_INFO "snd_pcm_hw_params(): Setting runtime parameters...\n");
+
+	runtime->access = params_access(params);
+	runtime->format = params_format(params);
+	runtime->subformat = params_subformat(params);
+	runtime->channels = params_channels(params);
+	runtime->rate = params_rate(params);
+	runtime->period_size = params_period_size(params);
+	runtime->periods = params_periods(params);
+	runtime->buffer_size = params_buffer_size(params);
+	runtime->info = params->info;
+	runtime->rate_num = params->rate_num;
+	runtime->rate_den = params->rate_den;
+	runtime->no_period_wakeup =
+			(params->info & SNDRV_PCM_INFO_NO_PERIOD_WAKEUP) &&
+			(params->flags & SNDRV_PCM_HW_PARAMS_NO_PERIOD_WAKEUP);
+
+	printk(KERN_INFO "   Runtime set: rate=%u, ch=%u, fmt=%u, buf_sz=%lu, per_sz=%lu\n",
+	       runtime->rate, runtime->channels, runtime->format,
+	       (unsigned long)runtime->buffer_size,
+	       (unsigned long)runtime->period_size);
+
+	bits = snd_pcm_format_physical_width(runtime->format);
+	runtime->sample_bits = bits;
+	bits *= runtime->channels;
+	runtime->frame_bits = bits;
+	frames = 1;
+	while (bits % 8 != 0) {
+		bits *= 2;
+		frames *= 2;
+	}
+	runtime->byte_align = bits / 8;
+	runtime->min_align = frames;
+
+	printk(KERN_INFO "   sample_bits=%u, frame_bits=%u, byte_align=%u\n",
+	       runtime->sample_bits, runtime->frame_bits, runtime->byte_align);
+
+	/* Default sw params */
+	runtime->tstamp_mode = SNDRV_PCM_TSTAMP_NONE;
+	runtime->period_step = 1;
+	runtime->control->avail_min = runtime->period_size;
+	runtime->start_threshold = 1;
+	runtime->stop_threshold = runtime->buffer_size;
+	runtime->silence_threshold = 0;
+	runtime->silence_size = 0;
+	runtime->boundary = runtime->buffer_size;
+	while (runtime->boundary * 2 <= LONG_MAX - runtime->buffer_size)
+		runtime->boundary *= 2;
+
+	/* clear the buffer for avoiding possible kernel info leaks */
+	if (runtime->dma_area && !substream->ops->copy) {
+		size_t size = runtime->dma_bytes;
+
+		if (runtime->info & SNDRV_PCM_INFO_MMAP)
+			size = PAGE_ALIGN(size);
+		memset(runtime->dma_area, 0, size);
+		printk(KERN_INFO "   DMA area cleared: %zu bytes\n", size);
+	}
+
+	snd_pcm_timer_resolution_change(substream);
+	snd_pcm_set_state(substream, SNDRV_PCM_STATE_SETUP);
+
+	if (cpu_latency_qos_request_active(&substream->latency_pm_qos_req))
+		cpu_latency_qos_remove_request(&substream->latency_pm_qos_req);
+	usecs = period_to_usecs(runtime);
+	if (usecs >= 0)
+		cpu_latency_qos_add_request(&substream->latency_pm_qos_req,
+					    usecs);
+
+	printk(KERN_INFO "<== snd_pcm_hw_params(): EXIT SUCCESS\n");
+	err = 0;
+
+ _error:
+	if (err) {
+		printk(KERN_ERR "snd_pcm_hw_params(): ERROR %d occurred\n", err);
+		snd_pcm_set_state(substream, SNDRV_PCM_STATE_OPEN);
+		if (substream->ops->hw_free != NULL)
+			substream->ops->hw_free(substream);
+		if (substream->managed_buffer_alloc)
+			snd_pcm_lib_free_pages(substream);
+	}
+ unlock:
+	snd_pcm_buffer_access_unlock(runtime);
+	return err;
 }
+
 
 static int
 snd_pcm_hw_params_user (struct snd_pcm_substream *substream,
@@ -1011,6 +1038,44 @@ snd_pcm_hw_params_user (struct snd_pcm_substream *substream,
            params_rate(params),
            params_channels(params),
            params_format(params));
+	
+/* --- Debug print for hw_params coming from user space --- */
+
+unsigned int fmt = params_format(params);
+
+printk(KERN_INFO "=== snd_pcm_hw_params_user(): User-space request vijayp ===\n");
+
+printk(KERN_INFO "rate=%u, channels=%u, format=%u\n",
+       params_rate(params),
+       params_channels(params),
+       fmt);
+
+printk(KERN_INFO "buffer_size=%u, period_size=%u, periods=%u\n",
+       params_buffer_size(params),
+       params_period_size(params),
+       params_periods(params));
+
+printk(KERN_INFO "access=%u (0=MMAP_INTERLEAVED, 1=MMAP_NONINTERLEAVED, "
+                 "2=RW_INTERLEAVED, 3=RW_NONINTERLEAVED)\n",
+       params_access(params));
+
+printk(KERN_INFO "sample_bits=%u\n",
+       snd_pcm_format_width(fmt));
+
+printk(KERN_INFO "sample_bytes=%u\n",
+       snd_pcm_format_physical_width(fmt) / 8);
+
+printk(KERN_INFO "frame_bits=%u\n",
+       snd_pcm_format_width(fmt) * params_channels(params));
+
+printk(KERN_INFO "=== raw hw_params struct dump ===\n");
+print_hex_dump(KERN_INFO, "hw_params raw: ",
+               DUMP_PREFIX_OFFSET, 16, 1,
+               params, sizeof(*params), true);
+
+/* --- end debug block --- */
+
+
 
     err = snd_pcm_hw_params (substream, params);
     if (err < 0)
