@@ -759,6 +759,9 @@ static int wm8960_configure_clocking(struct snd_soc_component *component)
 	int i, j, k;
 	int ret;
 
+	printk(KERN_INFO "[vijayp][clk] ENTER wm8960_configure_clocking()\n");
+	printk(KERN_INFO "[vijayp][clk] iface1=0x%x sysclk=%d clk_id=%d freq_in=%d\n",
+	       iface1, wm8960->sysclk, wm8960->clk_id, wm8960->freq_in);
 	/*
 	 * For Slave mode clocking should still be configured,
 	 * so this if statement should be removed, but some platform
@@ -769,15 +772,18 @@ static int wm8960_configure_clocking(struct snd_soc_component *component)
 	if (!(iface1 & (1 << 6)) && !wm8960->sysclk) {
 		dev_warn(component->dev,
 			 "slave mode, but proceeding with no clock configuration\n");
+	    printk(KERN_WARNING "[vijayp][clk] Slave mode but no SYSCLK → skipping clock config\n");
 		return 0;
 	}
 
 	if (wm8960->clk_id != WM8960_SYSCLK_MCLK && !wm8960->freq_in) {
 		dev_err(component->dev, "No MCLK configured\n");
+		printk(KERN_ERR "[vijayp][clk] ERROR: No MCLK configured\n");
 		return -EINVAL;
 	}
 
 	freq_in = wm8960->freq_in;
+	printk(KERN_INFO "[vijayp][clk] freq_in (MCLK) = %d Hz\n", freq_in);
 	/*
 	 * If it's sysclk auto mode, check if the MCLK can provide sysclk or
 	 * not. If MCLK can provide sysclk, using MCLK to provide sysclk
@@ -786,33 +792,49 @@ static int wm8960_configure_clocking(struct snd_soc_component *component)
 	 */
 	if (wm8960->clk_id == WM8960_SYSCLK_AUTO) {
 		/* disable the PLL and using MCLK to provide sysclk */
+		printk(KERN_INFO "[vijayp][clk] SYSCLK MODE = AUTO → Disable PLL, use MCLK\n");
 		wm8960_set_pll(component, 0, 0);
 		freq_out = freq_in;
 	} else if (wm8960->sysclk) {
 		freq_out = wm8960->sysclk;
+		printk(KERN_INFO "[vijayp][clk] SYSCLK explicitly set: freq_out = %d Hz\n", freq_out);
 	} else {
 		dev_err(component->dev, "No SYSCLK configured\n");
+		printk(KERN_ERR "[vijayp][clk] ERROR: No SYSCLK configured\n");
 		return -EINVAL;
 	}
 
 	if (wm8960->clk_id != WM8960_SYSCLK_PLL) {
+		printk(KERN_INFO "[vijayp][clk] Trying direct SYSCLK configuration...\n");
 		ret = wm8960_configure_sysclk(wm8960, freq_out, &i, &j, &k);
 		if (ret >= 0) {
+			printk(KERN_INFO "[vijayp][clk] Direct SYSCLK config OK: i=%d j=%d k=%d\n", i, j, k);
 			goto configure_clock;
 		} else if (wm8960->clk_id != WM8960_SYSCLK_AUTO) {
 			dev_err(component->dev, "failed to configure clock\n");
+			printk(KERN_ERR "[vijayp][clk] ERROR: Direct SYSCLK configuration failed\n");
 			return -EINVAL;
 		}
+		printk(KERN_INFO "[vijayp][clk] Direct config failed but AUTO mode → Trying PLL\n");
 	}
 
+	printk(KERN_INFO "[vijayp][clk] Configuring PLL: freq_in=%d\n", freq_in);
 	freq_out = wm8960_configure_pll(component, freq_in, &i, &j, &k);
 	if (freq_out < 0) {
 		dev_err(component->dev, "failed to configure clock via PLL\n");
+		printk(KERN_ERR "[vijayp][clk] ERROR: PLL configuration failed\n");
+		
+		
 		return freq_out;
 	}
+	printk(KERN_INFO "[vijayp][clk] PLL configured OK: freq_out=%d i=%d j=%d k=%d\n",
+	       freq_out, i, j, k);
 	wm8960_set_pll(component, freq_in, freq_out);
 
 configure_clock:
+	printk(KERN_INFO "[vijayp][clk] Applying SYSCLK: CLOCK1(bits 1-2) = %d\n", i);
+	printk(KERN_INFO "[vijayp][clk] Applying LRCLK dividers j=%d (CLOCK1 bits 3-5 and 6-8)\n", j);
+	printk(KERN_INFO "[vijayp][clk] Applying BCLK divider k=%d (CLOCK2 bits 0-3)\n", k);
 	/* configure sysclk clock */
 	snd_soc_component_update_bits(component, WM8960_CLOCK1, 3 << 1, i << 1);
 
@@ -822,6 +844,7 @@ configure_clock:
 
 	/* configure bit clock */
 	snd_soc_component_update_bits(component, WM8960_CLOCK2, 0xf, k);
+	printk(KERN_INFO "[vijayp][clk] EXIT wm8960_configure_clocking() SUCCESS\n");
 
 	return 0;
 }
@@ -836,55 +859,89 @@ static int wm8960_hw_params(struct snd_pcm_substream *substream,
 	bool tx = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
 	int i;
 
+	/* ---- DEBUG PRINTKS ---- */
+	printk(KERN_INFO "[vijayp][wm8960_hw_params] called\n");
+	printk(KERN_INFO "[vijayp] substream=%px stream=%d (%s)\n",
+	       substream,
+	       substream->stream,
+	       tx ? "PLAYBACK" : "CAPTURE");
+
+	printk(KERN_INFO "[vijayp] params: rate=%d Hz, channels=%d, width=%d bits\n",
+	       params_rate(params),
+	       params_channels(params),
+	       params_width(params));
+
+	printk(KERN_INFO "[vijayp] dai=%px component=%px wm8960_priv=%px\n",
+	       dai, component, wm8960);
 	wm8960->bclk = snd_soc_params_to_bclk(params);
 	if (params_channels(params) == 1)
 		wm8960->bclk *= 2;
 
-	/* bit size */
+	printk(KERN_INFO "[vijayp] calculated BCLK=%d\n", wm8960->bclk);
+
+	/* ---- BIT WIDTH ---- */
 	switch (params_width(params)) {
 	case 16:
+		printk(KERN_INFO "[vijayp] width=16 bits\n");
 		break;
 	case 20:
+		printk(KERN_INFO "[vijayp] width=20 bits\n");
 		iface |= 0x0004;
 		break;
 	case 24:
+		printk(KERN_INFO "[vijayp] width=24 bits\n");
 		iface |= 0x0008;
 		break;
 	case 32:
-		/* right justify mode does not support 32 word length */
+		printk(KERN_INFO "[vijayp] width=32 bits\n");
 		if ((iface & 0x3) != 0) {
 			iface |= 0x000c;
 			break;
 		}
 		fallthrough;
 	default:
-		dev_err(component->dev, "unsupported width %d\n",
+		dev_err(component->dev, "[vijayp] unsupported width=%d\n",
 			params_width(params));
 		return -EINVAL;
 	}
 
 	wm8960->lrclk = params_rate(params);
-	/* Update filters for the new rate */
+
+	printk(KERN_INFO "[vijayp] LRCLK (fs)=%d Hz\n", wm8960->lrclk);
+
+	/* Update filters for new rate */
 	if (tx) {
+		printk(KERN_INFO "[vijayp] playback: setting deemphasis\n");
 		wm8960_set_deemph(component);
 	} else {
+		printk(KERN_INFO "[vijayp] capture: setting ALC filter\n");
 		for (i = 0; i < ARRAY_SIZE(alc_rates); i++)
 			if (alc_rates[i].rate == params_rate(params))
 				snd_soc_component_update_bits(component,
-						    WM8960_ADDCTL3, 0x7,
-						    alc_rates[i].val);
+					   WM8960_ADDCTL3, 0x7,
+					   alc_rates[i].val);
 	}
 
-	/* set iface */
+	/* Write IFACE */
+	printk(KERN_INFO "[vijayp] writing IFACE1 = 0x%04x\n", iface);
 	snd_soc_component_write(component, WM8960_IFACE1, iface);
 
+	/* Stream usage */
 	wm8960->is_stream_in_use[tx] = true;
 
-	if (!wm8960->is_stream_in_use[!tx])
-		return wm8960_configure_clocking(component);
+	printk(KERN_INFO "[vijayp] stream_in_use: playback=%d capture=%d\n",
+	       wm8960->is_stream_in_use[1],
+	       wm8960->is_stream_in_use[0]);
 
+	if (!wm8960->is_stream_in_use[!tx]) {
+		printk(KERN_INFO "[vijayp] calling wm8960_configure_clocking()\n");
+		return wm8960_configure_clocking(component);
+	}
+
+	printk(KERN_INFO "[vijayp][wm8960_hw_params] SUCCESS\n");
 	return 0;
 }
+
 
 static int wm8960_hw_free(struct snd_pcm_substream *substream,
 		struct snd_soc_dai *dai)
