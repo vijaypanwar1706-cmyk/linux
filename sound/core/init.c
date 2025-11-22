@@ -1064,6 +1064,27 @@ int snd_card_file_add(struct snd_card *card, struct file *file)
 {
         struct snd_monitor_file *mfile;
 
+	/* ---- SINGLE ENTRY PRINTK (Clean + Human Readable) ---- */
+	if (file) {
+		char path[256] = {0};
+		char *p = d_path(&file->f_path, path, sizeof(path));
+
+		printk(KERN_INFO "ALSA-DBG-vijayp: %s:%s() card=%p card_id=%s "
+		       "file=%p fullpath=%s pid=%d process=%s flags=0x%x\n",
+		       __FILE__, __func__,
+		       card,
+		       card ? card->id : "NULL",
+		       file,
+		       (!IS_ERR(p)) ? p : "unknown",
+		       current->pid,
+		       current->comm,
+		       file->f_flags);
+	} else {
+		printk(KERN_INFO "ALSA-DBG-vijayp: %s:%s() card=%p file=NULL\n",
+		       __FILE__, __func__, card);
+	}
+	/* ------------------------------------------------------- */
+
         /* --------- ENTRY LOG (Your required log) ---------- */
         printk(KERN_INFO "ALSA-DBG-vijayp: ENTER %s:%s() card=%p file=%p\n",
                __FILE__, __func__, card, file);
