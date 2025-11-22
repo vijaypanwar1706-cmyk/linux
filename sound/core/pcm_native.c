@@ -2803,7 +2803,7 @@ static int snd_pcm_open_file(struct file *file,
 	struct snd_pcm_substream *substream;
 	int err;
 
-	printk(KERN_INFO "[vijayp] snd_pcm_open_file(): pcm_name=%s stream=%d file_flags=0x%x\n",
+	printk(KERN_INFO "[vijayp] pcm_native.c function:snd_pcm_open_file() => pcm_name=%s stream=%d file_flags=0x%x\n",
 	       pcm ? pcm->name : "NULL", stream, file->f_flags);
 	printk(KERN_INFO
        "ALSA-DBG-vijayp: %s:%s() pcm=%p card_id=%s stream=%d "
@@ -2820,31 +2820,31 @@ static int snd_pcm_open_file(struct file *file,
 
 	/* ---- open substream ---- */
 	err = snd_pcm_open_substream(pcm, stream, file, &substream);
-	printk(KERN_INFO "[vijayp] snd_pcm_open_substream returned err=%d\n", err);
+	printk(KERN_INFO "[vijayp] pcm_native.c function: snd_pcm_open_file() => snd_pcm_open_substream returned err=%d\n", err);
 	if (err < 0)
 		return err;
 
-	printk(KERN_INFO "[vijayp] substream=%p, substream->pcm=%p, substream->stream=%d\n",
+	printk(KERN_INFO "vijayp] pcm_native.c function: snd_pcm_open_file() => substream=%p, substream->pcm=%p, substream->stream=%d\n",
 	       substream, substream->pcm, substream->stream);
 
 	/* ---- allocate pcm_file ---- */
 	pcm_file = kzalloc(sizeof(*pcm_file), GFP_KERNEL);
 	if (pcm_file == NULL) {
-		printk(KERN_ERR "[vijayp] kzalloc for pcm_file failed\n");
+		printk(KERN_ERR "vijayp] pcm_native.c function: snd_pcm_open_file() => kzalloc for pcm_file failed\n");
 		snd_pcm_release_substream(substream);
 		return -ENOMEM;
 	}
 	pcm_file->substream = substream;
-	printk(KERN_INFO "[vijayp] pcm_file=%p assigned substream=%p\n", pcm_file, substream);
+	printk(KERN_INFO "vijayp] pcm_native.c function: snd_pcm_open_file() => pcm_file=%p assigned substream=%p\n", pcm_file, substream);
 
 	/* ---- ref_count check ---- */
 	if (substream->ref_count == 1) {
 		substream->pcm_release = pcm_release_private;
-		printk(KERN_INFO "[vijayp] substream ref_count=1, pcm_release set\n");
+		printk(KERN_INFO "vijayp] pcm_native.c function: snd_pcm_open_file() => substream ref_count=1, pcm_release set\n");
 	}
 
 	file->private_data = pcm_file;
-	printk(KERN_INFO "[vijayp] file->private_data set to pcm_file=%p\n", pcm_file);
+	printk(KERN_INFO "vijayp] pcm_native.c function: snd_pcm_open_file() => file->private_data set to pcm_file=%p\n", pcm_file);
 
 	return 0;
 }
@@ -2880,11 +2880,11 @@ static int snd_pcm_capture_open(struct inode *inode, struct file *file)
 static int snd_pcm_open(struct file *file, struct snd_pcm *pcm, int stream)
 {
     /* ---- Basic info about open() ---- */
-    printk(KERN_INFO "[vijayp] snd_pcm_open(): pcm_name=%s stream=%d\n",
+    printk(KERN_INFO "[vijayp] pcm_native.c function: snd_pcm_open() => pcm_name=%s stream=%d\n",
            pcm ? pcm->name : "NULL", stream);
 
     if (pcm) {
-        printk(KERN_INFO "[vijayp] card=%s card_id=%d device=%d substream_count=%d\n",
+        printk(KERN_INFO "[vijayp] pcm_native.c function: snd_pcm_open() => card=%s card_id=%d device=%d substream_count=%d\n",
                pcm->card ? pcm->card->shortname : "NULL",
                pcm->card ? pcm->card->number : -1,
                pcm->device,
@@ -2892,7 +2892,7 @@ static int snd_pcm_open(struct file *file, struct snd_pcm *pcm, int stream)
     }
 
     /* ---- File flag info (blocking/non-blocking mode) ---- */
-    printk(KERN_INFO "[vijayp] file_flags=0x%x (O_NONBLOCK=%d)\n",
+    printk(KERN_INFO "[vijayp] pcm_native.c function: snd_pcm_open() => file_flags=0x%x (O_NONBLOCK=%d)\n",
            file->f_flags, !!(file->f_flags & O_NONBLOCK));
 
     int err;
@@ -2900,7 +2900,7 @@ static int snd_pcm_open(struct file *file, struct snd_pcm *pcm, int stream)
 
     /* ---- Check pcm pointer ---- */
     if (pcm == NULL) {
-        printk(KERN_ERR "[vijayp] snd_pcm_open(): pcm=NULL → ENODEV\n");
+        printk(KERN_ERR "[vijayp] pcm_native.c function: snd_pcm_open() => snd_pcm_open(): pcm=NULL → ENODEV\n");
         err = -ENODEV;
         goto __error1;
     }
@@ -2908,13 +2908,13 @@ static int snd_pcm_open(struct file *file, struct snd_pcm *pcm, int stream)
     /* ---- Add file to card ---- */
     err = snd_card_file_add(pcm->card, file);
     if (err < 0) {
-        printk(KERN_ERR "[vijayp] snd_card_file_add() failed err=%d\n", err);
+        printk(KERN_ERR "[vijayp] pcm_native.c function: snd_pcm_open() => snd_card_file_add() failed err=%d\n", err);
         goto __error1;
     }
 
     /* ---- Module get ---- */
     if (!try_module_get(pcm->card->module)) {
-        printk(KERN_ERR "[vijayp] try_module_get() failed\n");
+        printk(KERN_ERR "[vijayp] pcm_native.c function: snd_pcm_open() => try_module_get() failed\n");
         err = -EFAULT;
         goto __error2;
     }
@@ -2927,25 +2927,25 @@ static int snd_pcm_open(struct file *file, struct snd_pcm *pcm, int stream)
     /* ---- LOOP: retry until open succeeds ---- */
     while (1) {
 
-        printk(KERN_INFO "[vijayp] calling snd_pcm_open_file(stream=%d)\n", stream);
+        printk(KERN_INFO "[vijayp] pcm_native.c function: snd_pcm_open() => calling snd_pcm_open_file(stream=%d)\n", stream);
 
         err = snd_pcm_open_file(file, pcm, stream);
 
-        printk(KERN_INFO "[vijayp] snd_pcm_open_file returned err=%d\n", err);
+        printk(KERN_INFO "[vijayp] pcm_native.c function: snd_pcm_open() => snd_pcm_open_file returned err=%d\n", err);
 
         if (err >= 0)
             break;
 
         if (err == -EAGAIN) {
-            printk(KERN_INFO "[vijayp] snd_pcm_open_file returned EAGAIN (busy)\n");
+            printk(KERN_INFO "[vijayp] pcm_native.c function: snd_pcm_open() => snd_pcm_open_file returned EAGAIN (busy)\n");
 
             if (file->f_flags & O_NONBLOCK) {
-                printk(KERN_INFO "[vijayp] NONBLOCK mode → returning -EBUSY\n");
+                printk(KERN_INFO "[vijayp] pcm_native.c function: snd_pcm_open() => NONBLOCK mode → returning -EBUSY\n");
                 err = -EBUSY;
                 break;
             }
         } else {
-            printk(KERN_ERR "[vijayp] snd_pcm_open_file error=%d\n", err);
+            printk(KERN_ERR "[vijayp] pcm_native.c function: snd_pcm_open() => snd_pcm_open_file error=%d\n", err);
             break;
         }
 
@@ -2972,11 +2972,11 @@ static int snd_pcm_open(struct file *file, struct snd_pcm *pcm, int stream)
     if (err < 0)
         goto __error;
 
-    printk(KERN_INFO "[vijayp] snd_pcm_open(): SUCCESS\n");
+    printk(KERN_INFO "[vijayp] pcm_native.c function: snd_pcm_open() => snd_pcm_open(): SUCCESS\n");
     return err;
 
 __error:
-    printk(KERN_ERR "[vijayp] snd_pcm_open(): ERROR err=%d\n", err);
+    printk(KERN_ERR "[vijayp] pcm_native.c function: snd_pcm_open() => snd_pcm_open(): ERROR err=%d\n", err);
     module_put(pcm->card->module);
 __error2:
     snd_card_file_remove(pcm->card, file);

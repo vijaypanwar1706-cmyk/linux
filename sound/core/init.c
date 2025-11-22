@@ -1069,7 +1069,7 @@ int snd_card_file_add(struct snd_card *card, struct file *file)
 		char path[256] = {0};
 		char *p = d_path(&file->f_path, path, sizeof(path));
 
-		printk(KERN_INFO "ALSA-DBG-vijayp: %s:%s() card=%p card_id=%s "
+		printk(KERN_INFO "[vijayp] init.c function:snd_card_file_add=> %s:%s() card=%p card_id=%s "
 		       "file=%p fullpath=%s pid=%d process=%s flags=0x%x\n",
 		       __FILE__, __func__,
 		       card,
@@ -1080,33 +1080,33 @@ int snd_card_file_add(struct snd_card *card, struct file *file)
 		       current->comm,
 		       file->f_flags);
 	} else {
-		printk(KERN_INFO "ALSA-DBG-vijayp: %s:%s() card=%p file=NULL\n",
+		printk(KERN_INFO "[vijayp] init.c function:snd_card_file_add=>: %s:%s() card=%p file=NULL\n",
 		       __FILE__, __func__, card);
 	}
 	/* ------------------------------------------------------- */
 
         /* --------- ENTRY LOG (Your required log) ---------- */
-        printk(KERN_INFO "ALSA-DBG-vijayp: ENTER %s:%s() card=%p file=%p\n",
+        printk(KERN_INFO "[vijayp] init.c function:snd_card_file_add=>  %s:%s() card=%p file=%p\n",
                __FILE__, __func__, card, file);
         /* -------------------------------------------------- */
 
         /* LOG incoming values */
-        printk(KERN_INFO "ALSA-DBG-vijayp: snd_card_file_add(): card=%p, file=%p\n",
+        printk(KERN_INFO "[vijayp] init.c function:snd_card_file_add=> card=%p, file=%p\n",
                card, file);
 
         if (card) {
-                printk(KERN_INFO "ALSA-DBG-vijayp: card->number=%d, shutdown=%d, files_lock=%p\n",
+                printk(KERN_INFO "[vijayp] init.c function:snd_card_file_add=> card->number=%d, shutdown=%d, files_lock=%p\n",
                        card->number, card->shutdown, &card->files_lock);
         } else {
-                printk(KERN_ERR "ALSA-DBG-vijayp: card is NULL!\n");
+                printk(KERN_ERR "[vijayp] init.c function:snd_card_file_add=> card is NULL!\n");
         }
 
         /* Allocate monitor file struct */
         mfile = kmalloc(sizeof(*mfile), GFP_KERNEL);
-        printk(KERN_INFO "ALSA-DBG-vijayp: kmalloc for mfile=%p\n", mfile);
+        printk(KERN_INFO "[vijayp] init.c function:snd_card_file_add=> kmalloc for mfile=%p\n", mfile);
 
         if (mfile == NULL) {
-                printk(KERN_ERR "ALSA-DBG-vijayp: kmalloc failed!\n");
+                printk(KERN_ERR "[vijayp] init.c function:snd_card_file_add=> kmalloc failed!\n");
                 return -ENOMEM;
         }
 
@@ -1114,27 +1114,27 @@ int snd_card_file_add(struct snd_card *card, struct file *file)
         mfile->disconnected_f_op = NULL;
         INIT_LIST_HEAD(&mfile->shutdown_list);
 
-        printk(KERN_INFO "ALSA-DBG-vijayp: mfile->file=%p, shutdown_list initialized\n",
+        printk(KERN_INFO "[vijayp] init.c function:snd_card_file_add=> mfile->file=%p, shutdown_list initialized\n",
                mfile->file);
 
         guard(spinlock)(&card->files_lock);
 
-        printk(KERN_INFO "ALSA-DBG-vijayp: files_lock acquired\n");
+        printk(KERN_INFO "[vijayp] init.c function:snd_card_file_add=> files_lock acquired\n");
 
         /* If card is already shutdown */
         if (card->shutdown) {
-                printk(KERN_WARNING "ALSA-DBG-vijayp: card is shutdown → cannot add file\n");
+                printk(KERN_WARNING "[vijayp] init.c function:snd_card_file_add=>  card is shutdown → cannot add file\n");
                 kfree(mfile);
                 return -ENODEV;
         }
 
         /* Add to list */
         list_add(&mfile->list, &card->files_list);
-        printk(KERN_INFO "ALSA-DBG-vijayp: mfile added to card->files_list\n");
+        printk(KERN_INFO "[vijayp] init.c function:snd_card_file_add=> mfile added to card->files_list\n");
 
         /* Increment ref count */
         get_device(&card->card_dev);
-        printk(KERN_INFO "ALSA-DBG-vijayp: get_device() called, card_dev=%p\n",
+        printk(KERN_INFO "[vijayp] init.c function:snd_card_file_add=> get_device() called, card_dev=%p\n",
                &card->card_dev);
 
         return 0;
