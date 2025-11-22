@@ -1058,25 +1058,67 @@ EXPORT_SYMBOL(snd_component_add);
  *
  *  Return: zero or a negative error code.
  */
+#include <linux/printk.h>
+
 int snd_card_file_add(struct snd_card *card, struct file *file)
 {
-	struct snd_monitor_file *mfile;
+        struct snd_monitor_file *mfile;
 
-	mfile = kmalloc(sizeof(*mfile), GFP_KERNEL);
-	if (mfile == NULL)
-		return -ENOMEM;
-	mfile->file = file;
-	mfile->disconnected_f_op = NULL;
-	INIT_LIST_HEAD(&mfile->shutdown_list);
-	guard(spinlock)(&card->files_lock);
-	if (card->shutdown) {
-		kfree(mfile);
-		return -ENODEV;
-	}
-	list_add(&mfile->list, &card->files_list);
-	get_device(&card->card_dev);
-	return 0;
+        /* --------- ENTRY LOG (Your required log) ---------- */
+        printk(KERN_INFO "ALSA-DBG-vijayp: ENTER %s:%s() card=%p file=%p\n",
+               __FILE__, __func__, card, file);
+        /* -------------------------------------------------- */
+
+        /* LOG incoming values */
+        printk(KERN_INFO "ALSA-DBG-vijayp: snd_card_file_add(): card=%p, file=%p\n",
+               card, file);
+
+        if (card) {
+                printk(KERN_INFO "ALSA-DBG-vijayp: card->number=%d, shutdown=%d, files_lock=%p\n",
+                       card->number, card->shutdown, &card->files_lock);
+        } else {
+                printk(KERN_ERR "ALSA-DBG-vijayp: card is NULL!\n");
+        }
+
+        /* Allocate monitor file struct */
+        mfile = kmalloc(sizeof(*mfile), GFP_KERNEL);
+        printk(KERN_INFO "ALSA-DBG-vijayp: kmalloc for mfile=%p\n", mfile);
+
+        if (mfile == NULL) {
+                printk(KERN_ERR "ALSA-DBG-vijayp: kmalloc failed!\n");
+                return -ENOMEM;
+        }
+
+        mfile->file = file;
+        mfile->disconnected_f_op = NULL;
+        INIT_LIST_HEAD(&mfile->shutdown_list);
+
+        printk(KERN_INFO "ALSA-DBG-vijayp: mfile->file=%p, shutdown_list initialized\n",
+               mfile->file);
+
+        guard(spinlock)(&card->files_lock);
+
+        printk(KERN_INFO "ALSA-DBG-vijayp: files_lock acquired\n");
+
+        /* If card is already shutdown */
+        if (card->shutdown) {
+                printk(KERN_WARNING "ALSA-DBG-vijayp: card is shutdown → cannot add file\n");
+                kfree(mfile);
+                return -ENODEV;
+        }
+
+        /* Add to list */
+        list_add(&mfile->list, &card->files_list);
+        printk(KERN_INFO "ALSA-DBG-vijayp: mfile added to card->files_list\n");
+
+        /* Increment ref count */
+        get_device(&card->card_dev);
+        printk(KERN_INFO "ALSA-DBG-vijayp: get_device() called, card_dev=%p\n",
+               &card->card_dev);
+
+        return 0;
 }
+
 EXPORT_SYMBOL(snd_card_file_add);
 
 /**
