@@ -2805,6 +2805,18 @@ static int snd_pcm_open_file(struct file *file,
 
 	printk(KERN_INFO "[vijayp] snd_pcm_open_file(): pcm_name=%s stream=%d file_flags=0x%x\n",
 	       pcm ? pcm->name : "NULL", stream, file->f_flags);
+	printk(KERN_INFO
+       "ALSA-DBG-vijayp: %s:%s() pcm=%p card_id=%s stream=%d "
+       "file=%p fullpath=%pd pid=%d proc=%s flags=0x%x\n",
+       __FILE__, __func__,
+       pcm,
+       pcm->card ? pcm->card->id : "NULL",
+       stream,
+       file,
+       file->f_path.dentry,
+       current->pid,
+       current->comm,
+       file->f_flags);
 
 	/* ---- open substream ---- */
 	err = snd_pcm_open_substream(pcm, stream, file, &substream);
