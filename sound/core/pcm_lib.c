@@ -2096,29 +2096,65 @@ static int default_read_copy(struct snd_pcm_substream *substream,
 }
 
 /* call transfer with the filled iov_iter */
+/* call transfer with the filled iov_iter */
 static int do_transfer(struct snd_pcm_substream *substream, int c,
-		       unsigned long hwoff, void *data, unsigned long bytes,
-		       pcm_transfer_f transfer, bool in_kernel)
+                       unsigned long hwoff, void *data, unsigned long bytes,
+                       pcm_transfer_f transfer, bool in_kernel)
 {
-	struct iov_iter iter;
-	int err, type;
+        struct iov_iter iter;
+        int err, type;
 
-	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
-		type = ITER_SOURCE;
-	else
-		type = ITER_DEST;
+        printk(KERN_INFO "vijayp %s:%s:%d ENTER do_transfer c=%d hwoff=%lu bytes=%lu in_kernel=%d\n",
+               __FILE__, __func__, __LINE__, c, hwoff, bytes, in_kernel);
 
-	if (in_kernel) {
-		struct kvec kvec = { data, bytes };
+        if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK)
+                type = ITER_SOURCE;
+        else
+                type = ITER_DEST;
 
-		iov_iter_kvec(&iter, type, &kvec, 1, bytes);
-		return transfer(substream, c, hwoff, &iter, bytes);
-	}
+        printk(KERN_INFO "vijayp %s:%s:%d stream=%d type=%d (ITER_SOURCE=0 ITER_DEST=1)\n",
+               __FILE__, __func__, __LINE__, substream->stream, type);
 
-	err = import_ubuf(type, (__force void __user *)data, bytes, &iter);
-	if (err)
-		return err;
-	return transfer(substream, c, hwoff, &iter, bytes);
+        /* in-kernel copy */
+        if (in_kernel) {
+                struct kvec kvec = { data, bytes };
+
+                printk(KERN_INFO "vijayp %s:%s:%d in_kernel=1 using kvec data=%px bytes=%lu\n",
+                       __FILE__, __func__, __LINE__, data, bytes);
+
+                iov_iter_kvec(&iter, type, &kvec, 1, bytes);
+
+                printk(KERN_INFO "vijayp %s:%s:%d calling transfer (kernel mode) transfer=%px\n",
+                       __FILE__, __func__, __LINE__, transfer);
+
+                err = transfer(substream, c, hwoff, &iter, bytes);
+
+                printk(KERN_INFO "vijayp %s:%s:%d transfer() returned err=%d\n",
+                       __FILE__, __func__, __LINE__, err);
+
+                return err;
+        }
+
+        /* user-space buffer import */
+        printk(KERN_INFO "vijayp %s:%s:%d importing user buffer data=%px bytes=%lu\n",
+               __FILE__, __func__, __LINE__, data, bytes);
+
+        err = import_ubuf(type, (__force void __user *)data, bytes, &iter);
+        printk(KERN_INFO "vijayp %s:%s:%d import_ubuf() err=%d\n",
+               __FILE__, __func__, __LINE__, err);
+
+        if (err)
+                return err;
+
+        printk(KERN_INFO "vijayp %s:%s:%d calling transfer (user mode) transfer=%px\n",
+               __FILE__, __func__, __LINE__, transfer);
+
+        err = transfer(substream, c, hwoff, &iter, bytes);
+
+        printk(KERN_INFO "vijayp %s:%s:%d transfer() returned err=%d\n",
+               __FILE__, __func__, __LINE__, err);
+
+        return err;
 }
 
 /* call transfer function with the converted pointers and sizes;
