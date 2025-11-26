@@ -2282,115 +2282,218 @@ snd_pcm_sframes_t __snd_pcm_lib_xfer(struct snd_pcm_substream *substream,
 	bool is_playback;
 	int err;
 
+	printk("vijayp %s:%s:%d ENTER substream=%p data=%p interleaved=%d size=%lu\n",
+		__FILE__, __func__, __LINE__, substream, data, interleaved, size);
 	err = pcm_sanity_check(substream);
+	printk("vijayp %s:%s:%d sanity_check err=%d\n",
+		__FILE__, __func__, __LINE__, err);
 	if (err < 0)
 		return err;
 
 	is_playback = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
+	printk("vijayp %s:%s:%d is_playback=%d channels=%d access=%d\n",
+		__FILE__, __func__, __LINE__, is_playback,
+		runtime->channels, runtime->access);
+
 	if (interleaved) {
 		if (runtime->access != SNDRV_PCM_ACCESS_RW_INTERLEAVED &&
-		    runtime->channels > 1)
+		    runtime->channels > 1) {
+			printk("vijayp %s:%s:%d ERROR invalid interleaved mode\n",
+				__FILE__, __func__, __LINE__);
 			return -EINVAL;
+		}
 		writer = interleaved_copy;
+		printk("vijayp %s:%s:%d using interleaved_copy\n",
+			__FILE__, __func__, __LINE__);
 	} else {
-		if (runtime->access != SNDRV_PCM_ACCESS_RW_NONINTERLEAVED)
+		if (runtime->access != SNDRV_PCM_ACCESS_RW_NONINTERLEAVED) {
+			printk("vijayp %s:%s:%d ERROR invalid non-interleaved mode\n",
+				__FILE__, __func__, __LINE__);
 			return -EINVAL;
+		}
 		writer = noninterleaved_copy;
+		printk("vijayp %s:%s:%d using noninterleaved_copy\n",
+			__FILE__, __func__, __LINE__);
 	}
 
 	if (!data) {
-		if (is_playback)
+		if (is_playback) {
 			transfer = fill_silence;
-		else
+			printk("vijayp %s:%s:%d data=NULL so filling silence\n",
+				__FILE__, __func__, __LINE__);
+		} else {
+			printk("vijayp %s:%s:%d ERROR capture but data NULL\n",
+				__FILE__, __func__, __LINE__);
 			return -EINVAL;
+		}
 	} else {
-		if (substream->ops->copy)
+		if (substream->ops->copy) {
 			transfer = substream->ops->copy;
-		else
+			printk("vijayp %s:%s:%d using ops->copy=%p\n",
+				__FILE__, __func__, __LINE__, transfer);
+		} else {
 			transfer = is_playback ?
 				default_write_copy : default_read_copy;
+			printk("vijayp %s:%s:%d using default copy=%p\n",
+				__FILE__, __func__, __LINE__, transfer);
+		}
 	}
 
-	if (size == 0)
+	if (size == 0) {
+		printk("vijayp %s:%s:%d size=0 return\n",
+			__FILE__, __func__, __LINE__);
 		return 0;
+	}
 
 	nonblock = !!(substream->f_flags & O_NONBLOCK);
+	printk("vijayp %s:%s:%d nonblock=%d\n",
+		__FILE__, __func__, __LINE__, nonblock);
 
 	snd_pcm_stream_lock_irq(substream);
+	printk("vijayp %s:%s:%d stream locked\n",
+		__FILE__, __func__, __LINE__);
+
 	err = pcm_accessible_state(runtime);
+	printk("vijayp %s:%s:%d accessible_state=%d runtime_state=%d\n",
+		__FILE__, __func__, __LINE__, err, runtime->state);
 	if (err < 0)
 		goto _end_unlock;
 
 	runtime->twake = runtime->control->avail_min ? : 1;
-	if (runtime->state == SNDRV_PCM_STATE_RUNNING)
-		snd_pcm_update_hw_ptr(substream);
+	printk("vijayp %s:%s:%d twake=%lu\n",
+		__FILE__, __func__, __LINE__, runtime->twake);
 
-	/*
-	 * If size < start_threshold, wait indefinitely. Another
-	 * thread may start capture
-	 */
+	if (runtime->state == SNDRV_PCM_STATE_RUNNING) {
+		printk("vijayp %s:%s:%d calling update_hw_ptr\n",
+			__FILE__, __func__, __LINE__);
+		snd_pcm_update_hw_ptr(substream);
+	}
+
 	if (!is_playback &&
 	    runtime->state == SNDRV_PCM_STATE_PREPARED &&
 	    size >= runtime->start_threshold) {
+		printk("vijayp %s:%s:%d starting capture start_threshold=%lu\n",
+			__FILE__, __func__, __LINE__,
+			runtime->start_threshold);
 		err = snd_pcm_start(substream);
 		if (err < 0)
 			goto _end_unlock;
 	}
 
 	avail = snd_pcm_avail(substream);
+	printk("vijayp %s:%s:%d initial avail=%lu\n",
+		__FILE__, __func__, __LINE__, avail);
 
 	while (size > 0) {
+
+		printk("vijayp %s:%s:%d LOOP size=%lu offset=%lu avail=%lu\n",
+			__FILE__, __func__, __LINE__,
+			size, offset, avail);
+
 		snd_pcm_uframes_t frames, appl_ptr, appl_ofs;
 		snd_pcm_uframes_t cont;
+
 		if (!avail) {
+			printk("vijayp %s:%s:%d avail=0, waiting...\n",
+				__FILE__, __func__, __LINE__);
+
 			if (!is_playback &&
 			    runtime->state == SNDRV_PCM_STATE_DRAINING) {
+				printk("vijayp %s:%s:%d draining ending\n",
+					__FILE__, __func__, __LINE__);
 				snd_pcm_stop(substream, SNDRV_PCM_STATE_SETUP);
 				goto _end_unlock;
 			}
+
 			if (nonblock) {
+				printk("vijayp %s:%s:%d NONBLOCK -EAGAIN\n",
+					__FILE__, __func__, __LINE__);
 				err = -EAGAIN;
 				goto _end_unlock;
 			}
+
 			runtime->twake = min_t(snd_pcm_uframes_t, size,
-					runtime->control->avail_min ? : 1);
+					       runtime->control->avail_min ? : 1);
+
+			printk("vijayp %s:%s:%d waiting for avail, twake=%lu\n",
+				__FILE__, __func__, __LINE__, runtime->twake);
+
 			err = wait_for_avail(substream, &avail);
+			printk("vijayp %s:%s:%d wait_for_avail returned err=%d avail=%lu\n",
+				__FILE__, __func__, __LINE__, err, avail);
+
 			if (err < 0)
 				goto _end_unlock;
 			if (!avail)
-				continue; /* draining */
+				continue;
 		}
+
 		frames = size > avail ? avail : size;
 		appl_ptr = READ_ONCE(runtime->control->appl_ptr);
 		appl_ofs = appl_ptr % runtime->buffer_size;
 		cont = runtime->buffer_size - appl_ofs;
+
+		printk("vijayp %s:%s:%d appl_ptr=%lu appl_ofs=%lu cont=%lu\n",
+			__FILE__, __func__, __LINE__,
+			appl_ptr, appl_ofs, cont);
+
 		if (frames > cont)
 			frames = cont;
+
+		printk("vijayp %s:%s:%d frames to copy=%lu\n",
+			__FILE__, __func__, __LINE__, frames);
+
 		if (snd_BUG_ON(!frames)) {
+			printk("vijayp %s:%s:%d BUG frames=0\n",
+				__FILE__, __func__, __LINE__);
 			err = -EINVAL;
 			goto _end_unlock;
 		}
+
 		if (!atomic_inc_unless_negative(&runtime->buffer_accessing)) {
+			printk("vijayp %s:%s:%d buffer_accessing BUSY\n",
+				__FILE__, __func__, __LINE__);
 			err = -EBUSY;
 			goto _end_unlock;
 		}
+
 		snd_pcm_stream_unlock_irq(substream);
+
 		if (!is_playback)
 			snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_CPU);
+
+		printk("vijayp %s:%s:%d calling writer() frames=%lu\n",
+			__FILE__, __func__, __LINE__, frames);
+
 		err = writer(substream, appl_ofs, data, offset, frames,
 			     transfer, in_kernel);
+
 		if (is_playback)
 			snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_DEVICE);
+
 		snd_pcm_stream_lock_irq(substream);
+
 		atomic_dec(&runtime->buffer_accessing);
+
+		printk("vijayp %s:%s:%d writer() returned err=%d\n",
+			__FILE__, __func__, __LINE__, err);
+
 		if (err < 0)
 			goto _end_unlock;
+
 		err = pcm_accessible_state(runtime);
+		printk("vijayp %s:%s:%d accessible_state again=%d\n",
+			__FILE__, __func__, __LINE__, err);
 		if (err < 0)
 			goto _end_unlock;
+
 		appl_ptr += frames;
 		if (appl_ptr >= runtime->boundary)
 			appl_ptr -= runtime->boundary;
+
+        printk("vijayp %s:%s:%d updating appl_ptr=%lu\n",
+            __FILE__, __func__, __LINE__, appl_ptr);
+
 		err = pcm_lib_apply_appl_ptr(substream, appl_ptr);
 		if (err < 0)
 			goto _end_unlock;
@@ -2399,19 +2502,38 @@ snd_pcm_sframes_t __snd_pcm_lib_xfer(struct snd_pcm_substream *substream,
 		size -= frames;
 		xfer += frames;
 		avail -= frames;
+
+		printk("vijayp %s:%s:%d LOOP END xfer=%lu offset=%lu size=%lu\n",
+			__FILE__, __func__, __LINE__, xfer, offset, size);
+
 		if (is_playback &&
 		    runtime->state == SNDRV_PCM_STATE_PREPARED &&
-		    snd_pcm_playback_hw_avail(runtime) >= (snd_pcm_sframes_t)runtime->start_threshold) {
+		    snd_pcm_playback_hw_avail(runtime) >=
+		    (snd_pcm_sframes_t)runtime->start_threshold) {
+
+			printk("vijayp %s:%s:%d AUTO start playback\n",
+				__FILE__, __func__, __LINE__);
+
 			err = snd_pcm_start(substream);
 			if (err < 0)
 				goto _end_unlock;
 		}
 	}
- _end_unlock:
+
+_end_unlock:
+	printk("vijayp %s:%s:%d END_UNLOCK xfer=%lu err=%d\n",
+		__FILE__, __func__, __LINE__, xfer, err);
+
 	runtime->twake = 0;
+
 	if (xfer > 0 && err >= 0)
 		snd_pcm_update_state(substream, runtime);
+
 	snd_pcm_stream_unlock_irq(substream);
+
+	printk("vijayp %s:%s:%d FINAL RETURN=%ld\n",
+		__FILE__, __func__, __LINE__, xfer > 0 ? xfer : err);
+
 	return xfer > 0 ? (snd_pcm_sframes_t)xfer : err;
 }
 EXPORT_SYMBOL(__snd_pcm_lib_xfer);
@@ -2628,5 +2750,6 @@ int snd_pcm_add_chmap_ctls(struct snd_pcm *pcm, int stream,
 	if (info_ret)
 		*info_ret = info;
 	return 0;
+
 }
 EXPORT_SYMBOL_GPL(snd_pcm_add_chmap_ctls);
