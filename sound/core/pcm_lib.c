@@ -2053,14 +2053,29 @@ static void *get_dma_ptr(struct snd_pcm_runtime *runtime,
 
 /* default copy ops for write; used for both interleaved and non- modes */
 static int default_write_copy(struct snd_pcm_substream *substream,
-			      int channel, unsigned long hwoff,
-			      struct iov_iter *iter, unsigned long bytes)
+                              int channel, unsigned long hwoff,
+                              struct iov_iter *iter, unsigned long bytes)
 {
-	if (copy_from_iter(get_dma_ptr(substream->runtime, channel, hwoff),
-			   bytes, iter) != bytes)
-		return -EFAULT;
-	return 0;
+        printk(KERN_INFO "vijayp %s:%d default_write_copy() called: substream=%p channel=%d hwoff=%lu bytes=%lu iter_count=%zu\n",
+               __FILE__, __LINE__, substream, channel, hwoff, bytes, iter->count);
+
+        printk(KERN_INFO "vijayp dma_ptr=%p\n",
+               get_dma_ptr(substream->runtime, channel, hwoff));
+
+        if (copy_from_iter(get_dma_ptr(substream->runtime, channel, hwoff),
+                           bytes, iter) != bytes) {
+                printk(KERN_ERR "vijayp %s:%d default_write_copy() ERROR: copy_from_iter failed!\n",
+                       __FILE__, __LINE__);
+                return -EFAULT;
+        }
+
+        printk(KERN_INFO "vijayp %s:%d default_write_copy() success\n",
+               __FILE__, __LINE__);
+
+        return 0;
 }
+
+
 
 /* fill silence instead of copy data; called as a transfer helper
  * from __snd_pcm_lib_write() or directly from noninterleaved_copy() when
@@ -2149,7 +2164,12 @@ static int do_transfer(struct snd_pcm_substream *substream, int c,
         printk(KERN_INFO "vijayp %s:%s:%d calling transfer (user mode) transfer=%px\n",
                __FILE__, __func__, __LINE__, transfer);
 
+	printk("vijayp transfer=%pS (%px)\n", transfer, transfer);
+
+
         err = transfer(substream, c, hwoff, &iter, bytes);
+
+
 
         printk(KERN_INFO "vijayp %s:%s:%d transfer() returned err=%d\n",
                __FILE__, __func__, __LINE__, err);
@@ -2161,55 +2181,100 @@ static int do_transfer(struct snd_pcm_substream *substream, int c,
  * for interleaved mode, it's one shot for all samples
  */
 static int interleaved_copy(struct snd_pcm_substream *substream,
-			    snd_pcm_uframes_t hwoff, void *data,
-			    snd_pcm_uframes_t off,
-			    snd_pcm_uframes_t frames,
-			    pcm_transfer_f transfer,
-			    bool in_kernel)
+                            snd_pcm_uframes_t hwoff, void *data,
+                            snd_pcm_uframes_t off,
+                            snd_pcm_uframes_t frames,
+                            pcm_transfer_f transfer,
+                            bool in_kernel)
 {
-	struct snd_pcm_runtime *runtime = substream->runtime;
+        struct snd_pcm_runtime *runtime = substream->runtime;
 
-	/* convert to bytes */
-	hwoff = frames_to_bytes(runtime, hwoff);
-	off = frames_to_bytes(runtime, off);
-	frames = frames_to_bytes(runtime, frames);
+        printk(KERN_INFO "vijayp %s:%s: ENTER substream=%p hwoff(frames)=%lu off(frames)=%lu frames=%lu in_kernel=%d\n",
+               KBUILD_MODNAME, __func__,
+               substream, hwoff, off, frames, in_kernel);
 
-	return do_transfer(substream, 0, hwoff, data + off, frames, transfer,
-			   in_kernel);
+        /* convert to bytes */
+        hwoff = frames_to_bytes(runtime, hwoff);
+        off   = frames_to_bytes(runtime, off);
+        frames = frames_to_bytes(runtime, frames);
+
+        printk(KERN_INFO
+               "vijayp %s:%s: bytes hwoff=%lu off=%lu frames(bytes)=%lu data=%p transfer=%p\n",
+               KBUILD_MODNAME, __func__,
+               hwoff, off, frames, data, transfer);
+
+        /* call do_transfer */
+        printk(KERN_INFO "vijayp %s:%s: calling do_transfer hwoff=%lu data+off=%p frames(bytes)=%lu\n",
+               KBUILD_MODNAME, __func__,
+               hwoff, data + off, frames);
+
+        return do_transfer(substream, 0, hwoff, data + off, frames, transfer,
+                           in_kernel);
 }
 
 /* call transfer function with the converted pointers and sizes for each
  * non-interleaved channel; when buffer is NULL, silencing instead of copying
  */
 static int noninterleaved_copy(struct snd_pcm_substream *substream,
-			       snd_pcm_uframes_t hwoff, void *data,
-			       snd_pcm_uframes_t off,
-			       snd_pcm_uframes_t frames,
-			       pcm_transfer_f transfer,
-			       bool in_kernel)
+                               snd_pcm_uframes_t hwoff, void *data,
+                               snd_pcm_uframes_t off,
+                               snd_pcm_uframes_t frames,
+                               pcm_transfer_f transfer,
+                               bool in_kernel)
 {
-	struct snd_pcm_runtime *runtime = substream->runtime;
-	int channels = runtime->channels;
-	void **bufs = data;
-	int c, err;
+        struct snd_pcm_runtime *runtime = substream->runtime;
+        int channels = runtime->channels;
+        void **bufs = data;
+        int c, err;
 
-	/* convert to bytes; note that it's not frames_to_bytes() here.
-	 * in non-interleaved mode, we copy for each channel, thus
-	 * each copy is n_samples bytes x channels = whole frames.
-	 */
-	off = samples_to_bytes(runtime, off);
-	frames = samples_to_bytes(runtime, frames);
-	hwoff = samples_to_bytes(runtime, hwoff);
-	for (c = 0; c < channels; ++c, ++bufs) {
-		if (!data || !*bufs)
-			err = fill_silence(substream, c, hwoff, NULL, frames);
-		else
-			err = do_transfer(substream, c, hwoff, *bufs + off,
-					  frames, transfer, in_kernel);
-		if (err < 0)
-			return err;
-	}
-	return 0;
+        printk(KERN_INFO "vijayp %s:%s: ENTER substream=%p channels=%d hwoff(frames)=%lu off(frames)=%lu frames=%lu in_kernel=%d data=%p\n",
+               KBUILD_MODNAME, __func__,
+               substream, channels, hwoff, off, frames, in_kernel, data);
+
+        /* convert to bytes for non-interleaved copy */
+        off   = samples_to_bytes(runtime, off);
+        frames = samples_to_bytes(runtime, frames);
+        hwoff = samples_to_bytes(runtime, hwoff);
+
+        printk(KERN_INFO "vijayp %s:%s: converted_to_bytes hwoff=%lu off=%lu frames(bytes)=%lu\n",
+               KBUILD_MODNAME, __func__,
+               hwoff, off, frames);
+
+        for (c = 0; c < channels; ++c, ++bufs) {
+
+                printk(KERN_INFO
+                       "vijayp %s:%s: CHANNEL %d buffer_ptr=%p hwoff=%lu off=%lu frames=%lu\n",
+                       KBUILD_MODNAME, __func__,
+                       c, *bufs, hwoff, off, frames);
+
+                if (!data || !*bufs) {
+                        printk(KERN_INFO
+                               "vijayp %s:%s: CHANNEL %d calling fill_silence",
+                               KBUILD_MODNAME, __func__, c);
+
+                        err = fill_silence(substream, c, hwoff, NULL, frames);
+                } else {
+
+                        printk(KERN_INFO
+                               "vijayp %s:%s: CHANNEL %d calling do_transfer buf=%p",
+                               KBUILD_MODNAME, __func__, c, (*bufs + off));
+
+                        err = do_transfer(substream, c, hwoff, *bufs + off,
+                                          frames, transfer, in_kernel);
+                }
+
+                if (err < 0) {
+                        printk(KERN_ERR
+                               "vijayp %s:%s: CHANNEL %d ERROR err=%d",
+                               KBUILD_MODNAME, __func__, c, err);
+                        return err;
+                }
+        }
+
+        printk(KERN_INFO "vijayp %s:%s: EXIT success\n",
+               KBUILD_MODNAME, __func__);
+
+        return 0;
 }
 
 /* fill silence on the given buffer position;
