@@ -1228,83 +1228,123 @@ static int (* const trigger[][TRIGGER_MAX])(struct snd_pcm_substream *substream,
 		snd_soc_pcm_component_trigger,
 	},
 };
-
 static int soc_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
 {
-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-	struct snd_soc_component *component;
-	int ret = 0, r = 0, i;
-	int rollback = 0;
-	int start = 0, stop = 0;
+    struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+    struct snd_soc_component *component;
+    int ret = 0, r = 0, i;
+    int rollback = 0;
+    int start = 0, stop = 0;
 
-	/*
-	 * select START/STOP sequence
-	 */
-	for_each_rtd_components(rtd, i, component) {
-		if (component->driver->trigger_start)
-			start = component->driver->trigger_start;
-		if (component->driver->trigger_stop)
-			stop = component->driver->trigger_stop;
-	}
-	if (rtd->dai_link->trigger_start)
-		start = rtd->dai_link->trigger_start;
-	if (rtd->dai_link->trigger_stop)
-		stop  = rtd->dai_link->trigger_stop;
+    printk(KERN_INFO "ASOC-DBG: soc_pcm_trigger(): ENTER rtd=%s cmd=%d\n",
+           rtd->dai_link->name, cmd);
 
-	if (start < 0 || start >= SND_SOC_TRIGGER_ORDER_MAX ||
-	    stop  < 0 || stop  >= SND_SOC_TRIGGER_ORDER_MAX)
-		return -EINVAL;
+    /*
+     * select START/STOP sequence
+     */
+    for_each_rtd_components(rtd, i, component) {
+        printk(KERN_INFO "ASOC-DBG: soc_pcm_trigger(): component=%s trigger_start=%d trigger_stop=%d\n",
+               component->name,
+               component->driver->trigger_start,
+               component->driver->trigger_stop);
 
-	/*
-	 * START
-	 */
-	switch (cmd) {
-	case SNDRV_PCM_TRIGGER_START:
-	case SNDRV_PCM_TRIGGER_RESUME:
-	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-		for (i = 0; i < TRIGGER_MAX; i++) {
-			r = trigger[start][i](substream, cmd, 0);
-			if (r < 0)
-				break;
-		}
-	}
+        if (component->driver->trigger_start)
+            start = component->driver->trigger_start;
+        if (component->driver->trigger_stop)
+            stop = component->driver->trigger_stop;
+    }
 
-	/*
-	 * Rollback if START failed
-	 * find correspond STOP command
-	 */
-	if (r < 0) {
-		rollback = 1;
-		ret = r;
-		switch (cmd) {
-		case SNDRV_PCM_TRIGGER_START:
-			cmd = SNDRV_PCM_TRIGGER_STOP;
-			break;
-		case SNDRV_PCM_TRIGGER_RESUME:
-			cmd = SNDRV_PCM_TRIGGER_SUSPEND;
-			break;
-		case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-			cmd = SNDRV_PCM_TRIGGER_PAUSE_PUSH;
-			break;
-		}
-	}
+    printk(KERN_INFO "ASOC-DBG: soc_pcm_trigger(): start_order=%d stop_order=%d\n",
+           start, stop);
 
-	/*
-	 * STOP
-	 */
-	switch (cmd) {
-	case SNDRV_PCM_TRIGGER_STOP:
-	case SNDRV_PCM_TRIGGER_SUSPEND:
-	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-		for (i = TRIGGER_MAX; i > 0; i--) {
-			r = trigger[stop][i - 1](substream, cmd, rollback);
-			if (r < 0)
-				ret = r;
-		}
-	}
+    if (rtd->dai_link->trigger_start)
+        start = rtd->dai_link->trigger_start;
+    if (rtd->dai_link->trigger_stop)
+        stop  = rtd->dai_link->trigger_stop;
 
-	return ret;
+    printk(KERN_INFO "ASOC-DBG: soc_pcm_trigger(): FINAL start=%d stop=%d\n",
+           start, stop);
+
+    if (start < 0 || start >= SND_SOC_TRIGGER_ORDER_MAX ||
+        stop  < 0 || stop  >= SND_SOC_TRIGGER_ORDER_MAX)
+        return -EINVAL;
+
+    /*
+     * START
+     */
+    switch (cmd) {
+    case SNDRV_PCM_TRIGGER_START:
+    case SNDRV_PCM_TRIGGER_RESUME:
+    case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+
+        printk(KERN_INFO "ASOC-DBG: soc_pcm_trigger(): START LOOP start_index=%d\n", start);
+
+        for (i = 0; i < TRIGGER_MAX; i++) {
+
+            printk(KERN_INFO "ASOC-DBG: soc_pcm_trigger(): calling trigger[%d][%d]=%ps\n",
+                   start, i, trigger[start][i]);
+
+            r = trigger[start][i](substream, cmd, 0);
+
+            printk(KERN_INFO "ASOC-DBG: soc_pcm_trigger(): trigger[%d][%d] returned %d\n",
+                   start, i, r);
+
+            if (r < 0)
+                break;
+        }
+    }
+
+    /*
+     * Rollback if START failed
+     * find correspond STOP command
+     */
+    if (r < 0) {
+        printk(KERN_ERR "ASOC-DBG: soc_pcm_trigger(): START FAILED, entering rollback\n");
+        rollback = 1;
+        ret = r;
+
+        switch (cmd) {
+        case SNDRV_PCM_TRIGGER_START:
+            cmd = SNDRV_PCM_TRIGGER_STOP;
+            break;
+        case SNDRV_PCM_TRIGGER_RESUME:
+            cmd = SNDRV_PCM_TRIGGER_SUSPEND;
+            break;
+        case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+            cmd = SNDRV_PCM_TRIGGER_PAUSE_PUSH;
+            break;
+        }
+    }
+
+    /*
+     * STOP
+     */
+    switch (cmd) {
+    case SNDRV_PCM_TRIGGER_STOP:
+    case SNDRV_PCM_TRIGGER_SUSPEND:
+    case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+
+        printk(KERN_INFO "ASOC-DBG: soc_pcm_trigger(): STOP LOOP stop_index=%d\n", stop);
+
+        for (i = TRIGGER_MAX; i > 0; i--) {
+
+            printk(KERN_INFO "ASOC-DBG: soc_pcm_trigger(): calling trigger[%d][%d]=%ps\n",
+                   stop, i - 1, trigger[stop][i - 1]);
+
+            r = trigger[stop][i - 1](substream, cmd, rollback);
+
+            printk(KERN_INFO "ASOC-DBG: soc_pcm_trigger(): trigger[%d][%d] returned %d\n",
+                   stop, i - 1, r);
+
+            if (r < 0)
+                ret = r;
+        }
+    }
+
+    printk(KERN_INFO "ASOC-DBG: soc_pcm_trigger(): EXIT ret=%d\n", ret);
+    return ret;
 }
+
 
 /*
  * soc level wrapper for pointer callback

@@ -1243,6 +1243,9 @@ static int snd_pcm_action_group(const struct action_ops *ops,
 				snd_pcm_state_t state,
 				bool stream_lock)
 {
+
+printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+
 	struct snd_pcm_substream *s = NULL;
 	struct snd_pcm_substream *s1;
 	int res = 0, depth = 1;
@@ -1303,15 +1306,53 @@ static int snd_pcm_action_single(const struct action_ops *ops,
 				 snd_pcm_state_t state)
 {
 	int res;
-	
+
+	printk(KERN_INFO "ALSA-DBG: snd_pcm_action_single(): ENTER substream=%p state=%d\n",
+	       substream, state);
+
+	if (ops->pre_action)
+		printk(KERN_INFO "ALSA-DBG: snd_pcm_action_single(): calling pre_action=%ps\n",
+		       ops->pre_action);
+
 	res = ops->pre_action(substream, state);
-	if (res < 0)
+
+	printk(KERN_INFO "ALSA-DBG: snd_pcm_action_single(): pre_action() returned %d\n", res);
+
+	if (res < 0) {
+		printk(KERN_ERR "ALSA-DBG: snd_pcm_action_single(): pre_action FAILED → returning %d\n", res);
 		return res;
+	}
+
+	printk(KERN_INFO "ALSA-DBG: snd_pcm_action_single(): calling do_action=%ps\n",
+	       ops->do_action);
+
 	res = ops->do_action(substream, state);
-	if (res == 0)
+
+	printk(KERN_INFO "ALSA-DBG: snd_pcm_action_single(): do_action() returned %d\n", res);
+
+	if (res == 0) {
+
+		if (ops->post_action)
+			printk(KERN_INFO "ALSA-DBG: snd_pcm_action_single(): calling post_action=%ps\n",
+			       ops->post_action);
+
 		ops->post_action(substream, state);
-	else if (ops->undo_action)
-		ops->undo_action(substream, state);
+
+		printk(KERN_INFO "ALSA-DBG: snd_pcm_action_single(): post_action DONE\n");
+
+	} else {
+
+		if (ops->undo_action) {
+			printk(KERN_INFO "ALSA-DBG: snd_pcm_action_single(): calling undo_action=%ps\n",
+			       ops->undo_action);
+			ops->undo_action(substream, state);
+		}
+
+		printk(KERN_INFO "ALSA-DBG: snd_pcm_action_single(): undo_action DONE (if present)\n");
+	}
+
+	printk(KERN_INFO "ALSA-DBG: snd_pcm_action_single(): EXIT with res=%d\n", res);
+
 	return res;
 }
 
@@ -1412,6 +1453,7 @@ static int snd_pcm_action_nonatomic(const struct action_ops *ops,
 				    struct snd_pcm_substream *substream,
 				    snd_pcm_state_t state)
 {
+printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
 	int res;
 
 	/* Guarantee the group members won't change during non-atomic action */
@@ -1445,17 +1487,35 @@ static int snd_pcm_pre_start(struct snd_pcm_substream *substream,
 }
 
 static int snd_pcm_do_start(struct snd_pcm_substream *substream,
-			    snd_pcm_state_t state)
+                            snd_pcm_state_t state)
 {
-	int err;
+        int err;
 
-	if (substream->runtime->trigger_master != substream)
-		return 0;
-	err = substream->ops->trigger(substream, SNDRV_PCM_TRIGGER_START);
-	/* XRUN happened during the start */
-	if (err == -EPIPE)
-		__snd_pcm_set_state(substream->runtime, SNDRV_PCM_STATE_XRUN);
-	return err;
+        printk(KERN_INFO "ALSA-DBG: snd_pcm_do_start(): ENTER substream=%p state=%d\n",
+               substream, state);
+
+        /* Check if this substream is the trigger master */
+        if (substream->runtime->trigger_master != substream) {
+                printk(KERN_INFO "ALSA-DBG: snd_pcm_do_start(): Not trigger_master → SKIP trigger\n");
+                return 0;
+        }
+
+        printk(KERN_INFO "ALSA-DBG: snd_pcm_do_start(): Calling driver trigger START (ops->trigger=%ps)\n",
+               substream->ops->trigger);
+
+        err = substream->ops->trigger(substream, SNDRV_PCM_TRIGGER_START);
+
+        printk(KERN_INFO "ALSA-DBG: snd_pcm_do_start(): trigger() returned %d\n", err);
+
+        /* XRUN happened during start */
+        if (err == -EPIPE) {
+                printk(KERN_ERR "ALSA-DBG: snd_pcm_do_start(): XRUN detected → setting state XRUN\n");
+                __snd_pcm_set_state(substream->runtime, SNDRV_PCM_STATE_XRUN);
+        }
+
+        printk(KERN_INFO "ALSA-DBG: snd_pcm_do_start(): EXIT with err=%d\n", err);
+
+        return err;
 }
 
 static void snd_pcm_undo_start(struct snd_pcm_substream *substream,
@@ -1992,6 +2052,7 @@ static const struct action_ops snd_pcm_action_prepare = {
 static int snd_pcm_prepare(struct snd_pcm_substream *substream,
 			   struct file *file)
 {
+printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
 	int f_flags;
 
 	if (file)
@@ -3399,6 +3460,7 @@ static int snd_pcm_common_ioctl(struct file *file,
 				 struct snd_pcm_substream *substream,
 				 unsigned int cmd, void __user *arg)
 {
+printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
 	struct snd_pcm_file *pcm_file = file->private_data;
 	int res;
 

@@ -152,34 +152,76 @@ static int soc_link_trigger(struct snd_pcm_substream *substream, int cmd)
 
 	return soc_link_ret(rtd, ret);
 }
-
 int snd_soc_link_trigger(struct snd_pcm_substream *substream, int cmd,
-			 int rollback)
+                         int rollback)
 {
-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-	int ret = 0;
+        struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+        int ret = 0;
 
-	switch (cmd) {
-	case SNDRV_PCM_TRIGGER_START:
-	case SNDRV_PCM_TRIGGER_RESUME:
-	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-		ret = soc_link_trigger(substream, cmd);
-		if (ret < 0)
-			break;
-		soc_link_mark_push(rtd, substream, trigger);
-		break;
-	case SNDRV_PCM_TRIGGER_STOP:
-	case SNDRV_PCM_TRIGGER_SUSPEND:
-	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-		if (rollback && !soc_link_mark_match(rtd, substream, trigger))
-			break;
+        printk(KERN_INFO "ASOC-DBG: snd_soc_link_trigger(): ENTER rtd=%s cmd=%d rollback=%d\n",
+               rtd->dai_link ? rtd->dai_link->name : "unknown", cmd, rollback);
 
-		ret = soc_link_trigger(substream, cmd);
-		soc_link_mark_pop(rtd, substream, startup);
-	}
+        switch (cmd) {
+        case SNDRV_PCM_TRIGGER_START:
+        case SNDRV_PCM_TRIGGER_RESUME:
+        case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
 
-	return ret;
+                printk(KERN_INFO
+                       "ASOC-DBG: snd_soc_link_trigger(): calling soc_link_trigger(substream, %d)\n",
+                       cmd);
+
+                ret = soc_link_trigger(substream, cmd);
+
+                printk(KERN_INFO
+                       "ASOC-DBG: snd_soc_link_trigger(): soc_link_trigger returned %d\n",
+                       ret);
+
+                if (ret < 0)
+                        break;
+
+                printk(KERN_INFO
+                       "ASOC-DBG: snd_soc_link_trigger(): calling soc_link_mark_push()\n");
+
+                soc_link_mark_push(rtd, substream, trigger);
+
+                break;
+
+        case SNDRV_PCM_TRIGGER_STOP:
+        case SNDRV_PCM_TRIGGER_SUSPEND:
+        case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+
+                printk(KERN_INFO
+                       "ASOC-DBG: snd_soc_link_trigger(): STOP path, rollback=%d\n",
+                       rollback);
+
+                if (rollback && !soc_link_mark_match(rtd, substream, trigger)) {
+                        printk(KERN_INFO
+                               "ASOC-DBG: snd_soc_link_trigger(): rollback mismatch, skipping STOP\n");
+                        break;
+                }
+
+                printk(KERN_INFO
+                       "ASOC-DBG: snd_soc_link_trigger(): calling soc_link_trigger(substream, %d)\n",
+                       cmd);
+
+                ret = soc_link_trigger(substream, cmd);
+
+                printk(KERN_INFO
+                       "ASOC-DBG: snd_soc_link_trigger(): soc_link_trigger returned %d\n",
+                       ret);
+
+                printk(KERN_INFO
+                       "ASOC-DBG: snd_soc_link_trigger(): calling soc_link_mark_pop(startup)\n");
+
+                soc_link_mark_pop(rtd, substream, startup);
+
+                break;
+        }
+
+        printk(KERN_INFO "ASOC-DBG: snd_soc_link_trigger(): EXIT ret=%d\n", ret);
+        return ret;
 }
+
 
 int snd_soc_link_compr_startup(struct snd_compr_stream *cstream)
 {

@@ -286,6 +286,11 @@ static void update_audio_tstamp(struct snd_pcm_substream *substream,
 static int snd_pcm_update_hw_ptr0(struct snd_pcm_substream *substream,
 				  unsigned int in_interrupt)
 {
+printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+
+//printk("ALSA: hw_ptr updated hw_ptr=%ld appl_ptr=%ld\n", runtime->status->hw_ptr, runtime->control->appl_ptr);
+
+
 	struct snd_pcm_runtime *runtime = substream->runtime;
 	snd_pcm_uframes_t pos;
 	snd_pcm_uframes_t old_hw_ptr, new_hw_ptr, hw_base;
@@ -496,6 +501,7 @@ static int snd_pcm_update_hw_ptr0(struct snd_pcm_substream *substream,
 /* CAUTION: call it with irq disabled */
 int snd_pcm_update_hw_ptr(struct snd_pcm_substream *substream)
 {
+printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
 	return snd_pcm_update_hw_ptr0(substream, 0);
 }
 
@@ -1932,6 +1938,8 @@ EXPORT_SYMBOL(snd_pcm_period_elapsed_under_stream_lock);
  */
 void snd_pcm_period_elapsed(struct snd_pcm_substream *substream)
 {
+printk("ALSA: snd_pcm_period_elapsed() entered\n");
+
 	if (snd_BUG_ON(!substream))
 		return;
 

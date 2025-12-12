@@ -1214,51 +1214,136 @@ void snd_soc_pcm_component_hw_free(struct snd_pcm_substream *substream,
 	}
 }
 
+
 static int soc_component_trigger(struct snd_soc_component *component,
-				 struct snd_pcm_substream *substream,
-				 int cmd)
+                                 struct snd_pcm_substream *substream,
+                                 int cmd)
 {
-	int ret = 0;
+    int ret = 0;
 
-	if (component->driver->trigger)
-		ret = component->driver->trigger(component, substream, cmd);
+    printk(KERN_INFO
+           "ASOC-DBG: soc_component_trigger(): ENTER component=%s cmd=%d\n",
+           component->name ? component->name : "unknown", cmd);
 
-	return soc_component_ret(component, ret);
+    if (component->driver->trigger) {
+
+        printk(KERN_INFO
+               "ASOC-DBG: soc_component_trigger(): calling component->driver->trigger=%ps\n",
+               component->driver->trigger);
+
+        ret = component->driver->trigger(component, substream, cmd);
+
+        printk(KERN_INFO
+               "ASOC-DBG: soc_component_trigger(): component->driver->trigger returned ret=%d\n",
+               ret);
+    } else {
+
+        printk(KERN_INFO
+               "ASOC-DBG: soc_component_trigger(): component=%s has NO trigger() callback!\n",
+               component->name ? component->name : "unknown");
+    }
+
+    printk(KERN_INFO
+           "ASOC-DBG: soc_component_trigger(): calling soc_component_ret() ret=%d\n",
+           ret);
+
+    return soc_component_ret(component, ret);
 }
 
+
 int snd_soc_pcm_component_trigger(struct snd_pcm_substream *substream,
-				  int cmd, int rollback)
+                                  int cmd, int rollback)
 {
-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-	struct snd_soc_component *component;
-	int i, r, ret = 0;
+    struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+    struct snd_soc_component *component;
+    int i, r, ret = 0;
 
-	switch (cmd) {
-	case SNDRV_PCM_TRIGGER_START:
-	case SNDRV_PCM_TRIGGER_RESUME:
-	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-		for_each_rtd_components(rtd, i, component) {
-			ret = soc_component_trigger(component, substream, cmd);
-			if (ret < 0)
-				break;
-			soc_component_mark_push(component, substream, trigger);
-		}
-		break;
-	case SNDRV_PCM_TRIGGER_STOP:
-	case SNDRV_PCM_TRIGGER_SUSPEND:
-	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-		for_each_rtd_components(rtd, i, component) {
-			if (rollback && !soc_component_mark_match(component, substream, trigger))
-				continue;
+    printk(KERN_INFO "ASOC-DBG: snd_soc_pcm_component_trigger(): ENTER rtd=%s cmd=%d rollback=%d\n",
+           rtd->dai_link ? rtd->dai_link->name : "unknown", cmd, rollback);
 
-			r = soc_component_trigger(component, substream, cmd);
-			if (r < 0)
-				ret = r; /* use last ret */
-			soc_component_mark_pop(component, substream, trigger);
-		}
-	}
+    switch (cmd) {
 
-	return ret;
+    /* ===================== START path ===================== */
+    case SNDRV_PCM_TRIGGER_START:
+    case SNDRV_PCM_TRIGGER_RESUME:
+    case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+
+        for_each_rtd_components(rtd, i, component) {
+
+            printk(KERN_INFO
+                   "ASOC-DBG: snd_soc_pcm_component_trigger(): START: component[%d]=%s\n",
+                   i,
+                   component->name ? component->name : "unknown");
+
+            printk(KERN_INFO
+                   "ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_trigger=%ps\n",
+                   soc_component_trigger);
+
+            ret = soc_component_trigger(component, substream, cmd);
+
+            printk(KERN_INFO
+                   "ASOC-DBG: snd_soc_pcm_component_trigger(): component %s trigger returned %d\n",
+                   component->name ? component->name : "unknown", ret);
+
+            if (ret < 0) {
+                printk(KERN_ERR
+                       "ASOC-DBG: snd_soc_pcm_component_trigger(): component %s FAILED ret=%d\n",
+                       component->name ? component->name : "unknown", ret);
+                break;
+            }
+
+            printk(KERN_INFO
+                   "ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_mark_push()\n");
+            soc_component_mark_push(component, substream, trigger);
+        }
+        break;
+
+    /* ===================== STOP path ===================== */
+    case SNDRV_PCM_TRIGGER_STOP:
+    case SNDRV_PCM_TRIGGER_SUSPEND:
+    case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+
+        for_each_rtd_components(rtd, i, component) {
+
+            printk(KERN_INFO
+                   "ASOC-DBG: snd_soc_pcm_component_trigger(): STOP: component[%d]=%s rollback=%d\n",
+                   i,
+                   component->name ? component->name : "unknown",
+                   rollback);
+
+            if (rollback &&
+                !soc_component_mark_match(component, substream, trigger)) {
+
+                printk(KERN_INFO
+                       "ASOC-DBG: snd_soc_pcm_component_trigger(): SKIP component=%s due to rollback\n",
+                       component->name ? component->name : "unknown");
+                continue;
+            }
+
+            printk(KERN_INFO
+                   "ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_trigger=%ps\n",
+                   soc_component_trigger);
+
+            r = soc_component_trigger(component, substream, cmd);
+
+            printk(KERN_INFO
+                   "ASOC-DBG: snd_soc_pcm_component_trigger(): component %s STOP trigger returned r=%d\n",
+                   component->name ? component->name : "unknown", r);
+
+            if (r < 0)
+                ret = r;
+
+            printk(KERN_INFO
+                   "ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_mark_pop()\n");
+
+            soc_component_mark_pop(component, substream, trigger);
+        }
+    }
+
+    printk(KERN_INFO
+           "ASOC-DBG: snd_soc_pcm_component_trigger(): EXIT ret=%d\n", ret);
+
+    return ret;
 }
 
 int snd_soc_pcm_component_pm_runtime_get(struct snd_soc_pcm_runtime *rtd,

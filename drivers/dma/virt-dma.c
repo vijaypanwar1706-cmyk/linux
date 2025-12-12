@@ -11,30 +11,37 @@
 
 #include "virt-dma.h"
 
-static struct virt_dma_desc *to_virt_desc(struct dma_async_tx_descriptor *tx)
+static struct virt_dma_desc *
+to_virt_desc (struct dma_async_tx_descriptor *tx)
 {
-	return container_of(tx, struct virt_dma_desc, tx);
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    return container_of (tx, struct virt_dma_desc, tx);
 }
 
-dma_cookie_t vchan_tx_submit(struct dma_async_tx_descriptor *tx)
+dma_cookie_t
+vchan_tx_submit (struct dma_async_tx_descriptor *tx)
 {
-	struct virt_dma_chan *vc = to_virt_chan(tx->chan);
-	struct virt_dma_desc *vd = to_virt_desc(tx);
-	unsigned long flags;
-	dma_cookie_t cookie;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    struct virt_dma_chan *vc = to_virt_chan (tx->chan);
+    struct virt_dma_desc *vd = to_virt_desc (tx);
+    unsigned long flags;
+    dma_cookie_t cookie;
 
-	spin_lock_irqsave(&vc->lock, flags);
-	cookie = dma_cookie_assign(tx);
+    spin_lock_irqsave (&vc->lock, flags);
+    cookie = dma_cookie_assign (tx);
 
-	list_move_tail(&vd->node, &vc->desc_submitted);
-	spin_unlock_irqrestore(&vc->lock, flags);
+    list_move_tail (&vd->node, &vc->desc_submitted);
+    spin_unlock_irqrestore (&vc->lock, flags);
 
-	dev_dbg(vc->chan.device->dev, "vchan %p: txd %p[%x]: submitted\n",
-		vc, vd, cookie);
+    dev_dbg (vc->chan.device->dev, "vchan %p: txd %p[%x]: submitted\n",
+             vc, vd, cookie);
 
-	return cookie;
+    return cookie;
 }
-EXPORT_SYMBOL_GPL(vchan_tx_submit);
+
+EXPORT_SYMBOL_GPL (vchan_tx_submit);
 
 /**
  * vchan_tx_desc_free - free a reusable descriptor
@@ -46,35 +53,42 @@ EXPORT_SYMBOL_GPL(vchan_tx_submit);
  *
  * Returns 0 upon success
  */
-int vchan_tx_desc_free(struct dma_async_tx_descriptor *tx)
+int
+vchan_tx_desc_free (struct dma_async_tx_descriptor *tx)
 {
-	struct virt_dma_chan *vc = to_virt_chan(tx->chan);
-	struct virt_dma_desc *vd = to_virt_desc(tx);
-	unsigned long flags;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    struct virt_dma_chan *vc = to_virt_chan (tx->chan);
+    struct virt_dma_desc *vd = to_virt_desc (tx);
+    unsigned long flags;
 
-	spin_lock_irqsave(&vc->lock, flags);
-	list_del(&vd->node);
-	spin_unlock_irqrestore(&vc->lock, flags);
+    spin_lock_irqsave (&vc->lock, flags);
+    list_del (&vd->node);
+    spin_unlock_irqrestore (&vc->lock, flags);
 
-	dev_dbg(vc->chan.device->dev, "vchan %p: txd %p[%x]: freeing\n",
-		vc, vd, vd->tx.cookie);
-	vc->desc_free(vd);
-	return 0;
+    dev_dbg (vc->chan.device->dev, "vchan %p: txd %p[%x]: freeing\n",
+             vc, vd, vd->tx.cookie);
+    vc->desc_free (vd);
+    return 0;
 }
-EXPORT_SYMBOL_GPL(vchan_tx_desc_free);
 
-struct virt_dma_desc *vchan_find_desc(struct virt_dma_chan *vc,
-	dma_cookie_t cookie)
+EXPORT_SYMBOL_GPL (vchan_tx_desc_free);
+
+struct virt_dma_desc *
+vchan_find_desc (struct virt_dma_chan *vc, dma_cookie_t cookie)
 {
-	struct virt_dma_desc *vd;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    struct virt_dma_desc *vd;
 
-	list_for_each_entry(vd, &vc->desc_issued, node)
-		if (vd->tx.cookie == cookie)
-			return vd;
+    list_for_each_entry (vd, &vc->desc_issued, node)
+        if (vd->tx.cookie == cookie)
+        return vd;
 
-	return NULL;
+    return NULL;
 }
-EXPORT_SYMBOL_GPL(vchan_find_desc);
+
+EXPORT_SYMBOL_GPL (vchan_find_desc);
 
 /*
  * This tasklet handles the completion of a DMA descriptor by
@@ -82,62 +96,94 @@ EXPORT_SYMBOL_GPL(vchan_find_desc);
  */
 static void vchan_complete(struct tasklet_struct *t)
 {
-	struct virt_dma_chan *vc = from_tasklet(vc, t, task);
-	struct virt_dma_desc *vd, *_vd;
-	struct dmaengine_desc_callback cb;
-	LIST_HEAD(head);
+    struct virt_dma_chan *vc = from_tasklet(vc, t, task);
+    struct virt_dma_desc *vd, *_vd;
+    struct dmaengine_desc_callback cb;
+    LIST_HEAD(head);
 
-	spin_lock_irq(&vc->lock);
-	list_splice_tail_init(&vc->desc_completed, &head);
-	vd = vc->cyclic;
-	if (vd) {
-		vc->cyclic = NULL;
-		dmaengine_desc_get_callback(&vd->tx, &cb);
-	} else {
-		memset(&cb, 0, sizeof(cb));
-	}
-	spin_unlock_irq(&vc->lock);
+    printk(KERN_INFO "[VCHAN] vchan_complete(): ENTER chan=%s\n",
+           vc->chan.name);
 
-	dmaengine_desc_callback_invoke(&cb, &vd->tx_result);
+    spin_lock_irq(&vc->lock);
 
-	list_for_each_entry_safe(vd, _vd, &head, node) {
-		dmaengine_desc_get_callback(&vd->tx, &cb);
+    /* Move completed descriptors to local list */
+    printk(KERN_INFO "[VCHAN] copying vc->desc_completed list\n");
+    list_splice_tail_init(&vc->desc_completed, &head);
 
-		list_del(&vd->node);
-		dmaengine_desc_callback_invoke(&cb, &vd->tx_result);
-		vchan_vdesc_fini(vd);
-	}
+    vd = vc->cyclic;
+    if (vd) {
+        printk(KERN_INFO "[VCHAN] cyclic descriptor complete vd=%p\n", vd);
+        vc->cyclic = NULL;
+        dmaengine_desc_get_callback(&vd->tx, &cb);
+    } else {
+        printk(KERN_INFO "[VCHAN] NO cyclic descriptor\n");
+        memset(&cb, 0, sizeof(cb));
+    }
+
+    spin_unlock_irq(&vc->lock);
+
+    /* Invoke callback for cyclic or first descriptor */
+    printk(KERN_INFO "[VCHAN] invoking callback for vd=%p\n", vd);
+    dmaengine_desc_callback_invoke(&cb, &vd->tx_result);
+
+    /* Now walk through all completed descriptors */
+    list_for_each_entry_safe(vd, _vd, &head, node) {
+
+        printk(KERN_INFO "[VCHAN] processing descriptor vd=%p\n", vd);
+
+        dmaengine_desc_get_callback(&vd->tx, &cb);
+
+        printk(KERN_INFO "[VCHAN] invoking callback for vd=%p (non-cyclic)\n",
+               vd);
+
+        list_del(&vd->node);
+
+        dmaengine_desc_callback_invoke(&cb, &vd->tx_result);
+
+        printk(KERN_INFO "[VCHAN] freeing descriptor vd=%p\n", vd);
+        vchan_vdesc_fini(vd);
+    }
+
+    printk(KERN_INFO "[VCHAN] vchan_complete(): EXIT\n");
 }
 
-void vchan_dma_desc_free_list(struct virt_dma_chan *vc, struct list_head *head)
+void
+vchan_dma_desc_free_list (struct virt_dma_chan *vc, struct list_head *head)
 {
-	struct virt_dma_desc *vd, *_vd;
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    struct virt_dma_desc *vd, *_vd;
 
-	list_for_each_entry_safe(vd, _vd, head, node) {
-		list_del(&vd->node);
-		vchan_vdesc_fini(vd);
-	}
+    list_for_each_entry_safe (vd, _vd, head, node) {
+        list_del (&vd->node);
+        vchan_vdesc_fini (vd);
+    }
 }
-EXPORT_SYMBOL_GPL(vchan_dma_desc_free_list);
 
-void vchan_init(struct virt_dma_chan *vc, struct dma_device *dmadev)
+EXPORT_SYMBOL_GPL (vchan_dma_desc_free_list);
+
+void
+vchan_init (struct virt_dma_chan *vc, struct dma_device *dmadev)
 {
-	dma_cookie_init(&vc->chan);
+    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
+    ; /* avoid -Wswitch-unreachable */
+    dma_cookie_init (&vc->chan);
 
-	spin_lock_init(&vc->lock);
-	INIT_LIST_HEAD(&vc->desc_allocated);
-	INIT_LIST_HEAD(&vc->desc_submitted);
-	INIT_LIST_HEAD(&vc->desc_issued);
-	INIT_LIST_HEAD(&vc->desc_completed);
-	INIT_LIST_HEAD(&vc->desc_terminated);
+    spin_lock_init (&vc->lock);
+    INIT_LIST_HEAD (&vc->desc_allocated);
+    INIT_LIST_HEAD (&vc->desc_submitted);
+    INIT_LIST_HEAD (&vc->desc_issued);
+    INIT_LIST_HEAD (&vc->desc_completed);
+    INIT_LIST_HEAD (&vc->desc_terminated);
 
-	tasklet_setup(&vc->task, vchan_complete);
+    tasklet_setup (&vc->task, vchan_complete);
 
-	vc->chan.device = dmadev;
-	list_add_tail(&vc->chan.device_node, &dmadev->channels);
+    vc->chan.device = dmadev;
+    list_add_tail (&vc->chan.device_node, &dmadev->channels);
 }
-EXPORT_SYMBOL_GPL(vchan_init);
 
-MODULE_AUTHOR("Russell King");
-MODULE_DESCRIPTION("Virtual DMA channel support for DMAengine");
-MODULE_LICENSE("GPL");
+EXPORT_SYMBOL_GPL (vchan_init);
+
+MODULE_AUTHOR ("Russell King");
+MODULE_DESCRIPTION ("Virtual DMA channel support for DMAengine");
+MODULE_LICENSE ("GPL");

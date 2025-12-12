@@ -168,6 +168,7 @@ static int dmaengine_pcm_close(struct snd_soc_component *component,
 static int dmaengine_pcm_trigger(struct snd_soc_component *component,
 				 struct snd_pcm_substream *substream, int cmd)
 {
+printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
 	return snd_dmaengine_pcm_trigger(substream, cmd);
 }
 
