@@ -146,12 +146,32 @@ static int soc_link_trigger(struct snd_pcm_substream *substream, int cmd)
 	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
 	int ret = 0;
 
-	if (rtd->dai_link->ops &&
-	    rtd->dai_link->ops->trigger)
+	printk(KERN_ERR "ASOC-DBG: soc_link_trigger(): ENTER rtd=%s cmd=%d\n",
+	       rtd->dai_link->name, cmd);
+
+	if (rtd->dai_link->ops && rtd->dai_link->ops->trigger) {
+
+		printk(KERN_ERR "ASOC-DBG: soc_link_trigger(): calling dai_link->ops->trigger=%ps\n",
+		       rtd->dai_link->ops->trigger);
+
 		ret = rtd->dai_link->ops->trigger(substream, cmd);
 
-	return soc_link_ret(rtd, ret);
+		printk(KERN_ERR "ASOC-DBG: soc_link_trigger(): dai_link->trigger returned %d\n", ret);
+	} else {
+		printk(KERN_ERR "ASOC-DBG: soc_link_trigger(): NO dai_link trigger present\n");
+	}
+
+	printk(KERN_ERR "ASOC-DBG: soc_link_trigger(): calling soc_link_ret() next\n");
+
+	ret = soc_link_ret(rtd, ret);
+
+	printk(KERN_ERR "ASOC-DBG: soc_link_trigger(): soc_link_ret() returned %d\n", ret);
+
+	printk(KERN_ERR "ASOC-DBG: soc_link_trigger(): EXIT\n");
+
+	return ret;
 }
+
 int snd_soc_link_trigger(struct snd_pcm_substream *substream, int cmd,
                          int rollback)
 {

@@ -610,45 +610,107 @@ static int soc_dai_trigger(struct snd_soc_dai *dai,
 }
 
 int snd_soc_pcm_dai_trigger(struct snd_pcm_substream *substream,
-			    int cmd, int rollback)
+                            int cmd, int rollback)
 {
-	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-	struct snd_soc_dai *dai;
-	int i, r, ret = 0;
+        printk(KERN_INFO "vijayp %s:%s(): ENTER cmd=%d rollback=%d\n",
+               __FILE__, __func__, cmd, rollback);
 
-	switch (cmd) {
-	case SNDRV_PCM_TRIGGER_START:
-	case SNDRV_PCM_TRIGGER_RESUME:
-	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-		for_each_rtd_dais(rtd, i, dai) {
-			ret = soc_dai_trigger(dai, substream, cmd);
-			if (ret < 0)
-				break;
+        struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+        struct snd_soc_dai *dai;
+        int i, r, ret = 0;
 
-			if (dai->driver->ops && dai->driver->ops->mute_unmute_on_trigger)
-				snd_soc_dai_digital_mute(dai, 0, substream->stream);
+        switch (cmd) {
+        case SNDRV_PCM_TRIGGER_START:
+        case SNDRV_PCM_TRIGGER_RESUME:
+        case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
 
-			soc_dai_mark_push(dai, substream, trigger);
-		}
-		break;
-	case SNDRV_PCM_TRIGGER_STOP:
-	case SNDRV_PCM_TRIGGER_SUSPEND:
-	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-		for_each_rtd_dais(rtd, i, dai) {
-			if (rollback && !soc_dai_mark_match(dai, substream, trigger))
-				continue;
+                for_each_rtd_dais(rtd, i, dai) {
 
-			if (dai->driver->ops && dai->driver->ops->mute_unmute_on_trigger)
-				snd_soc_dai_digital_mute(dai, 1, substream->stream);
+                        printk(KERN_INFO
+                               "vijayp %s:%s(): START: dai[%d]=%s calling soc_dai_trigger()\n",
+                               __FILE__, __func__, i, dai->name);
 
-			r = soc_dai_trigger(dai, substream, cmd);
-			if (r < 0)
-				ret = r; /* use last ret */
-			soc_dai_mark_pop(dai, substream, trigger);
-		}
-	}
+                        ret = soc_dai_trigger(dai, substream, cmd);
 
-	return ret;
+                        printk(KERN_INFO
+                               "vijayp %s:%s(): dai[%d]=%s soc_dai_trigger() returned %d\n",
+                               __FILE__, __func__, i, dai->name, ret);
+
+                        if (ret < 0)
+                                break;
+
+                        if (dai->driver->ops &&
+                            dai->driver->ops->mute_unmute_on_trigger) {
+
+                                printk(KERN_INFO
+                                       "vijayp %s:%s(): dai[%d]=%s calling digital_mute(UNMUTE)\n",
+                                       __FILE__, __func__, i, dai->name);
+
+                                snd_soc_dai_digital_mute(dai, 0, substream->stream);
+                        }
+
+                        printk(KERN_INFO
+                               "vijayp %s:%s(): dai[%d]=%s calling soc_dai_mark_push()\n",
+                               __FILE__, __func__, i, dai->name);
+
+                        soc_dai_mark_push(dai, substream, trigger);
+                }
+                break;
+
+        case SNDRV_PCM_TRIGGER_STOP:
+        case SNDRV_PCM_TRIGGER_SUSPEND:
+        case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+
+                for_each_rtd_dais(rtd, i, dai) {
+
+                        printk(KERN_INFO
+                               "vijayp %s:%s(): STOP: dai[%d]=%s rollback=%d\n",
+                               __FILE__, __func__, i, dai->name, rollback);
+
+                        if (rollback && !soc_dai_mark_match(dai, substream, trigger)) {
+
+                                printk(KERN_INFO
+                                       "vijayp %s:%s(): dai[%d]=%s SKIP (rollback mismatch)\n",
+                                       __FILE__, __func__, i, dai->name);
+
+                                continue;
+                        }
+
+                        if (dai->driver->ops &&
+                            dai->driver->ops->mute_unmute_on_trigger) {
+
+                                printk(KERN_INFO
+                                       "vijayp %s:%s(): dai[%d]=%s calling digital_mute(MUTE)\n",
+                                       __FILE__, __func__, i, dai->name);
+
+                                snd_soc_dai_digital_mute(dai, 1, substream->stream);
+                        }
+
+                        printk(KERN_INFO
+                               "vijayp %s:%s(): dai[%d]=%s calling soc_dai_trigger(STOP)\n",
+                               __FILE__, __func__, i, dai->name);
+
+                        r = soc_dai_trigger(dai, substream, cmd);
+
+                        printk(KERN_INFO
+                               "vijayp %s:%s(): dai[%d]=%s soc_dai_trigger() returned %d\n",
+                               __FILE__, __func__, i, dai->name, r);
+
+                        if (r < 0)
+                                ret = r; /* use last ret */
+
+                        printk(KERN_INFO
+                               "vijayp %s:%s(): dai[%d]=%s calling soc_dai_mark_pop()\n",
+                               __FILE__, __func__, i, dai->name);
+
+                        soc_dai_mark_pop(dai, substream, trigger);
+                }
+        }
+
+        printk(KERN_INFO "vijayp %s:%s(): EXIT ret=%d\n",
+               __FILE__, __func__, ret);
+
+        return ret;
 }
 
 void snd_soc_pcm_dai_delay(struct snd_pcm_substream *substream,
