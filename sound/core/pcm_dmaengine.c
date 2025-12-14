@@ -216,40 +216,90 @@ static int dmaengine_pcm_prepare_and_submit(struct snd_pcm_substream *substream)
  */
 int snd_dmaengine_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
 {
-	struct dmaengine_pcm_runtime_data *prtd = substream_to_prtd(substream);
-	struct snd_pcm_runtime *runtime = substream->runtime;
-	int ret;
+        struct dmaengine_pcm_runtime_data *prtd = substream_to_prtd(substream);
+        struct snd_pcm_runtime *runtime = substream->runtime;
+        int ret = 0;
 
-	switch (cmd) {
-	case SNDRV_PCM_TRIGGER_START:
-		ret = dmaengine_pcm_prepare_and_submit(substream);
-		if (ret)
-			return ret;
-		dma_async_issue_pending(prtd->dma_chan);
-		break;
-	case SNDRV_PCM_TRIGGER_RESUME:
-	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-		dmaengine_resume(prtd->dma_chan);
-		break;
-	case SNDRV_PCM_TRIGGER_SUSPEND:
-		if (runtime->info & SNDRV_PCM_INFO_PAUSE)
-			dmaengine_pause(prtd->dma_chan);
-		else
-			dmaengine_terminate_async(prtd->dma_chan);
-		break;
-	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-		dmaengine_pause(prtd->dma_chan);
-		break;
-	case SNDRV_PCM_TRIGGER_STOP:
-		dmaengine_terminate_async(prtd->dma_chan);
-		break;
-	default:
-		return -EINVAL;
-	}
+        printk(KERN_INFO
+               "[VIJAY-DMA] %s: stream=%s cmd=%d state=%d hw_ptr=%lu appl_ptr=%lu\n",
+               __func__,
+               substream->stream == SNDRV_PCM_STREAM_PLAYBACK ?
+                        "PLAYBACK" : "CAPTURE",
+               cmd,
+               runtime->status->state,
+               runtime->status->hw_ptr,
+               runtime->control->appl_ptr);
 
-	return 0;
+        switch (cmd) {
+
+        case SNDRV_PCM_TRIGGER_START:
+                printk(KERN_INFO
+                       "[VIJAY-DMA] START: prepare + submit DMA desc\n");
+
+                ret = dmaengine_pcm_prepare_and_submit(substream);
+                if (ret) {
+                        printk(KERN_ERR
+                               "[VIJAY-DMA] prepare_and_submit FAILED ret=%d\n",
+                               ret);
+                        return ret;
+                }
+
+                printk(KERN_INFO
+                       "[VIJAY-DMA] DMA desc submitted, issue_pending()\n");
+
+                dma_async_issue_pending(prtd->dma_chan);
+                break;
+
+        case SNDRV_PCM_TRIGGER_RESUME:
+                printk(KERN_INFO
+                       "[VIJAY-DMA] RESUME: dmaengine_resume()\n");
+                dmaengine_resume(prtd->dma_chan);
+                break;
+
+        case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+                printk(KERN_INFO
+                       "[VIJAY-DMA] PAUSE_RELEASE: dmaengine_resume()\n");
+                dmaengine_resume(prtd->dma_chan);
+                break;
+
+        case SNDRV_PCM_TRIGGER_SUSPEND:
+                printk(KERN_INFO
+                       "[VIJAY-DMA] SUSPEND: info=0x%x\n",
+                       runtime->info);
+
+                if (runtime->info & SNDRV_PCM_INFO_PAUSE) {
+                        printk(KERN_INFO
+                               "[VIJAY-DMA] dmaengine_pause()\n");
+                        dmaengine_pause(prtd->dma_chan);
+                } else {
+                        printk(KERN_INFO
+                               "[VIJAY-DMA] dmaengine_terminate_async()\n");
+                        dmaengine_terminate_async(prtd->dma_chan);
+                }
+                break;
+
+        case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+                printk(KERN_INFO
+                       "[VIJAY-DMA] PAUSE_PUSH: dmaengine_pause()\n");
+                dmaengine_pause(prtd->dma_chan);
+                break;
+
+        case SNDRV_PCM_TRIGGER_STOP:
+                printk(KERN_INFO
+                       "[VIJAY-DMA] STOP: dmaengine_terminate_async()\n");
+                dmaengine_terminate_async(prtd->dma_chan);
+                break;
+
+        default:
+                printk(KERN_ERR
+                       "[VIJAY-DMA] UNKNOWN CMD=%d\n", cmd);
+                return -EINVAL;
+        }
+
+        return 0;
 }
 EXPORT_SYMBOL_GPL(snd_dmaengine_pcm_trigger);
+
 
 /**
  * snd_dmaengine_pcm_pointer_no_residue - dmaengine based PCM pointer implementation
