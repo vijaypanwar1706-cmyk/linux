@@ -595,18 +595,37 @@ int snd_soc_pcm_dai_prepare(struct snd_pcm_substream *substream)
 }
 
 static int soc_dai_trigger(struct snd_soc_dai *dai,
-			   struct snd_pcm_substream *substream, int cmd)
+                           struct snd_pcm_substream *substream, int cmd)
 {
-	int ret = 0;
+        int ret = 0;
 
-	if (!snd_soc_dai_stream_valid(dai, substream->stream))
-		return 0;
+        printk("vijayp %s:%s(): ENTER dai=%s stream=%d cmd=%d\n",
+               __FILE__, __func__, dai->name, substream->stream, cmd);
 
-	if (dai->driver->ops &&
-	    dai->driver->ops->trigger)
-		ret = dai->driver->ops->trigger(substream, cmd, dai);
+        if (!snd_soc_dai_stream_valid(dai, substream->stream)) {
+                printk("vijayp %s:%s(): stream NOT valid for dai=%s\n",
+                       __FILE__, __func__, dai->name);
+                return 0;
+        }
 
-	return soc_dai_ret(dai, ret);
+        if (dai->driver && dai->driver->ops && dai->driver->ops->trigger) {
+                printk("vijayp %s:%s(): NEXT CALL -> dai->driver->ops->trigger=%ps (dai=%s)\n",
+                       __FILE__, __func__,
+                       dai->driver->ops->trigger, dai->name);
+
+                ret = dai->driver->ops->trigger(substream, cmd, dai);
+
+                printk("vijayp %s:%s(): RETURNED from dai->driver->ops->trigger ret=%d\n",
+                       __FILE__, __func__, ret);
+        } else {
+                printk("vijayp %s:%s(): NO dai->driver->ops->trigger for dai=%s\n",
+                       __FILE__, __func__, dai->name);
+        }
+
+        printk("vijayp %s:%s(): calling soc_dai_ret()\n",
+               __FILE__, __func__);
+
+        return soc_dai_ret(dai, ret);
 }
 
 int snd_soc_pcm_dai_trigger(struct snd_pcm_substream *substream,

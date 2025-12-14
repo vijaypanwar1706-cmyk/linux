@@ -1,1022 +1,871 @@
-[  196.014814] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
-[  196.014844] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  196.014869] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_slave_sg(): reached here
-[  196.014878] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  196.014888] drivers/dma/bcm2835-dma.c:bcm2835_dma_count_frames_for_sg(): reached here
-[  196.014896] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  196.014908] drivers/dma/bcm2835-dma.c:bcm2835_dma_fill_cb_chain_with_sg(): reached here
-[  196.014919] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
-[  196.014927] drivers/dma/virt-dma.c:to_virt_desc(): reached here
-[  196.014935] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
-[  196.014943] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  196.014952] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  196.014960] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
-[  196.015085] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  196.015100] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
-[  196.015110] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  196.015120] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  196.015147] drivers/dma/virt-dma.c:vchan_complete(): reached here
-[  196.015163] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
-[  196.015175] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
-[  196.017323] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
-[  196.017339] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  196.017356] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_slave_sg(): reached here
-[  196.017364] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  196.017373] drivers/dma/bcm2835-dma.c:bcm2835_dma_count_frames_for_sg(): reached here
-[  196.017381] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  196.017391] drivers/dma/bcm2835-dma.c:bcm2835_dma_fill_cb_chain_with_sg(): reached here
-[  196.017402] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
-[  196.017410] drivers/dma/virt-dma.c:to_virt_desc(): reached here
-[  196.017418] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
-[  196.017425] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  196.017433] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  196.017440] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
-[  196.017533] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  196.017545] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
-[  196.017554] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  196.017563] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  196.017582] drivers/dma/virt-dma.c:vchan_complete(): reached here
-[  196.017601] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
-[  196.017612] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
-[  202.014897] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
-[  202.014927] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  202.014950] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_slave_sg(): reached here
-[  202.014959] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  202.014968] drivers/dma/bcm2835-dma.c:bcm2835_dma_count_frames_for_sg(): reached here
-[  202.014976] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  202.014987] drivers/dma/bcm2835-dma.c:bcm2835_dma_fill_cb_chain_with_sg(): reached here
-[  202.014999] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
-[  202.015006] drivers/dma/virt-dma.c:to_virt_desc(): reached here
-[  202.015014] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
-[  202.015022] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  202.015031] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  202.015039] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
-[  202.015166] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  202.015182] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
-[  202.015191] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  202.015201] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  202.015229] drivers/dma/virt-dma.c:vchan_complete(): reached here
-[  202.015245] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
-[  202.015256] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
-[  202.017376] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
-[  202.017392] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  202.017411] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_slave_sg(): reached here
-[  202.017419] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  202.017427] drivers/dma/bcm2835-dma.c:bcm2835_dma_count_frames_for_sg(): reached here
-[  202.017435] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  202.017447] drivers/dma/bcm2835-dma.c:bcm2835_dma_fill_cb_chain_with_sg(): reached here
-[  202.017459] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
-[  202.017466] drivers/dma/virt-dma.c:to_virt_desc(): reached here
-[  202.017474] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
-[  202.017481] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  202.017489] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  202.017497] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
-[  202.017589] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  202.017601] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
-[  202.017610] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  202.017619] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  202.017637] drivers/dma/virt-dma.c:vchan_complete(): reached here
-[  202.017656] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
-[  202.017667] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
-[  208.014997] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
-[  208.015027] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  208.015051] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_slave_sg(): reached here
-[  208.015059] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  208.015068] drivers/dma/bcm2835-dma.c:bcm2835_dma_count_frames_for_sg(): reached here
-[  208.015077] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  208.015088] drivers/dma/bcm2835-dma.c:bcm2835_dma_fill_cb_chain_with_sg(): reached here
-[  208.015099] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
-[  208.015107] drivers/dma/virt-dma.c:to_virt_desc(): reached here
-[  208.015116] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
-[  208.015124] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  208.015132] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  208.015140] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
-[  208.015265] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  208.015280] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
-[  208.015289] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  208.015299] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  208.015330] drivers/dma/virt-dma.c:vchan_complete(): reached here
-[  208.015345] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
-[  208.015359] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
-[  208.016848] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
-[  208.016866] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  208.016888] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_slave_sg(): reached here
-[  208.016897] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  208.016905] drivers/dma/bcm2835-dma.c:bcm2835_dma_count_frames_for_sg(): reached here
-[  208.016914] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  208.016925] drivers/dma/bcm2835-dma.c:bcm2835_dma_fill_cb_chain_with_sg(): reached here
-[  208.016936] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
-[  208.016943] drivers/dma/virt-dma.c:to_virt_desc(): reached here
-[  208.016952] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
-[  208.016959] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  208.016967] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  208.016975] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
-[  208.017068] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  208.017082] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
-[  208.017091] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  208.017100] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  208.017120] drivers/dma/virt-dma.c:vchan_complete(): reached here
-[  208.017140] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
-[  208.017152] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
-[  212.103981] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
-[  212.104012] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  212.104038] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_slave_sg(): reached here
-[  212.104047] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  212.104056] drivers/dma/bcm2835-dma.c:bcm2835_dma_count_frames_for_sg(): reached here
-[  212.104065] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  212.104078] drivers/dma/bcm2835-dma.c:bcm2835_dma_fill_cb_chain_with_sg(): reached here
-[  212.104090] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
-[  212.104098] drivers/dma/virt-dma.c:to_virt_desc(): reached here
-[  212.104106] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
-[  212.104114] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  212.104123] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  212.104131] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
-[  212.104225] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  212.104240] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
-[  212.104249] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  212.104259] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  212.104275] drivers/dma/virt-dma.c:vchan_complete(): reached here
-[  212.104293] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
-[  212.104303] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
-[  214.014105] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
-[  214.014121] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  214.014131] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_slave_sg(): reached here
-[  214.014134] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  214.014138] drivers/dma/bcm2835-dma.c:bcm2835_dma_count_frames_for_sg(): reached here
-[  214.014141] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  214.014146] drivers/dma/bcm2835-dma.c:bcm2835_dma_fill_cb_chain_with_sg(): reached here
-[  214.014151] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
-[  214.014154] drivers/dma/virt-dma.c:to_virt_desc(): reached here
-[  214.014157] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
-[  214.014159] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  214.014162] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  214.014165] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
-[  214.014256] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  214.014262] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
-[  214.014265] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  214.014269] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  214.014278] drivers/dma/virt-dma.c:vchan_complete(): reached here
-[  214.014285] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
-[  214.014292] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
-[  214.014571] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
-[  214.014577] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  214.014583] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_slave_sg(): reached here
-[  214.014586] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  214.014589] drivers/dma/bcm2835-dma.c:bcm2835_dma_count_frames_for_sg(): reached here
-[  214.014592] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  214.014596] drivers/dma/bcm2835-dma.c:bcm2835_dma_fill_cb_chain_with_sg(): reached here
-[  214.014600] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
-[  214.014603] drivers/dma/virt-dma.c:to_virt_desc(): reached here
-[  214.014605] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
-[  214.014608] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  214.014611] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  214.014614] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
-[  214.014680] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  214.014685] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
-[  214.014688] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  214.014692] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  214.014699] drivers/dma/virt-dma.c:vchan_complete(): reached here
-[  214.014706] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
-[  214.014710] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
-[  220.014843] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
-[  220.014873] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  220.014896] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_slave_sg(): reached here
-[  220.014906] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  220.014915] drivers/dma/bcm2835-dma.c:bcm2835_dma_count_frames_for_sg(): reached here
-[  220.014923] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  220.014935] drivers/dma/bcm2835-dma.c:bcm2835_dma_fill_cb_chain_with_sg(): reached here
-[  220.014948] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
-[  220.014956] drivers/dma/virt-dma.c:to_virt_desc(): reached here
-[  220.014964] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
-[  220.014972] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  220.014980] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  220.014988] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
-[  220.015113] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  220.015129] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
-[  220.015139] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  220.015149] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  220.015190] drivers/dma/virt-dma.c:vchan_complete(): reached here
-[  220.015209] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
-[  220.015220] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
-[  220.017486] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
-[  220.017505] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  220.017526] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_slave_sg(): reached here
-[  220.017535] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  220.017543] drivers/dma/bcm2835-dma.c:bcm2835_dma_count_frames_for_sg(): reached here
-[  220.017552] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  220.017563] drivers/dma/bcm2835-dma.c:bcm2835_dma_fill_cb_chain_with_sg(): reached here
-[  220.017574] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
-[  220.017582] drivers/dma/virt-dma.c:to_virt_desc(): reached here
-[  220.017590] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
-[  220.017598] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  220.017606] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  220.017613] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
-[  220.017706] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  220.017721] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
-[  220.017730] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  220.017740] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  220.017774] drivers/dma/virt-dma.c:vchan_complete(): reached here
-[  220.017796] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
-[  220.017807] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
-[  220.505337] [vijayp] init.c function:snd_card_file_add=> sound/core/init.c:snd_card_file_add() card=000000007f1e3984 card_id=wm8960soundcard file=000000004cebbadd fullpath=/dev/snd/controlC1 pid=1674 process=speaker-test flags=0x20000
-[  220.505384] [vijayp] init.c function:snd_card_file_add=>  sound/core/init.c:snd_card_file_add() card=000000007f1e3984 file=000000004cebbadd
-[  220.505398] [vijayp] init.c function:snd_card_file_add=> card=000000007f1e3984, file=000000004cebbadd
-[  220.505408] [vijayp] init.c function:snd_card_file_add=> card->number=1, shutdown=0, files_lock=00000000bb16a4d4
-[  220.505421] [vijayp] init.c function:snd_card_file_add=> kmalloc for mfile=0000000035267096
-[  220.505430] [vijayp] init.c function:snd_card_file_add=> mfile->file=000000004cebbadd, shutdown_list initialized
-[  220.505439] [vijayp] init.c function:snd_card_file_add=> files_lock acquired
-[  220.505447] [vijayp] init.c function:snd_card_file_add=> mfile added to card->files_list
-[  220.505454] [vijayp] init.c function:snd_card_file_add=> get_device() called, card_dev=00000000889e922e
-[  220.505529] [vijayp] init.c function:snd_card_file_add=> sound/core/init.c:snd_card_file_add() card=000000007f1e3984 card_id=wm8960soundcard file=000000004cebbadd fullpath=/dev/snd/controlC1 pid=1674 process=speaker-test flags=0x20002
-[  220.505550] [vijayp] init.c function:snd_card_file_add=>  sound/core/init.c:snd_card_file_add() card=000000007f1e3984 file=000000004cebbadd
-[  220.505562] [vijayp] init.c function:snd_card_file_add=> card=000000007f1e3984, file=000000004cebbadd
-[  220.505571] [vijayp] init.c function:snd_card_file_add=> card->number=1, shutdown=0, files_lock=00000000bb16a4d4
-[  220.505581] [vijayp] init.c function:snd_card_file_add=> kmalloc for mfile=0000000035267096
-[  220.505589] [vijayp] init.c function:snd_card_file_add=> mfile->file=000000004cebbadd, shutdown_list initialized
-[  220.505598] [vijayp] init.c function:snd_card_file_add=> files_lock acquired
-[  220.505604] [vijayp] init.c function:snd_card_file_add=> mfile added to card->files_list
-[  220.505611] [vijayp] init.c function:snd_card_file_add=> get_device() called, card_dev=00000000889e922e
-[  220.505652] [vijayp] pcm_native.c function: snd_pcm_open() => pcm_name=bcm2835-i2s-wm8960-hifi wm8960-hifi-0 stream=0
-[  220.505664] [vijayp] pcm_native.c function: snd_pcm_open() => card=wm8960-soundcard card_id=1 device=0 substream_count=1
-[  220.505675] [vijayp] pcm_native.c function: snd_pcm_open() => file_flags=0x20802 (O_NONBLOCK=1)
-[  220.505686] [vijayp] init.c function:snd_card_file_add=> sound/core/init.c:snd_card_file_add() card=000000007f1e3984 card_id=wm8960soundcard file=00000000e415a507 fullpath=/dev/snd/pcmC1D0p pid=1674 process=speaker-test flags=0x20802
-[  220.505703] [vijayp] init.c function:snd_card_file_add=>  sound/core/init.c:snd_card_file_add() card=000000007f1e3984 file=00000000e415a507
-[  220.505714] [vijayp] init.c function:snd_card_file_add=> card=000000007f1e3984, file=00000000e415a507
-[  220.505723] [vijayp] init.c function:snd_card_file_add=> card->number=1, shutdown=0, files_lock=00000000bb16a4d4
-[  220.505733] [vijayp] init.c function:snd_card_file_add=> kmalloc for mfile=00000000d627a89b
-[  220.505741] [vijayp] init.c function:snd_card_file_add=> mfile->file=00000000e415a507, shutdown_list initialized
-[  220.505750] [vijayp] init.c function:snd_card_file_add=> files_lock acquired
-[  220.505756] [vijayp] init.c function:snd_card_file_add=> mfile added to card->files_list
-[  220.505763] [vijayp] init.c function:snd_card_file_add=> get_device() called, card_dev=00000000889e922e
-[  220.505773] [vijayp] pcm_native.c function: snd_pcm_open() => calling snd_pcm_open_file(stream=0)
-[  220.505781] [vijayp] pcm_native.c function:snd_pcm_open_file() => pcm_name=bcm2835-i2s-wm8960-hifi wm8960-hifi-0 stream=0 file_flags=0x20802
-[  220.505791] ALSA-DBG-vijayp: sound/core/pcm_native.c:snd_pcm_open_file() pcm=00000000ceaebc05 card_id=wm8960soundcard stream=0 file=00000000e415a507 fullpath=pcmC1D0p pid=1674 proc=speaker-test flags=0x20802
-[  220.505857] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_startup(): reached here
-[  220.505867] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_stop_clock(): reached here
-[  220.505879] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.505888] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.505898] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.505907] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.505916] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.505924] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.505932] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.505952] [vijayp] pcm_native.c function: snd_pcm_open_file() => snd_pcm_open_substream returned err=0
-[  220.505960] vijayp] pcm_native.c function: snd_pcm_open_file() => substream=0000000085721b71, substream->pcm=00000000ceaebc05, substream->stream=0
-[  220.505972] vijayp] pcm_native.c function: snd_pcm_open_file() => pcm_file=00000000685098ea assigned substream=0000000085721b71
-[  220.505982] vijayp] pcm_native.c function: snd_pcm_open_file() => substream ref_count=1, pcm_release set
-[  220.505988] vijayp] pcm_native.c function: snd_pcm_open_file() => file->private_data set to pcm_file=00000000685098ea
-[  220.505997] [vijayp] pcm_native.c function: snd_pcm_open() => snd_pcm_open_file returned err=0
-[  220.506005] [vijayp] pcm_native.c function: snd_pcm_open() => snd_pcm_open(): SUCCESS
-[  220.506050] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.506070] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.506081] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.506092] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.506160] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.506200] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.506252] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.506268] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.506297] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.506560] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.506591] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.506673] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.506698] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.506717] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.506732] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.506748] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.506762] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.506801] [vijayp][wm8960_hw_params] called
-[  220.506808] [vijayp] substream=ffffff8080944e00 stream=0 (PLAYBACK)
-[  220.506822] [vijayp] params: rate=48000 Hz, channels=2, width=16 bits
-[  220.506832] [vijayp] dai=ffffff804057d480 component=ffffff804057d280 wm8960_priv=ffffff804057ce80
-[  220.506844] [vijayp] calculated BCLK=1536000
-[  220.506852] [vijayp] width=16 bits
-[  220.506859] [vijayp] LRCLK (fs)=48000 Hz
-[  220.506866] [vijayp] playback: setting deemphasis
-[  220.506875] [vijayp] writing IFACE1 = 0x0002
-[  220.507991] [vijayp] stream_in_use: playback=1 capture=0
-[  220.508012] [vijayp] calling wm8960_configure_clocking()
-[  220.508023] [vijayp][clk] ENTER wm8960_configure_clocking()
-[  220.508031] [vijayp][clk] iface1=0x2 sysclk=12288000 clk_id=0 freq_in=12288000
-[  220.508043] [vijayp][clk] freq_in (MCLK) = 12288000 Hz
-[  220.508051] [vijayp][clk] SYSCLK MODE = AUTO → Disable PLL, use MCLK
-[  220.508061] [vijayp][clk] Trying direct SYSCLK configuration...
-[  220.508069] [vijayp][clk] Direct SYSCLK config OK: i=0 j=0 k=7
-[  220.508079] [vijayp][clk] Applying SYSCLK: CLOCK1(bits 1-2) = 0
-[  220.508086] [vijayp][clk] Applying LRCLK dividers j=0 (CLOCK1 bits 3-5 and 6-8)
-[  220.508094] [vijayp][clk] Applying BCLK divider k=7 (CLOCK2 bits 0-3)
-[  220.508104] [vijayp][clk] EXIT wm8960_configure_clocking() SUCCESS
-[  220.508119] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_hw_params(): reached here
-[  220.508130] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508141] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508153] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_start_clock(): reached here
-[  220.508168] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_calc_channel_pos(): reached here
-[  220.508176] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_convert_slot(): reached here
-[  220.508184] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_convert_slot(): reached here
-[  220.508191] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_calc_channel_pos(): reached here
-[  220.508199] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_convert_slot(): reached here
-[  220.508207] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_convert_slot(): reached here
-[  220.508215] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508226] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508235] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508244] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508251] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508259] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508268] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508275] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508284] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_clear_fifos(): reached here
-[  220.508292] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508300] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508308] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508316] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508323] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508332] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508340] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508348] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508356] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508364] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508372] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508380] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508387] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508396] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508403] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508411] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_clear_fifos(): reached here
-[  220.508419] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508427] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508435] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508443] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508451] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508466] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
-[  220.508474] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  220.508657] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.508686] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.508703] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.508712] sound/core/pcm_native.c:snd_pcm_prepare(): reached here
-[  220.508720] sound/core/pcm_native.c:snd_pcm_action_nonatomic(): reached here
-[  220.508730] ALSA-DBG: snd_pcm_action_single(): ENTER substream=0000000085721b71 state=131074
-[  220.508743] ALSA-DBG: snd_pcm_action_single(): calling pre_action=snd_pcm_pre_prepare [snd_pcm]
-[  220.508811] ALSA-DBG: snd_pcm_action_single(): pre_action() returned 0
-[  220.508819] ALSA-DBG: snd_pcm_action_single(): calling do_action=snd_pcm_do_prepare [snd_pcm]
-[  220.508875] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_prepare(): reached here
-[  220.508885] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508894] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.508982] [vijayp][clk] ENTER wm8960_configure_clocking()
-[  220.508991] [vijayp][clk] iface1=0x2 sysclk=12288000 clk_id=0 freq_in=12288000
-[  220.509003] [vijayp][clk] freq_in (MCLK) = 12288000 Hz
-[  220.509011] [vijayp][clk] SYSCLK MODE = AUTO → Disable PLL, use MCLK
-[  220.509020] [vijayp][clk] Trying direct SYSCLK configuration...
-[  220.509026] [vijayp][clk] Direct SYSCLK config OK: i=0 j=0 k=7
-[  220.509035] [vijayp][clk] Applying SYSCLK: CLOCK1(bits 1-2) = 0
-[  220.509042] [vijayp][clk] Applying LRCLK dividers j=0 (CLOCK1 bits 3-5 and 6-8)
-[  220.509049] [vijayp][clk] Applying BCLK divider k=7 (CLOCK2 bits 0-3)
-[  220.509059] [vijayp][clk] EXIT wm8960_configure_clocking() SUCCESS
-[  220.513811] ALSA-DBG: snd_pcm_action_single(): do_action() returned 0
-[  220.513826] ALSA-DBG: snd_pcm_action_single(): calling post_action=snd_pcm_post_prepare [snd_pcm]
-[  220.513886] ALSA-DBG: snd_pcm_action_single(): post_action DONE
-[  220.513893] ALSA-DBG: snd_pcm_action_single(): EXIT with res=0
-[  220.513909] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.514047] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.514119] [vijayp] init.c function:snd_card_file_add=> sound/core/init.c:snd_card_file_add() card=000000007f1e3984 card_id=wm8960soundcard file=00000000b694f8ac fullpath=/dev/snd/controlC1 pid=1674 process=speaker-test flags=0x20002
-[  220.514144] [vijayp] init.c function:snd_card_file_add=>  sound/core/init.c:snd_card_file_add() card=000000007f1e3984 file=00000000b694f8ac
-[  220.514157] [vijayp] init.c function:snd_card_file_add=> card=000000007f1e3984, file=00000000b694f8ac
-[  220.514166] [vijayp] init.c function:snd_card_file_add=> card->number=1, shutdown=0, files_lock=00000000bb16a4d4
-[  220.514178] [vijayp] init.c function:snd_card_file_add=> kmalloc for mfile=00000000dfedc4d4
-[  220.514187] [vijayp] init.c function:snd_card_file_add=> mfile->file=00000000b694f8ac, shutdown_list initialized
-[  220.514196] [vijayp] init.c function:snd_card_file_add=> files_lock acquired
-[  220.514203] [vijayp] init.c function:snd_card_file_add=> mfile added to card->files_list
-[  220.514210] [vijayp] init.c function:snd_card_file_add=> get_device() called, card_dev=00000000889e922e
-[  220.515134] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.515149] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2394 ENTER substream=0000000085721b71 data=0000000043ceefb5 interleaved=1 size=12000
-[  220.515168] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2397 sanity_check err=0
-[  220.515178] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2403 is_playback=1 channels=2 access=3
-[  220.515189] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2415 using interleaved_copy
-[  220.515199] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2446 using default copy=000000001e91522a
-[  220.515209] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2458 nonblock=0
-[  220.515219] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2462 stream locked
-[  220.515228] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2466 accessible_state=0 runtime_state=2
-[  220.515238] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2472 twake=12000
-[  220.515248] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2493 initial avail=48000
-[  220.515257] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=12000 offset=0 avail=48000
-[  220.515269] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2545 appl_ptr=0 appl_ofs=0 cont=48000
-[  220.515280] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2552 frames to copy=12000
-[  220.515291] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2574 calling writer() frames=12000
-[  220.515301] vijayp snd_pcm:interleaved_copy: ENTER substream=0000000085721b71 hwoff(frames)=0 off(frames)=0 frames=12000 in_kernel=0
-[  220.515316] vijayp snd_pcm:interleaved_copy: bytes hwoff=0 off=0 frames(bytes)=48000 data=0000000043ceefb5 transfer=000000001e91522a
-[  220.515330] vijayp snd_pcm:interleaved_copy: calling do_transfer hwoff=0 data+off=0000000043ceefb5 frames(bytes)=48000
-[  220.515342] vijayp sound/core/pcm_lib.c:do_transfer:2130 ENTER do_transfer c=0 hwoff=0 bytes=48000 in_kernel=0
-[  220.515354] vijayp sound/core/pcm_lib.c:do_transfer:2138 stream=0 type=1 (ITER_SOURCE=0 ITER_DEST=1)
-[  220.515365] vijayp sound/core/pcm_lib.c:do_transfer:2162 importing user buffer data=00000055c4bf5e20 bytes=48000
-[  220.515378] vijayp sound/core/pcm_lib.c:do_transfer:2166 import_ubuf() err=0
-[  220.515387] vijayp sound/core/pcm_lib.c:do_transfer:2172 calling transfer (user mode) transfer=ffffffde25ab3148
-[  220.515398] vijayp transfer=default_write_copy+0x0/0x120 [snd_pcm] (ffffffde25ab3148)
-[  220.515459] vijayp sound/core/pcm_lib.c:2067 default_write_copy() called: substream=0000000085721b71 channel=0 hwoff=0 bytes=48000 iter_count=48000
-[  220.515474] vijayp dma_ptr=00000000e7394473
-[  220.515518] vijayp sound/core/pcm_lib.c:2080 default_write_copy() success
-[  220.515554] vijayp sound/core/pcm_lib.c:do_transfer:2182 transfer() returned err=0
-[  220.515625] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2587 writer() returned err=0
-[  220.515637] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2594 accessible_state again=0
-[  220.515647] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2603 updating appl_ptr=12000
-[  220.515657] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2615 LOOP END xfer=12000 offset=12000 size=0
-[  220.515669] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2633 END_UNLOCK xfer=12000 err=0
-[  220.515681] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2643 FINAL RETURN=12000
-[  220.515698] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.516397] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.516406] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2394 ENTER substream=0000000085721b71 data=0000000043ceefb5 interleaved=1 size=12000
-[  220.516423] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2397 sanity_check err=0
-[  220.516433] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2403 is_playback=1 channels=2 access=3
-[  220.516443] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2415 using interleaved_copy
-[  220.516452] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2446 using default copy=000000001e91522a
-[  220.516463] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2458 nonblock=0
-[  220.516472] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2462 stream locked
-[  220.516480] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2466 accessible_state=0 runtime_state=2
-[  220.516490] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2472 twake=12000
-[  220.516499] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2493 initial avail=36000
-[  220.516509] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=12000 offset=0 avail=36000
-[  220.516520] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2545 appl_ptr=12000 appl_ofs=12000 cont=36000
-[  220.516531] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2552 frames to copy=12000
-[  220.516541] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2574 calling writer() frames=12000
-[  220.516551] vijayp snd_pcm:interleaved_copy: ENTER substream=0000000085721b71 hwoff(frames)=12000 off(frames)=0 frames=12000 in_kernel=0
-[  220.516565] vijayp snd_pcm:interleaved_copy: bytes hwoff=48000 off=0 frames(bytes)=48000 data=0000000043ceefb5 transfer=000000001e91522a
-[  220.516579] vijayp snd_pcm:interleaved_copy: calling do_transfer hwoff=48000 data+off=0000000043ceefb5 frames(bytes)=48000
-[  220.516590] vijayp sound/core/pcm_lib.c:do_transfer:2130 ENTER do_transfer c=0 hwoff=48000 bytes=48000 in_kernel=0
-[  220.516602] vijayp sound/core/pcm_lib.c:do_transfer:2138 stream=0 type=1 (ITER_SOURCE=0 ITER_DEST=1)
-[  220.516613] vijayp sound/core/pcm_lib.c:do_transfer:2162 importing user buffer data=00000055c4bf5e20 bytes=48000
-[  220.516624] vijayp sound/core/pcm_lib.c:do_transfer:2166 import_ubuf() err=0
-[  220.516634] vijayp sound/core/pcm_lib.c:do_transfer:2172 calling transfer (user mode) transfer=ffffffde25ab3148
-[  220.516644] vijayp transfer=default_write_copy+0x0/0x120 [snd_pcm] (ffffffde25ab3148)
-[  220.516703] vijayp sound/core/pcm_lib.c:2067 default_write_copy() called: substream=0000000085721b71 channel=0 hwoff=48000 bytes=48000 iter_count=48000
-[  220.516717] vijayp dma_ptr=00000000ad2c1a61
-[  220.516761] vijayp sound/core/pcm_lib.c:2080 default_write_copy() success
-[  220.516770] vijayp sound/core/pcm_lib.c:do_transfer:2182 transfer() returned err=0
-[  220.516779] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2587 writer() returned err=0
-[  220.516788] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2594 accessible_state again=0
-[  220.516798] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2603 updating appl_ptr=24000
-[  220.516808] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2615 LOOP END xfer=12000 offset=12000 size=0
-[  220.516819] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2633 END_UNLOCK xfer=12000 err=0
-[  220.516829] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2643 FINAL RETURN=12000
-[  220.516841] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.517535] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.517544] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2394 ENTER substream=0000000085721b71 data=0000000043ceefb5 interleaved=1 size=12000
-[  220.517558] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2397 sanity_check err=0
-[  220.517567] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2403 is_playback=1 channels=2 access=3
-[  220.517577] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2415 using interleaved_copy
-[  220.517586] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2446 using default copy=000000001e91522a
-[  220.517596] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2458 nonblock=0
-[  220.517605] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2462 stream locked
-[  220.517614] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2466 accessible_state=0 runtime_state=2
-[  220.517623] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2472 twake=12000
-[  220.517633] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2493 initial avail=24000
-[  220.517642] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=12000 offset=0 avail=24000
-[  220.517653] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2545 appl_ptr=24000 appl_ofs=24000 cont=24000
-[  220.517663] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2552 frames to copy=12000
-[  220.517673] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2574 calling writer() frames=12000
-[  220.517682] vijayp snd_pcm:interleaved_copy: ENTER substream=0000000085721b71 hwoff(frames)=24000 off(frames)=0 frames=12000 in_kernel=0
-[  220.517695] vijayp snd_pcm:interleaved_copy: bytes hwoff=96000 off=0 frames(bytes)=48000 data=0000000043ceefb5 transfer=000000001e91522a
-[  220.517709] vijayp snd_pcm:interleaved_copy: calling do_transfer hwoff=96000 data+off=0000000043ceefb5 frames(bytes)=48000
-[  220.517720] vijayp sound/core/pcm_lib.c:do_transfer:2130 ENTER do_transfer c=0 hwoff=96000 bytes=48000 in_kernel=0
-[  220.517732] vijayp sound/core/pcm_lib.c:do_transfer:2138 stream=0 type=1 (ITER_SOURCE=0 ITER_DEST=1)
-[  220.517743] vijayp sound/core/pcm_lib.c:do_transfer:2162 importing user buffer data=00000055c4bf5e20 bytes=48000
-[  220.517755] vijayp sound/core/pcm_lib.c:do_transfer:2166 import_ubuf() err=0
-[  220.517763] vijayp sound/core/pcm_lib.c:do_transfer:2172 calling transfer (user mode) transfer=ffffffde25ab3148
-[  220.517773] vijayp transfer=default_write_copy+0x0/0x120 [snd_pcm] (ffffffde25ab3148)
-[  220.517825] vijayp sound/core/pcm_lib.c:2067 default_write_copy() called: substream=0000000085721b71 channel=0 hwoff=96000 bytes=48000 iter_count=48000
-[  220.517839] vijayp dma_ptr=000000005175bdc6
-[  220.517885] vijayp sound/core/pcm_lib.c:2080 default_write_copy() success
-[  220.517894] vijayp sound/core/pcm_lib.c:do_transfer:2182 transfer() returned err=0
-[  220.517903] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2587 writer() returned err=0
-[  220.517913] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2594 accessible_state again=0
-[  220.517922] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2603 updating appl_ptr=36000
-[  220.517931] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2615 LOOP END xfer=12000 offset=12000 size=0
-[  220.517942] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2633 END_UNLOCK xfer=12000 err=0
-[  220.517952] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2643 FINAL RETURN=12000
-[  220.517964] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.518657] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.518666] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2394 ENTER substream=0000000085721b71 data=0000000043ceefb5 interleaved=1 size=12000
-[  220.518679] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2397 sanity_check err=0
-[  220.518688] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2403 is_playback=1 channels=2 access=3
-[  220.518699] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2415 using interleaved_copy
-[  220.518708] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2446 using default copy=000000001e91522a
-[  220.518718] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2458 nonblock=0
-[  220.518727] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2462 stream locked
-[  220.518735] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2466 accessible_state=0 runtime_state=2
-[  220.518745] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2472 twake=12000
-[  220.518754] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2493 initial avail=12000
-[  220.518763] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=12000 offset=0 avail=12000
-[  220.518773] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2545 appl_ptr=36000 appl_ofs=36000 cont=12000
-[  220.518784] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2552 frames to copy=12000
-[  220.518794] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2574 calling writer() frames=12000
-[  220.518803] vijayp snd_pcm:interleaved_copy: ENTER substream=0000000085721b71 hwoff(frames)=36000 off(frames)=0 frames=12000 in_kernel=0
-[  220.518816] vijayp snd_pcm:interleaved_copy: bytes hwoff=144000 off=0 frames(bytes)=48000 data=0000000043ceefb5 transfer=000000001e91522a
-[  220.518830] vijayp snd_pcm:interleaved_copy: calling do_transfer hwoff=144000 data+off=0000000043ceefb5 frames(bytes)=48000
-[  220.518841] vijayp sound/core/pcm_lib.c:do_transfer:2130 ENTER do_transfer c=0 hwoff=144000 bytes=48000 in_kernel=0
-[  220.518853] vijayp sound/core/pcm_lib.c:do_transfer:2138 stream=0 type=1 (ITER_SOURCE=0 ITER_DEST=1)
-[  220.518863] vijayp sound/core/pcm_lib.c:do_transfer:2162 importing user buffer data=00000055c4bf5e20 bytes=48000
-[  220.518874] vijayp sound/core/pcm_lib.c:do_transfer:2166 import_ubuf() err=0
-[  220.518883] vijayp sound/core/pcm_lib.c:do_transfer:2172 calling transfer (user mode) transfer=ffffffde25ab3148
-[  220.518893] vijayp transfer=default_write_copy+0x0/0x120 [snd_pcm] (ffffffde25ab3148)
-[  220.518944] vijayp sound/core/pcm_lib.c:2067 default_write_copy() called: substream=0000000085721b71 channel=0 hwoff=144000 bytes=48000 iter_count=48000
-[  220.518958] vijayp dma_ptr=00000000f142e1f8
-[  220.519000] vijayp sound/core/pcm_lib.c:2080 default_write_copy() success
-[  220.519008] vijayp sound/core/pcm_lib.c:do_transfer:2182 transfer() returned err=0
-[  220.519018] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2587 writer() returned err=0
-[  220.519027] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2594 accessible_state again=0
-[  220.519036] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2603 updating appl_ptr=48000
-[  220.519045] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2615 LOOP END xfer=12000 offset=12000 size=0
-[  220.519057] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2623 AUTO start playback
-[  220.519066] ALSA-DBG: snd_pcm_action_single(): ENTER substream=0000000085721b71 state=3
-[  220.519075] ALSA-DBG: snd_pcm_action_single(): calling pre_action=snd_pcm_pre_start [snd_pcm]
-[  220.519124] ALSA-DBG: snd_pcm_action_single(): pre_action() returned 0
-[  220.519131] ALSA-DBG: snd_pcm_action_single(): calling do_action=snd_pcm_do_start [snd_pcm]
-[  220.519178] ALSA-DBG: snd_pcm_do_start(): ENTER substream=0000000085721b71 state=3
-[  220.519187] ALSA-DBG: snd_pcm_do_start(): Calling driver trigger START (ops->trigger=soc_pcm_trigger [snd_soc_core])
-[  220.519297] ASOC-DBG: soc_pcm_trigger(): ENTER rtd=bcm2835-i2s-wm8960-hifi cmd=1
-[  220.519307] ASOC-DBG: soc_pcm_trigger(): component=fe203000.i2s trigger_start=0 trigger_stop=0
-[  220.519318] ASOC-DBG: soc_pcm_trigger(): component=wm8960.1-001a trigger_start=0 trigger_stop=0
-[  220.519327] ASOC-DBG: soc_pcm_trigger(): component=fe203000.i2s trigger_start=0 trigger_stop=0
-[  220.519336] ASOC-DBG: soc_pcm_trigger(): start_order=0 stop_order=0
-[  220.519344] ASOC-DBG: soc_pcm_trigger(): FINAL start=0 stop=0
-[  220.519352] ASOC-DBG: soc_pcm_trigger(): START LOOP start_index=0
-[  220.519359] ASOC-DBG: soc_pcm_trigger(): calling trigger[0][0]=snd_soc_link_trigger [snd_soc_core]
-[  220.519452] ASOC-DBG: snd_soc_link_trigger(): ENTER rtd=bcm2835-i2s-wm8960-hifi cmd=1 rollback=0
-[  220.519462] ASOC-DBG: snd_soc_link_trigger(): calling soc_link_trigger(substream, 1)
-[  220.519470] ASOC-DBG: soc_link_trigger(): ENTER rtd=bcm2835-i2s-wm8960-hifi cmd=1
-[  220.519479] ASOC-DBG: soc_link_trigger(): NO dai_link trigger present
-[  220.519486] ASOC-DBG: soc_link_trigger(): calling soc_link_ret() next
-[  220.519492] ASOC-DBG: soc_link_trigger(): soc_link_ret() returned 0
-[  220.519499] ASOC-DBG: soc_link_trigger(): EXIT
-[  220.519505] ASOC-DBG: snd_soc_link_trigger(): soc_link_trigger returned 0
-[  220.519513] ASOC-DBG: snd_soc_link_trigger(): calling soc_link_mark_push()
-[  220.519520] ASOC-DBG: snd_soc_link_trigger(): EXIT ret=0
-[  220.519527] ASOC-DBG: soc_pcm_trigger(): trigger[0][0] returned 0
-[  220.519536] ASOC-DBG: soc_pcm_trigger(): calling trigger[0][1]=snd_soc_pcm_component_trigger [snd_soc_core]
-[  220.519630] ASOC-DBG: snd_soc_pcm_component_trigger(): ENTER rtd=bcm2835-i2s-wm8960-hifi cmd=1 rollback=0
-[  220.519640] ASOC-DBG: snd_soc_pcm_component_trigger(): START: component[0]=fe203000.i2s
-[  220.519648] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_trigger=soc_component_trigger [snd_soc_core]
-[  220.519739] ASOC-DBG: soc_component_trigger(): ENTER component=fe203000.i2s cmd=1
-[  220.519748] ASOC-DBG: soc_component_trigger(): component=fe203000.i2s has NO trigger() callback!
-[  220.519755] ASOC-DBG: soc_component_trigger(): calling soc_component_ret() ret=0
-[  220.519763] ASOC-DBG: snd_soc_pcm_component_trigger(): component fe203000.i2s trigger returned 0
-[  220.519771] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_mark_push()
-[  220.519778] ASOC-DBG: snd_soc_pcm_component_trigger(): START: component[1]=wm8960.1-001a
-[  220.519787] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_trigger=soc_component_trigger [snd_soc_core]
-[  220.519876] ASOC-DBG: soc_component_trigger(): ENTER component=wm8960.1-001a cmd=1
-[  220.519884] ASOC-DBG: soc_component_trigger(): component=wm8960.1-001a has NO trigger() callback!
-[  220.519891] ASOC-DBG: soc_component_trigger(): calling soc_component_ret() ret=0
-[  220.519899] ASOC-DBG: snd_soc_pcm_component_trigger(): component wm8960.1-001a trigger returned 0
-[  220.519907] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_mark_push()
-[  220.519914] ASOC-DBG: snd_soc_pcm_component_trigger(): START: component[2]=fe203000.i2s
-[  220.519922] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_trigger=soc_component_trigger [snd_soc_core]
-[  220.520010] ASOC-DBG: soc_component_trigger(): ENTER component=fe203000.i2s cmd=1
-[  220.520019] ASOC-DBG: soc_component_trigger(): calling component->driver->trigger=dmaengine_pcm_trigger [snd_soc_core]
-[  220.520108] sound/soc/soc-generic-dmaengine-pcm.c:dmaengine_pcm_trigger(): reached here
-[  220.520119] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_dma_cyclic(): reached here
-[  220.520128] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  220.520138] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  220.520150] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  220.520158] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_set_length(): reached here
-[  220.520167] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  220.520176] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  220.520183] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_set_length(): reached here
-[  220.520191] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  220.520200] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  220.520208] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_set_length(): reached here
-[  220.520216] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  220.520224] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  220.520232] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_set_length(): reached here
-[  220.520240] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
-[  220.520249] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
-[  220.520256] drivers/dma/virt-dma.c:to_virt_desc(): reached here
-[  220.520265] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
-[  220.520272] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  220.520280] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
-[  220.520288] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
-[  220.520296] ASOC-DBG: soc_component_trigger(): component->driver->trigger returned ret=0
-[  220.520304] ASOC-DBG: soc_component_trigger(): calling soc_component_ret() ret=0
-[  220.520312] ASOC-DBG: snd_soc_pcm_component_trigger(): component fe203000.i2s trigger returned 0
-[  220.520320] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_mark_push()
-[  220.520327] ASOC-DBG: snd_soc_pcm_component_trigger(): EXIT ret=0
-[  220.520334] ASOC-DBG: soc_pcm_trigger(): trigger[0][1] returned 0
-[  220.520343] ASOC-DBG: soc_pcm_trigger(): calling trigger[0][2]=snd_soc_pcm_dai_trigger [snd_soc_core]
-[  220.520433] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): ENTER cmd=1 rollback=0
-[  220.520443] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): START: dai[0]=fe203000.i2s calling soc_dai_trigger()
-[  220.520454] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_trigger(): reached here
-[  220.520463] [vijayp] bcm2835-i2s.c:bcm2835_i2s_trigger() called cmd=1
-[  220.520470] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_start_clock(): reached here
-[  220.520481] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.520490] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.520501] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.520509] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  220.520519] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[0]=fe203000.i2s soc_dai_trigger() returned 0
-[  220.520529] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[0]=fe203000.i2s calling soc_dai_mark_push()
-[  220.520539] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): START: dai[1]=wm8960-hifi calling soc_dai_trigger()
-[  220.520549] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[1]=wm8960-hifi soc_dai_trigger() returned 0
-[  220.520559] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[1]=wm8960-hifi calling soc_dai_mark_push()
-[  220.520569] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): EXIT ret=0
-[  220.520577] ASOC-DBG: soc_pcm_trigger(): trigger[0][2] returned 0
-[  220.520585] ASOC-DBG: soc_pcm_trigger(): EXIT ret=0
-[  220.520592] ALSA-DBG: snd_pcm_do_start(): trigger() returned 0
-[  220.520598] ALSA-DBG: snd_pcm_do_start(): EXIT with err=0
-[  220.520606] ALSA-DBG: snd_pcm_action_single(): do_action() returned 0
-[  220.520612] ALSA-DBG: snd_pcm_action_single(): calling post_action=snd_pcm_post_start [snd_pcm]
-[  220.520666] ALSA-DBG: snd_pcm_action_single(): post_action DONE
-[  220.520673] ALSA-DBG: snd_pcm_action_single(): EXIT with res=0
-[  220.520680] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2633 END_UNLOCK xfer=12000 err=0
-[  220.520739] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2643 FINAL RETURN=12000
-[  220.520762] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.521460] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.521469] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2394 ENTER substream=0000000085721b71 data=0000000043ceefb5 interleaved=1 size=12000
-[  220.521484] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2397 sanity_check err=0
-[  220.521494] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2403 is_playback=1 channels=2 access=3
-[  220.521505] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2415 using interleaved_copy
-[  220.521514] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2446 using default copy=000000001e91522a
-[  220.521523] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2458 nonblock=0
-[  220.521532] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2462 stream locked
-[  220.521541] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2466 accessible_state=0 runtime_state=3
-[  220.521551] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2472 twake=12000
-[  220.521560] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2476 calling update_hw_ptr
-[  220.521569] sound/core/pcm_lib.c:snd_pcm_update_hw_ptr(): reached here
-[  220.521577] sound/core/pcm_lib.c:snd_pcm_update_hw_ptr0(): reached here
-[  220.521587] drivers/dma/bcm2835-dma.c:bcm2835_dma_tx_status(): reached here
-[  220.521595] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  220.521603] drivers/dma/virt-dma.c:vchan_find_desc(): reached here
-[  220.521612] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
-[  220.521620] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
-[  220.521631] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2493 initial avail=80
-[  220.521641] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=12000 offset=0 avail=80
-[  220.521652] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2545 appl_ptr=48000 appl_ofs=0 cont=48000
-[  220.521664] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2552 frames to copy=80
-[  220.521673] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2574 calling writer() frames=80
-[  220.521682] vijayp snd_pcm:interleaved_copy: ENTER substream=0000000085721b71 hwoff(frames)=0 off(frames)=0 frames=80 in_kernel=0
-[  220.521696] vijayp snd_pcm:interleaved_copy: bytes hwoff=0 off=0 frames(bytes)=320 data=0000000043ceefb5 transfer=000000001e91522a
-[  220.521709] vijayp snd_pcm:interleaved_copy: calling do_transfer hwoff=0 data+off=0000000043ceefb5 frames(bytes)=320
-[  220.521721] vijayp sound/core/pcm_lib.c:do_transfer:2130 ENTER do_transfer c=0 hwoff=0 bytes=320 in_kernel=0
-[  220.521733] vijayp sound/core/pcm_lib.c:do_transfer:2138 stream=0 type=1 (ITER_SOURCE=0 ITER_DEST=1)
-[  220.521744] vijayp sound/core/pcm_lib.c:do_transfer:2162 importing user buffer data=00000055c4bf5e20 bytes=320
-[  220.521756] vijayp sound/core/pcm_lib.c:do_transfer:2166 import_ubuf() err=0
-[  220.521765] vijayp sound/core/pcm_lib.c:do_transfer:2172 calling transfer (user mode) transfer=ffffffde25ab3148
-[  220.521775] vijayp transfer=default_write_copy+0x0/0x120 [snd_pcm] (ffffffde25ab3148)
-[  220.521829] vijayp sound/core/pcm_lib.c:2067 default_write_copy() called: substream=0000000085721b71 channel=0 hwoff=0 bytes=320 iter_count=320
-[  220.521843] vijayp dma_ptr=00000000e7394473
-[  220.521851] vijayp sound/core/pcm_lib.c:2080 default_write_copy() success
-[  220.521860] vijayp sound/core/pcm_lib.c:do_transfer:2182 transfer() returned err=0
-[  220.521870] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2587 writer() returned err=0
-[  220.521879] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2594 accessible_state again=0
-[  220.521889] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2603 updating appl_ptr=48080
-[  220.521898] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2615 LOOP END xfer=80 offset=80 size=11920
-[  220.521910] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=11920 offset=80 avail=0
-[  220.521920] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2506 avail=0, waiting...
-[  220.521929] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2527 waiting for avail, twake=11920
-[  220.770032] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  220.770054] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
-[  220.770063] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  220.770085] drivers/dma/virt-dma.c:vchan_complete(): reached here
-[  220.770100] ALSA: snd_pcm_period_elapsed() entered
-[  220.770114] sound/core/pcm_lib.c:snd_pcm_update_hw_ptr0(): reached here
-[  220.770128] drivers/dma/bcm2835-dma.c:bcm2835_dma_tx_status(): reached here
-[  220.770136] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  220.770145] drivers/dma/virt-dma.c:vchan_find_desc(): reached here
-[  220.770153] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
-[  220.770162] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
-[  220.770205] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2531 wait_for_avail returned err=0 avail=11928
-[  220.770226] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2545 appl_ptr=48080 appl_ofs=80 cont=47920
-[  220.770238] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2552 frames to copy=11920
-[  220.770260] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2574 calling writer() frames=11920
-[  220.770272] vijayp snd_pcm:interleaved_copy: ENTER substream=0000000085721b71 hwoff(frames)=80 off(frames)=80 frames=11920 in_kernel=0
-[  220.770289] vijayp snd_pcm:interleaved_copy: bytes hwoff=320 off=320 frames(bytes)=47680 data=0000000043ceefb5 transfer=000000001e91522a
-[  220.770304] vijayp snd_pcm:interleaved_copy: calling do_transfer hwoff=320 data+off=0000000098fb8aaa frames(bytes)=47680
-[  220.770316] vijayp sound/core/pcm_lib.c:do_transfer:2130 ENTER do_transfer c=0 hwoff=320 bytes=47680 in_kernel=0
-[  220.770329] vijayp sound/core/pcm_lib.c:do_transfer:2138 stream=0 type=1 (ITER_SOURCE=0 ITER_DEST=1)
-[  220.770340] vijayp sound/core/pcm_lib.c:do_transfer:2162 importing user buffer data=00000055c4bf5f60 bytes=47680
-[  220.770353] vijayp sound/core/pcm_lib.c:do_transfer:2166 import_ubuf() err=0
-[  220.770362] vijayp sound/core/pcm_lib.c:do_transfer:2172 calling transfer (user mode) transfer=ffffffde25ab3148
-[  220.770373] vijayp transfer=default_write_copy+0x0/0x120 [snd_pcm] (ffffffde25ab3148)
-[  220.770440] vijayp sound/core/pcm_lib.c:2067 default_write_copy() called: substream=0000000085721b71 channel=0 hwoff=320 bytes=47680 iter_count=47680
-[  220.770455] vijayp dma_ptr=000000000eca81fd
-[  220.770513] vijayp sound/core/pcm_lib.c:2080 default_write_copy() success
-[  220.770522] vijayp sound/core/pcm_lib.c:do_transfer:2182 transfer() returned err=0
-[  220.770532] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2587 writer() returned err=0
-[  220.770541] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2594 accessible_state again=0
-[  220.770551] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2603 updating appl_ptr=60000
-[  220.770561] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2615 LOOP END xfer=12000 offset=12000 size=0
-[  220.770572] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2633 END_UNLOCK xfer=12000 err=0
-[  220.770582] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2643 FINAL RETURN=12000
-[  220.770604] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.771305] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  220.771315] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2394 ENTER substream=0000000085721b71 data=0000000043ceefb5 interleaved=1 size=12000
-[  220.771329] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2397 sanity_check err=0
-[  220.771338] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2403 is_playback=1 channels=2 access=3
-[  220.771349] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2415 using interleaved_copy
-[  220.771358] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2446 using default copy=000000001e91522a
-[  220.771368] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2458 nonblock=0
-[  220.771377] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2462 stream locked
-[  220.771385] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2466 accessible_state=0 runtime_state=3
-[  220.771395] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2472 twake=12000
-[  220.771404] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2476 calling update_hw_ptr
-[  220.771413] sound/core/pcm_lib.c:snd_pcm_update_hw_ptr(): reached here
-[  220.771420] sound/core/pcm_lib.c:snd_pcm_update_hw_ptr0(): reached here
-[  220.771430] drivers/dma/bcm2835-dma.c:bcm2835_dma_tx_status(): reached here
-[  220.771437] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  220.771445] drivers/dma/virt-dma.c:vchan_find_desc(): reached here
-[  220.771453] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
-[  220.771461] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
-[  220.771472] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2493 initial avail=72
-[  220.771481] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=12000 offset=0 avail=72
-[  220.771492] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2545 appl_ptr=60000 appl_ofs=12000 cont=36000
-[  220.771503] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2552 frames to copy=72
-[  220.771513] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2574 calling writer() frames=72
-[  220.771522] vijayp snd_pcm:interleaved_copy: ENTER substream=0000000085721b71 hwoff(frames)=12000 off(frames)=0 frames=72 in_kernel=0
-[  220.771579] vijayp snd_pcm:interleaved_copy: bytes hwoff=48000 off=0 frames(bytes)=288 data=0000000043ceefb5 transfer=000000001e91522a
-[  220.771596] vijayp snd_pcm:interleaved_copy: calling do_transfer hwoff=48000 data+off=0000000043ceefb5 frames(bytes)=288
-[  220.771607] vijayp sound/core/pcm_lib.c:do_transfer:2130 ENTER do_transfer c=0 hwoff=48000 bytes=288 in_kernel=0
-[  220.771619] vijayp sound/core/pcm_lib.c:do_transfer:2138 stream=0 type=1 (ITER_SOURCE=0 ITER_DEST=1)
-[  220.771630] vijayp sound/core/pcm_lib.c:do_transfer:2162 importing user buffer data=00000055c4bf5e20 bytes=288
-[  220.771641] vijayp sound/core/pcm_lib.c:do_transfer:2166 import_ubuf() err=0
-[  220.771650] vijayp sound/core/pcm_lib.c:do_transfer:2172 calling transfer (user mode) transfer=ffffffde25ab3148
-[  220.771660] vijayp transfer=default_write_copy+0x0/0x120 [snd_pcm] (ffffffde25ab3148)
-[  220.771715] vijayp sound/core/pcm_lib.c:2067 default_write_copy() called: substream=0000000085721b71 channel=0 hwoff=48000 bytes=288 iter_count=288
-[  220.771729] vijayp dma_ptr=00000000ad2c1a61
-[  220.771737] vijayp sound/core/pcm_lib.c:2080 default_write_copy() success
-[  220.771745] vijayp sound/core/pcm_lib.c:do_transfer:2182 transfer() returned err=0
-[  220.771755] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2587 writer() returned err=0
-[  220.771764] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2594 accessible_state again=0
-[  220.771773] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2603 updating appl_ptr=60072
-[  220.771783] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2615 LOOP END xfer=72 offset=72 size=11928
-[  220.771794] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=11928 offset=72 avail=0
-[  220.771805] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2506 avail=0, waiting...
-[  220.771813] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2527 waiting for avail, twake=11928
-[  221.020029] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  221.020058] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
-[  221.020068] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  221.020093] drivers/dma/virt-dma.c:vchan_complete(): reached here
-[  221.020108] ALSA: snd_pcm_period_elapsed() entered
-[  221.020122] sound/core/pcm_lib.c:snd_pcm_update_hw_ptr0(): reached here
-[  221.020137] drivers/dma/bcm2835-dma.c:bcm2835_dma_tx_status(): reached here
-[  221.020145] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  221.020153] drivers/dma/virt-dma.c:vchan_find_desc(): reached here
-[  221.020162] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
-[  221.020170] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
-[  221.020216] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2531 wait_for_avail returned err=0 avail=11936
-[  221.020238] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2545 appl_ptr=60072 appl_ofs=12072 cont=35928
-[  221.020250] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2552 frames to copy=11928
-[  221.020260] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2574 calling writer() frames=11928
-[  221.020271] vijayp snd_pcm:interleaved_copy: ENTER substream=0000000085721b71 hwoff(frames)=12072 off(frames)=72 frames=11928 in_kernel=0
-[  221.020288] vijayp snd_pcm:interleaved_copy: bytes hwoff=48288 off=288 frames(bytes)=47712 data=0000000043ceefb5 transfer=000000001e91522a
-[  221.020302] vijayp snd_pcm:interleaved_copy: calling do_transfer hwoff=48288 data+off=00000000a4cf4dca frames(bytes)=47712
-[  221.020315] vijayp sound/core/pcm_lib.c:do_transfer:2130 ENTER do_transfer c=0 hwoff=48288 bytes=47712 in_kernel=0
-[  221.020327] vijayp sound/core/pcm_lib.c:do_transfer:2138 stream=0 type=1 (ITER_SOURCE=0 ITER_DEST=1)
-[  221.020338] vijayp sound/core/pcm_lib.c:do_transfer:2162 importing user buffer data=00000055c4bf5f40 bytes=47712
-[  221.020351] vijayp sound/core/pcm_lib.c:do_transfer:2166 import_ubuf() err=0
-[  221.020360] vijayp sound/core/pcm_lib.c:do_transfer:2172 calling transfer (user mode) transfer=ffffffde25ab3148
-[  221.020370] vijayp transfer=default_write_copy+0x0/0x120 [snd_pcm] (ffffffde25ab3148)
-[  221.020445] vijayp sound/core/pcm_lib.c:2067 default_write_copy() called: substream=0000000085721b71 channel=0 hwoff=48288 bytes=47712 iter_count=47712
-[  221.020460] vijayp dma_ptr=00000000a7458ec8
-[  221.020513] vijayp sound/core/pcm_lib.c:2080 default_write_copy() success
-[  221.020522] vijayp sound/core/pcm_lib.c:do_transfer:2182 transfer() returned err=0
-[  221.020532] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2587 writer() returned err=0
-[  221.020542] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2594 accessible_state again=0
-[  221.020551] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2603 updating appl_ptr=72000
-[  221.020561] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2615 LOOP END xfer=12000 offset=12000 size=0
-[  221.020572] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2633 END_UNLOCK xfer=12000 err=0
-[  221.020583] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2643 FINAL RETURN=12000
-[  221.020611] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  221.021315] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  221.021326] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2394 ENTER substream=0000000085721b71 data=0000000043ceefb5 interleaved=1 size=12000
-[  221.021340] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2397 sanity_check err=0
-[  221.021349] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2403 is_playback=1 channels=2 access=3
-[  221.021360] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2415 using interleaved_copy
-[  221.021369] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2446 using default copy=000000001e91522a
-[  221.021379] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2458 nonblock=0
-[  221.021389] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2462 stream locked
-[  221.021397] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2466 accessible_state=0 runtime_state=3
-[  221.021407] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2472 twake=12000
-[  221.021417] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2476 calling update_hw_ptr
-[  221.021425] sound/core/pcm_lib.c:snd_pcm_update_hw_ptr(): reached here
-[  221.021433] sound/core/pcm_lib.c:snd_pcm_update_hw_ptr0(): reached here
-[  221.021443] drivers/dma/bcm2835-dma.c:bcm2835_dma_tx_status(): reached here
-[  221.021451] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  221.021459] drivers/dma/virt-dma.c:vchan_find_desc(): reached here
-[  221.021467] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
-[  221.021475] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
-[  221.021485] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2493 initial avail=72
-[  221.021494] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=12000 offset=0 avail=72
-[  221.021505] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2545 appl_ptr=72000 appl_ofs=24000 cont=24000
-[  221.021516] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2552 frames to copy=72
-[  221.021525] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2574 calling writer() frames=72
-[  221.021535] vijayp snd_pcm:interleaved_copy: ENTER substream=0000000085721b71 hwoff(frames)=24000 off(frames)=0 frames=72 in_kernel=0
-[  221.021547] vijayp snd_pcm:interleaved_copy: bytes hwoff=96000 off=0 frames(bytes)=288 data=0000000043ceefb5 transfer=000000001e91522a
-[  221.021561] vijayp snd_pcm:interleaved_copy: calling do_transfer hwoff=96000 data+off=0000000043ceefb5 frames(bytes)=288
-[  221.021572] vijayp sound/core/pcm_lib.c:do_transfer:2130 ENTER do_transfer c=0 hwoff=96000 bytes=288 in_kernel=0
-[  221.021584] vijayp sound/core/pcm_lib.c:do_transfer:2138 stream=0 type=1 (ITER_SOURCE=0 ITER_DEST=1)
-[  221.021594] vijayp sound/core/pcm_lib.c:do_transfer:2162 importing user buffer data=00000055c4bf5e20 bytes=288
-[  221.021605] vijayp sound/core/pcm_lib.c:do_transfer:2166 import_ubuf() err=0
-[  221.021614] vijayp sound/core/pcm_lib.c:do_transfer:2172 calling transfer (user mode) transfer=ffffffde25ab3148
-[  221.021624] vijayp transfer=default_write_copy+0x0/0x120 [snd_pcm] (ffffffde25ab3148)
-[  221.021676] vijayp sound/core/pcm_lib.c:2067 default_write_copy() called: substream=0000000085721b71 channel=0 hwoff=96000 bytes=288 iter_count=288
-[  221.021690] vijayp dma_ptr=000000005175bdc6
-[  221.021699] vijayp sound/core/pcm_lib.c:2080 default_write_copy() success
-[  221.021707] vijayp sound/core/pcm_lib.c:do_transfer:2182 transfer() returned err=0
-[  221.021717] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2587 writer() returned err=0
-[  221.021726] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2594 accessible_state again=0
-[  221.021735] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2603 updating appl_ptr=72072
-[  221.021744] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2615 LOOP END xfer=72 offset=72 size=11928
-[  221.021755] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=11928 offset=72 avail=0
-[  221.021766] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2506 avail=0, waiting...
-[  221.021775] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2527 waiting for avail, twake=11928
-[  221.270031] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  221.270052] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
-[  221.270060] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
-[  221.270084] drivers/dma/virt-dma.c:vchan_complete(): reached here
-[  221.270097] ALSA: snd_pcm_period_elapsed() entered
-[  221.270110] sound/core/pcm_lib.c:snd_pcm_update_hw_ptr0(): reached here
-[  221.270121] drivers/dma/bcm2835-dma.c:bcm2835_dma_tx_status(): reached here
-[  221.270130] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  221.270138] drivers/dma/virt-dma.c:vchan_find_desc(): reached here
-[  221.270146] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
-[  221.270154] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
-[  221.270196] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2531 wait_for_avail returned err=0 avail=11936
-[  221.270216] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2545 appl_ptr=72072 appl_ofs=24072 cont=23928
-[  221.270227] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2552 frames to copy=11928
-[  221.270237] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2574 calling writer() frames=11928
-[  221.270247] vijayp snd_pcm:interleaved_copy: ENTER substream=0000000085721b71 hwoff(frames)=24072 off(frames)=72 frames=11928 in_kernel=0
-[  221.270263] vijayp snd_pcm:interleaved_copy: bytes hwoff=96288 off=288 frames(bytes)=47712 data=0000000043ceefb5 transfer=000000001e91522a
-[  221.270277] vijayp snd_pcm:interleaved_copy: calling do_transfer hwoff=96288 data+off=00000000a4cf4dca frames(bytes)=47712
-[  221.270288] vijayp sound/core/pcm_lib.c:do_transfer:2130 ENTER do_transfer c=0 hwoff=96288 bytes=47712 in_kernel=0
-[  221.270301] vijayp sound/core/pcm_lib.c:do_transfer:2138 stream=0 type=1 (ITER_SOURCE=0 ITER_DEST=1)
-[  221.270311] vijayp sound/core/pcm_lib.c:do_transfer:2162 importing user buffer data=00000055c4bf5f40 bytes=47712
-[  221.270323] vijayp sound/core/pcm_lib.c:do_transfer:2166 import_ubuf() err=0
-[  221.270332] vijayp sound/core/pcm_lib.c:do_transfer:2172 calling transfer (user mode) transfer=ffffffde25ab3148
-[  221.270343] vijayp transfer=default_write_copy+0x0/0x120 [snd_pcm] (ffffffde25ab3148)
-[  221.270405] vijayp sound/core/pcm_lib.c:2067 default_write_copy() called: substream=0000000085721b71 channel=0 hwoff=96288 bytes=47712 iter_count=47712
-[  221.270419] vijayp dma_ptr=000000000df20e45
-[  221.270472] vijayp sound/core/pcm_lib.c:2080 default_write_copy() success
-[  221.270481] vijayp sound/core/pcm_lib.c:do_transfer:2182 transfer() returned err=0
-[  221.270491] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2587 writer() returned err=0
-[  221.270500] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2594 accessible_state again=0
-[  221.270509] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2603 updating appl_ptr=84000
-[  221.270519] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2615 LOOP END xfer=12000 offset=12000 size=0
-[  221.270530] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2633 END_UNLOCK xfer=12000 err=0
-[  221.270540] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2643 FINAL RETURN=12000
-[  221.270561] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  221.271260] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  221.271271] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2394 ENTER substream=0000000085721b71 data=0000000043ceefb5 interleaved=1 size=12000
-[  221.271284] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2397 sanity_check err=0
-[  221.271293] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2403 is_playback=1 channels=2 access=3
-[  221.271304] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2415 using interleaved_copy
-[  221.271313] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2446 using default copy=000000001e91522a
-[  221.271322] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2458 nonblock=0
-[  221.271331] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2462 stream locked
-[  221.271340] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2466 accessible_state=0 runtime_state=3
-[  221.271349] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2472 twake=12000
-[  221.271359] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2476 calling update_hw_ptr
-[  221.271367] sound/core/pcm_lib.c:snd_pcm_update_hw_ptr(): reached here
-[  221.271375] sound/core/pcm_lib.c:snd_pcm_update_hw_ptr0(): reached here
-[  221.271384] drivers/dma/bcm2835-dma.c:bcm2835_dma_tx_status(): reached here
-[  221.271392] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  221.271399] drivers/dma/virt-dma.c:vchan_find_desc(): reached here
-[  221.271408] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
-[  221.271415] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
-[  221.271425] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2493 initial avail=72
-[  221.271435] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=12000 offset=0 avail=72
-[  221.271446] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2545 appl_ptr=84000 appl_ofs=36000 cont=12000
-[  221.271457] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2552 frames to copy=72
-[  221.271466] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2574 calling writer() frames=72
-[  221.271475] vijayp snd_pcm:interleaved_copy: ENTER substream=0000000085721b71 hwoff(frames)=36000 off(frames)=0 frames=72 in_kernel=0
-[  221.271488] vijayp snd_pcm:interleaved_copy: bytes hwoff=144000 off=0 frames(bytes)=288 data=0000000043ceefb5 transfer=000000001e91522a
-[  221.271502] vijayp snd_pcm:interleaved_copy: calling do_transfer hwoff=144000 data+off=0000000043ceefb5 frames(bytes)=288
-[  221.271513] vijayp sound/core/pcm_lib.c:do_transfer:2130 ENTER do_transfer c=0 hwoff=144000 bytes=288 in_kernel=0
-[  221.271525] vijayp sound/core/pcm_lib.c:do_transfer:2138 stream=0 type=1 (ITER_SOURCE=0 ITER_DEST=1)
-[  221.271574] vijayp sound/core/pcm_lib.c:do_transfer:2162 importing user buffer data=00000055c4bf5e20 bytes=288
-[  221.271588] vijayp sound/core/pcm_lib.c:do_transfer:2166 import_ubuf() err=0
-[  221.271597] vijayp sound/core/pcm_lib.c:do_transfer:2172 calling transfer (user mode) transfer=ffffffde25ab3148
-[  221.271606] vijayp transfer=default_write_copy+0x0/0x120 [snd_pcm] (ffffffde25ab3148)
-[  221.271659] vijayp sound/core/pcm_lib.c:2067 default_write_copy() called: substream=0000000085721b71 channel=0 hwoff=144000 bytes=288 iter_count=288
-[  221.271673] vijayp dma_ptr=00000000f142e1f8
-[  221.271681] vijayp sound/core/pcm_lib.c:2080 default_write_copy() success
-[  221.271689] vijayp sound/core/pcm_lib.c:do_transfer:2182 transfer() returned err=0
-[  221.271699] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2587 writer() returned err=0
-[  221.271708] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2594 accessible_state again=0
-[  221.271717] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2603 updating appl_ptr=84072
-[  221.271727] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2615 LOOP END xfer=72 offset=72 size=11928
-[  221.271737] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=11928 offset=72 avail=0
-[  221.271749] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2506 avail=0, waiting...
-[  221.271757] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2527 waiting for avail, twake=11928
-[  221.314500] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2531 wait_for_avail returned err=-512 avail=0
-[  221.314523] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2633 END_UNLOCK xfer=72 err=-512
-[  221.314534] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2643 FINAL RETURN=72
-[  221.314602] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  221.314835] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  221.314856] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  221.314867] ALSA-DBG: snd_pcm_action_single(): ENTER substream=0000000085721b71 state=0
-[  221.314880] ALSA-DBG: snd_pcm_action_single(): calling pre_action=snd_pcm_pre_drain_init [snd_pcm]
-[  221.314937] ALSA-DBG: snd_pcm_action_single(): pre_action() returned 0
-[  221.314945] ALSA-DBG: snd_pcm_action_single(): calling do_action=snd_pcm_do_drain_init [snd_pcm]
-[  221.314993] ALSA-DBG: snd_pcm_action_single(): do_action() returned 0
-[  221.315001] ALSA-DBG: snd_pcm_action_single(): calling post_action=snd_pcm_post_drain_init [snd_pcm]
-[  221.315047] ALSA-DBG: snd_pcm_action_single(): post_action DONE
-[  221.315054] ALSA-DBG: snd_pcm_action_single(): EXIT with res=0
-[  221.315073] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  221.315083] ALSA-DBG: snd_pcm_action_single(): ENTER substream=0000000085721b71 state=1
-[  221.315092] ALSA-DBG: snd_pcm_action_single(): calling pre_action=snd_pcm_pre_stop [snd_pcm]
-[  221.315139] ALSA-DBG: snd_pcm_action_single(): pre_action() returned 0
-[  221.315146] ALSA-DBG: snd_pcm_action_single(): calling do_action=snd_pcm_do_stop [snd_pcm]
-[  221.315194] ASOC-DBG: soc_pcm_trigger(): ENTER rtd=bcm2835-i2s-wm8960-hifi cmd=0
-[  221.315203] ASOC-DBG: soc_pcm_trigger(): component=fe203000.i2s trigger_start=0 trigger_stop=0
-[  221.315212] ASOC-DBG: soc_pcm_trigger(): component=wm8960.1-001a trigger_start=0 trigger_stop=0
-[  221.315222] ASOC-DBG: soc_pcm_trigger(): component=fe203000.i2s trigger_start=0 trigger_stop=0
-[  221.315231] ASOC-DBG: soc_pcm_trigger(): start_order=0 stop_order=0
-[  221.315239] ASOC-DBG: soc_pcm_trigger(): FINAL start=0 stop=0
-[  221.315247] ASOC-DBG: soc_pcm_trigger(): STOP LOOP stop_index=0
-[  221.315254] ASOC-DBG: soc_pcm_trigger(): calling trigger[0][2]=snd_soc_pcm_dai_trigger [snd_soc_core]
-[  221.315365] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): ENTER cmd=0 rollback=0
-[  221.315376] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): STOP: dai[0]=fe203000.i2s rollback=0
-[  221.315387] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[0]=fe203000.i2s calling soc_dai_trigger(STOP)
-[  221.315398] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_trigger(): reached here
-[  221.315406] [vijayp] bcm2835-i2s.c:bcm2835_i2s_trigger() called cmd=0
-[  221.315414] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_stop(): reached here
-[  221.315424] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  221.315434] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  221.315445] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  221.315454] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  221.315463] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[0]=fe203000.i2s soc_dai_trigger() returned 0
-[  221.315474] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[0]=fe203000.i2s calling soc_dai_mark_pop()
-[  221.315484] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): STOP: dai[1]=wm8960-hifi rollback=0
-[  221.315494] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[1]=wm8960-hifi calling soc_dai_trigger(STOP)
-[  221.315503] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[1]=wm8960-hifi soc_dai_trigger() returned 0
-[  221.315512] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[1]=wm8960-hifi calling soc_dai_mark_pop()
-[  221.315522] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): EXIT ret=0
-[  221.315531] ASOC-DBG: soc_pcm_trigger(): trigger[0][2] returned 0
-[  221.315539] ASOC-DBG: soc_pcm_trigger(): calling trigger[0][1]=snd_soc_pcm_component_trigger [snd_soc_core]
-[  221.315630] ASOC-DBG: snd_soc_pcm_component_trigger(): ENTER rtd=bcm2835-i2s-wm8960-hifi cmd=0 rollback=0
-[  221.315640] ASOC-DBG: snd_soc_pcm_component_trigger(): STOP: component[0]=fe203000.i2s rollback=0
-[  221.315649] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_trigger=soc_component_trigger [snd_soc_core]
-[  221.315737] ASOC-DBG: soc_component_trigger(): ENTER component=fe203000.i2s cmd=0
-[  221.315746] ASOC-DBG: soc_component_trigger(): component=fe203000.i2s has NO trigger() callback!
-[  221.315753] ASOC-DBG: soc_component_trigger(): calling soc_component_ret() ret=0
-[  221.315761] ASOC-DBG: snd_soc_pcm_component_trigger(): component fe203000.i2s STOP trigger returned r=0
-[  221.315769] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_mark_pop()
-[  221.315776] ASOC-DBG: snd_soc_pcm_component_trigger(): STOP: component[1]=wm8960.1-001a rollback=0
-[  221.315784] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_trigger=soc_component_trigger [snd_soc_core]
-[  221.315872] ASOC-DBG: soc_component_trigger(): ENTER component=wm8960.1-001a cmd=0
-[  221.315880] ASOC-DBG: soc_component_trigger(): component=wm8960.1-001a has NO trigger() callback!
-[  221.315888] ASOC-DBG: soc_component_trigger(): calling soc_component_ret() ret=0
-[  221.315895] ASOC-DBG: snd_soc_pcm_component_trigger(): component wm8960.1-001a STOP trigger returned r=0
-[  221.315903] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_mark_pop()
-[  221.315909] ASOC-DBG: snd_soc_pcm_component_trigger(): STOP: component[2]=fe203000.i2s rollback=0
-[  221.315918] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_trigger=soc_component_trigger [snd_soc_core]
-[  221.316006] ASOC-DBG: soc_component_trigger(): ENTER component=fe203000.i2s cmd=0
-[  221.316014] ASOC-DBG: soc_component_trigger(): calling component->driver->trigger=dmaengine_pcm_trigger [snd_soc_core]
-[  221.316103] sound/soc/soc-generic-dmaengine-pcm.c:dmaengine_pcm_trigger(): reached here
-[  221.316113] drivers/dma/bcm2835-dma.c:bcm2835_dma_terminate_all(): reached here
-[  221.316121] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  221.316129] drivers/dma/bcm2835-dma.c:bcm2835_dma_abort(): reached here
-[  221.316137] drivers/dma/bcm2835-dma.c:bcm2835_dma_abort(): reached here
-[  221.316162] drivers/dma/virt-dma.c:vchan_dma_desc_free_list(): reached here
-[  221.316170] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
-[  221.316178] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
-[  221.316190] ASOC-DBG: soc_component_trigger(): component->driver->trigger returned ret=0
-[  221.316197] ASOC-DBG: soc_component_trigger(): calling soc_component_ret() ret=0
-[  221.316205] ASOC-DBG: snd_soc_pcm_component_trigger(): component fe203000.i2s STOP trigger returned r=0
-[  221.316213] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_mark_pop()
-[  221.316220] ASOC-DBG: snd_soc_pcm_component_trigger(): EXIT ret=0
-[  221.316227] ASOC-DBG: soc_pcm_trigger(): trigger[0][1] returned 0
-[  221.316236] ASOC-DBG: soc_pcm_trigger(): calling trigger[0][0]=snd_soc_link_trigger [snd_soc_core]
-[  221.316326] ASOC-DBG: snd_soc_link_trigger(): ENTER rtd=bcm2835-i2s-wm8960-hifi cmd=0 rollback=0
-[  221.316335] ASOC-DBG: snd_soc_link_trigger(): STOP path, rollback=0
-[  221.316343] ASOC-DBG: snd_soc_link_trigger(): calling soc_link_trigger(substream, 0)
-[  221.316351] ASOC-DBG: soc_link_trigger(): ENTER rtd=bcm2835-i2s-wm8960-hifi cmd=0
-[  221.316360] ASOC-DBG: soc_link_trigger(): NO dai_link trigger present
-[  221.316367] ASOC-DBG: soc_link_trigger(): calling soc_link_ret() next
-[  221.316374] ASOC-DBG: soc_link_trigger(): soc_link_ret() returned 0
-[  221.316380] ASOC-DBG: soc_link_trigger(): EXIT
-[  221.316386] ASOC-DBG: snd_soc_link_trigger(): soc_link_trigger returned 0
-[  221.316393] ASOC-DBG: snd_soc_link_trigger(): calling soc_link_mark_pop(startup)
-[  221.316400] ASOC-DBG: snd_soc_link_trigger(): EXIT ret=0
-[  221.316407] ASOC-DBG: soc_pcm_trigger(): trigger[0][0] returned 0
-[  221.316415] ASOC-DBG: soc_pcm_trigger(): EXIT ret=0
-[  221.316422] ALSA-DBG: snd_pcm_action_single(): do_action() returned 0
-[  221.316429] ALSA-DBG: snd_pcm_action_single(): calling post_action=snd_pcm_post_stop [snd_pcm]
-[  221.316481] ALSA-DBG: snd_pcm_action_single(): post_action DONE
-[  221.316488] ALSA-DBG: snd_pcm_action_single(): EXIT with res=0
-[  221.316551] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
-[  221.316569] drivers/dma/bcm2835-dma.c:bcm2835_dma_tx_status(): reached here
-[  221.316577] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  221.316585] drivers/dma/virt-dma.c:vchan_find_desc(): reached here
-[  221.316594] drivers/dma/bcm2835-dma.c:bcm2835_dma_synchronize(): reached here
-[  221.316602] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  221.316611] drivers/dma/virt-dma.c:vchan_dma_desc_free_list(): reached here
-[  221.317462] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_shutdown(): reached here
-[  221.317477] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_stop(): reached here
-[  221.317487] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  221.317495] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  221.317504] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  221.317513] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_stop_clock(): reached here
-[  221.317535] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  221.317543] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  221.317551] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  221.317559] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
-[  221.317567] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_stop_clock(): reached here
-[  221.317580] drivers/dma/bcm2835-dma.c:bcm2835_dma_tx_status(): reached here
-[  221.317588] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  221.317595] drivers/dma/virt-dma.c:vchan_find_desc(): reached here
-[  221.317604] drivers/dma/bcm2835-dma.c:bcm2835_dma_synchronize(): reached here
-[  221.317611] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
-[  221.317620] drivers/dma/virt-dma.c:vchan_dma_desc_free_list(): reached here
+[   48.395659] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
+[   48.395675] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   48.395689] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_slave_sg(): reached here
+[   48.395693] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   48.395696] drivers/dma/bcm2835-dma.c:bcm2835_dma_count_frames_for_sg(): reached here
+[   48.395699] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
+[   48.395704] drivers/dma/bcm2835-dma.c:bcm2835_dma_fill_cb_chain_with_sg(): reached here
+[   48.395709] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
+[   48.395712] drivers/dma/virt-dma.c:to_virt_desc(): reached here
+[   48.395716] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
+[   48.395719] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   48.395722] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
+[   48.395725] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
+[   48.395767] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
+[   48.395770] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
+[   48.395773] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
+[   48.395777] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
+[   48.395789] [VCHAN] vchan_complete(): ENTER chan=dma:rx-tx
+[   48.395794] [VCHAN] copying vc->desc_completed list
+[   48.395797] [VCHAN] NO cyclic descriptor
+[   48.395799] [VCHAN] invoking callback for vd=0000000000000000
+[   48.395804] [VCHAN] processing descriptor vd=00000000ac4a3e72
+[   48.395808] [VCHAN] invoking callback for vd=00000000ac4a3e72 (non-cyclic)
+[   48.395815] [VCHAN] freeing descriptor vd=00000000ac4a3e72
+[   48.395818] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
+[   48.395821] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
+[   48.395825] [VCHAN] vchan_complete(): EXIT
+[   49.011055] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
+[   49.011071] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   49.011083] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_slave_sg(): reached here
+[   49.011086] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   49.011090] drivers/dma/bcm2835-dma.c:bcm2835_dma_count_frames_for_sg(): reached here
+[   49.011093] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
+[   49.011097] drivers/dma/bcm2835-dma.c:bcm2835_dma_fill_cb_chain_with_sg(): reached here
+[   49.011103] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
+[   49.011105] drivers/dma/virt-dma.c:to_virt_desc(): reached here
+[   49.011109] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
+[   49.011111] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   49.011114] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
+[   49.011117] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
+[   49.011207] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
+[   49.011211] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
+[   49.011214] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
+[   49.011218] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
+[   49.011221] [VCHAN] vchan_complete(): ENTER chan=dma:rx-tx
+[   49.011224] [VCHAN] copying vc->desc_completed list
+[   49.011227] [VCHAN] NO cyclic descriptor
+[   49.011229] [VCHAN] invoking callback for vd=0000000000000000
+[   49.011234] [VCHAN] processing descriptor vd=00000000ac4a3e72
+[   49.011238] [VCHAN] invoking callback for vd=00000000ac4a3e72 (non-cyclic)
+[   49.011246] [VCHAN] freeing descriptor vd=00000000ac4a3e72
+[   49.011249] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
+[   49.011253] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
+[   49.011256] [VCHAN] vchan_complete(): EXIT
+[   49.011443] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
+[   49.011450] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   49.011457] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_slave_sg(): reached here
+[   49.011459] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   49.011463] drivers/dma/bcm2835-dma.c:bcm2835_dma_count_frames_for_sg(): reached here
+[   49.011465] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
+[   49.011469] drivers/dma/bcm2835-dma.c:bcm2835_dma_fill_cb_chain_with_sg(): reached here
+[   49.011473] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
+[   49.011476] drivers/dma/virt-dma.c:to_virt_desc(): reached here
+[   49.011498] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
+[   49.011501] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   49.011504] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
+[   49.011507] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
+[   49.011574] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
+[   49.011577] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
+[   49.011580] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
+[   49.011583] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
+[   49.011588] [VCHAN] vchan_complete(): ENTER chan=dma:rx-tx
+[   49.011591] [VCHAN] copying vc->desc_completed list
+[   49.011593] [VCHAN] NO cyclic descriptor
+[   49.011596] [VCHAN] invoking callback for vd=0000000000000000
+[   49.011599] [VCHAN] processing descriptor vd=00000000ac4a3e72
+[   49.011601] [VCHAN] invoking callback for vd=00000000ac4a3e72 (non-cyclic)
+[   49.011607] [VCHAN] freeing descriptor vd=00000000ac4a3e72
+[   49.011610] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
+[   49.011613] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
+[   49.011616] [VCHAN] vchan_complete(): EXIT
+[   55.011802] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
+[   55.011818] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   55.011829] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_slave_sg(): reached here
+[   55.011833] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   55.011836] drivers/dma/bcm2835-dma.c:bcm2835_dma_count_frames_for_sg(): reached here
+[   55.011839] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
+[   55.011843] drivers/dma/bcm2835-dma.c:bcm2835_dma_fill_cb_chain_with_sg(): reached here
+[   55.011848] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
+[   55.011851] drivers/dma/virt-dma.c:to_virt_desc(): reached here
+[   55.011855] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
+[   55.011858] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   55.011861] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
+[   55.011863] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
+[   55.011954] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
+[   55.011960] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
+[   55.011963] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
+[   55.011966] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
+[   55.011974] [VCHAN] vchan_complete(): ENTER chan=dma:rx-tx
+[   55.011979] [VCHAN] copying vc->desc_completed list
+[   55.011982] [VCHAN] NO cyclic descriptor
+[   55.011985] [VCHAN] invoking callback for vd=0000000000000000
+[   55.011996] [VCHAN] processing descriptor vd=00000000b76d9071
+[   55.012001] [VCHAN] invoking callback for vd=00000000b76d9071 (non-cyclic)
+[   55.012006] [VCHAN] freeing descriptor vd=00000000b76d9071
+[   55.012010] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
+[   55.012014] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
+[   55.012019] [VCHAN] vchan_complete(): EXIT
+[   55.012973] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
+[   55.012978] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   55.012985] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_slave_sg(): reached here
+[   55.012988] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   55.012991] drivers/dma/bcm2835-dma.c:bcm2835_dma_count_frames_for_sg(): reached here
+[   55.012994] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
+[   55.012999] drivers/dma/bcm2835-dma.c:bcm2835_dma_fill_cb_chain_with_sg(): reached here
+[   55.013003] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
+[   55.013006] drivers/dma/virt-dma.c:to_virt_desc(): reached here
+[   55.013009] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
+[   55.013011] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   55.013014] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
+[   55.013017] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
+[   55.013083] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
+[   55.013088] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
+[   55.013090] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
+[   55.013094] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
+[   55.013101] [VCHAN] vchan_complete(): ENTER chan=dma:rx-tx
+[   55.013105] [VCHAN] copying vc->desc_completed list
+[   55.013107] [VCHAN] NO cyclic descriptor
+[   55.013110] [VCHAN] invoking callback for vd=0000000000000000
+[   55.013114] [VCHAN] processing descriptor vd=00000000b76d9071
+[   55.013118] [VCHAN] invoking callback for vd=00000000b76d9071 (non-cyclic)
+[   55.013125] [VCHAN] freeing descriptor vd=00000000b76d9071
+[   55.013129] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
+[   55.013133] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
+[   55.013137] [VCHAN] vchan_complete(): EXIT
+[   59.430911] [vijayp] init.c function:snd_card_file_add=> sound/core/init.c:snd_card_file_add() card=00000000f6968cef card_id=wm8960soundcard file=0000000051376da7 fullpath=/dev/snd/controlC1 pid=1661 process=speaker-test flags=0x20000
+[   59.430936] [vijayp] init.c function:snd_card_file_add=>  sound/core/init.c:snd_card_file_add() card=00000000f6968cef file=0000000051376da7
+[   59.430941] [vijayp] init.c function:snd_card_file_add=> card=00000000f6968cef, file=0000000051376da7
+[   59.430945] [vijayp] init.c function:snd_card_file_add=> card->number=1, shutdown=0, files_lock=000000002bfc876f
+[   59.430949] [vijayp] init.c function:snd_card_file_add=> kmalloc for mfile=000000007a16a888
+[   59.430953] [vijayp] init.c function:snd_card_file_add=> mfile->file=0000000051376da7, shutdown_list initialized
+[   59.430956] [vijayp] init.c function:snd_card_file_add=> files_lock acquired
+[   59.430959] [vijayp] init.c function:snd_card_file_add=> mfile added to card->files_list
+[   59.430961] [vijayp] init.c function:snd_card_file_add=> get_device() called, card_dev=00000000aa1a4e42
+[   59.430993] [vijayp] init.c function:snd_card_file_add=> sound/core/init.c:snd_card_file_add() card=00000000f6968cef card_id=wm8960soundcard file=0000000051376da7 fullpath=/dev/snd/controlC1 pid=1661 process=speaker-test flags=0x20002
+[   59.431000] [vijayp] init.c function:snd_card_file_add=>  sound/core/init.c:snd_card_file_add() card=00000000f6968cef file=0000000051376da7
+[   59.431004] [vijayp] init.c function:snd_card_file_add=> card=00000000f6968cef, file=0000000051376da7
+[   59.431007] [vijayp] init.c function:snd_card_file_add=> card->number=1, shutdown=0, files_lock=000000002bfc876f
+[   59.431011] [vijayp] init.c function:snd_card_file_add=> kmalloc for mfile=000000007a16a888
+[   59.431013] [vijayp] init.c function:snd_card_file_add=> mfile->file=0000000051376da7, shutdown_list initialized
+[   59.431016] [vijayp] init.c function:snd_card_file_add=> files_lock acquired
+[   59.431018] [vijayp] init.c function:snd_card_file_add=> mfile added to card->files_list
+[   59.431021] [vijayp] init.c function:snd_card_file_add=> get_device() called, card_dev=00000000aa1a4e42
+[   59.431038] [vijayp] pcm_native.c function: snd_pcm_open() => pcm_name=bcm2835-i2s-wm8960-hifi wm8960-hifi-0 stream=0
+[   59.431042] [vijayp] pcm_native.c function: snd_pcm_open() => card=wm8960-soundcard card_id=1 device=0 substream_count=1
+[   59.431046] [vijayp] pcm_native.c function: snd_pcm_open() => file_flags=0x20802 (O_NONBLOCK=1)
+[   59.431050] [vijayp] init.c function:snd_card_file_add=> sound/core/init.c:snd_card_file_add() card=00000000f6968cef card_id=wm8960soundcard file=000000009b3a4a85 fullpath=/dev/snd/pcmC1D0p pid=1661 process=speaker-test flags=0x20802
+[   59.431056] [vijayp] init.c function:snd_card_file_add=>  sound/core/init.c:snd_card_file_add() card=00000000f6968cef file=000000009b3a4a85
+[   59.431060] [vijayp] init.c function:snd_card_file_add=> card=00000000f6968cef, file=000000009b3a4a85
+[   59.431063] [vijayp] init.c function:snd_card_file_add=> card->number=1, shutdown=0, files_lock=000000002bfc876f
+[   59.431066] [vijayp] init.c function:snd_card_file_add=> kmalloc for mfile=00000000a24605c4
+[   59.431069] [vijayp] init.c function:snd_card_file_add=> mfile->file=000000009b3a4a85, shutdown_list initialized
+[   59.431072] [vijayp] init.c function:snd_card_file_add=> files_lock acquired
+[   59.431074] [vijayp] init.c function:snd_card_file_add=> mfile added to card->files_list
+[   59.431076] [vijayp] init.c function:snd_card_file_add=> get_device() called, card_dev=00000000aa1a4e42
+[   59.431080] [vijayp] pcm_native.c function: snd_pcm_open() => calling snd_pcm_open_file(stream=0)
+[   59.431082] [vijayp] pcm_native.c function:snd_pcm_open_file() => pcm_name=bcm2835-i2s-wm8960-hifi wm8960-hifi-0 stream=0 file_flags=0x20802
+[   59.431086] ALSA-DBG-vijayp: sound/core/pcm_native.c:snd_pcm_open_file() pcm=00000000a7a3fcc7 card_id=wm8960soundcard stream=0 file=000000009b3a4a85 fullpath=pcmC1D0p pid=1661 proc=speaker-test flags=0x20802
+[   59.431119] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_startup(): reached here
+[   59.431123] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_stop_clock(): reached here
+[   59.431129] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.431132] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.431137] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.431140] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.431144] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.431147] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.431149] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.431159] [vijayp] pcm_native.c function: snd_pcm_open_file() => snd_pcm_open_substream returned err=0
+[   59.431162] vijayp] pcm_native.c function: snd_pcm_open_file() => substream=00000000c28d53b5, substream->pcm=00000000a7a3fcc7, substream->stream=0
+[   59.431166] vijayp] pcm_native.c function: snd_pcm_open_file() => pcm_file=0000000059e931f9 assigned substream=00000000c28d53b5
+[   59.431169] vijayp] pcm_native.c function: snd_pcm_open_file() => substream ref_count=1, pcm_release set
+[   59.431171] vijayp] pcm_native.c function: snd_pcm_open_file() => file->private_data set to pcm_file=0000000059e931f9
+[   59.431174] [vijayp] pcm_native.c function: snd_pcm_open() => snd_pcm_open_file returned err=0
+[   59.431177] [vijayp] pcm_native.c function: snd_pcm_open() => snd_pcm_open(): SUCCESS
+[   59.431338] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.431349] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.431354] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.431358] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.431390] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.431406] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.431428] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.431433] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.431444] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.431576] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.431592] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.431606] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.431613] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.431619] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.431624] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.431631] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.431636] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.431654] [vijayp][wm8960_hw_params] called
+[   59.431657] [vijayp] substream=ffffff8080f2b400 stream=0 (PLAYBACK)
+[   59.431662] [vijayp] params: rate=48000 Hz, channels=2, width=16 bits
+[   59.431666] [vijayp] dai=ffffff8080f26280 component=ffffff8080f26080 wm8960_priv=ffffff8040f94c80
+[   59.431669] [vijayp] calculated BCLK=1536000
+[   59.431672] [vijayp] width=16 bits
+[   59.431674] [vijayp] LRCLK (fs)=48000 Hz
+[   59.431677] [vijayp] playback: setting deemphasis
+[   59.431680] [vijayp] writing IFACE1 = 0x0002
+[   59.432010] [vijayp] stream_in_use: playback=1 capture=0
+[   59.432018] [vijayp] calling wm8960_configure_clocking()
+[   59.432023] [vijayp][clk] ENTER wm8960_configure_clocking()
+[   59.432025] [vijayp][clk] iface1=0x2 sysclk=12288000 clk_id=0 freq_in=12288000
+[   59.432029] [vijayp][clk] freq_in (MCLK) = 12288000 Hz
+[   59.432032] [vijayp][clk] SYSCLK MODE = AUTO → Disable PLL, use MCLK
+[   59.432036] [vijayp][clk] Trying direct SYSCLK configuration...
+[   59.432039] [vijayp][clk] Direct SYSCLK config OK: i=0 j=0 k=7
+[   59.432042] [vijayp][clk] Applying SYSCLK: CLOCK1(bits 1-2) = 0
+[   59.432045] [vijayp][clk] Applying LRCLK dividers j=0 (CLOCK1 bits 3-5 and 6-8)
+[   59.432048] [vijayp][clk] Applying BCLK divider k=7 (CLOCK2 bits 0-3)
+[   59.432051] [vijayp][clk] EXIT wm8960_configure_clocking() SUCCESS
+[   59.432058] [vijayp][I2S][HW_PARAMS] enter: stream=PLAYBACK rate=48000 width=16 channels=2
+[   59.432063] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432068] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432072] [vijayp][I2S][HW_PARAMS] slots=2 slot_width=16 frame_len=32 bclk=1536000
+[   59.432076] [vijayp][I2S][CLOCK] BCLK_provider=1 FS_provider=1 fmt=0x1001
+[   59.432079] vijayp sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_start_clock(): ENTER dev=0000000017f08b75 fmt=0x1001 provider=0x1000 clk_prepared=0
+[   59.432086] vijayp sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_start_clock(): provider=SND_SOC_DAIFMT_BP_FP -> enabling clock
+[   59.432093] vijayp sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_start_clock(): clk_prepare_enable DONE, clk_prepared=1
+[   59.432096] vijayp sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_start_clock(): EXIT
+[   59.432099] [vijayp][I2S][FORMAT] data_len=16 delay=1 fs_len=16 odd_slot=1
+[   59.432103] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_calc_channel_pos(): reached here
+[   59.432106] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_convert_slot(): reached here
+[   59.432109] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_convert_slot(): reached here
+[   59.432112] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_calc_channel_pos(): reached here
+[   59.432114] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_convert_slot(): reached here
+[   59.432117] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_convert_slot(): reached here
+[   59.432119] [vijayp][I2S][CH_POS] TX(1,17) RX(1,17)
+[   59.432123] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432128] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432131] [vijayp][I2S][MODE] MODE_A=0x03007c10
+[   59.432134] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432137] [vijayp][I2S][DMA] enabling DMA + FIFO thresholds
+[   59.432140] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432142] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432145] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432148] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_clear_fifos(): reached here
+[   59.432151] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432154] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432157] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432159] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432162] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432165] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432168] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432170] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432173] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432176] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432179] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432182] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432184] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432187] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432190] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432192] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_clear_fifos(): reached here
+[   59.432195] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432198] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432201] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432203] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432206] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432209] [vijayp][I2S][HW_PARAMS] completed successfully
+[   59.432214] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
+[   59.432217] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   59.432299] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.432313] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.432321] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.432324] sound/core/pcm_native.c:snd_pcm_prepare(): reached here
+[   59.432327] sound/core/pcm_native.c:snd_pcm_action_nonatomic(): reached here
+[   59.432331] ALSA-DBG: snd_pcm_action_single(): ENTER substream=00000000c28d53b5 state=131074
+[   59.432335] ALSA-DBG: snd_pcm_action_single(): calling pre_action=snd_pcm_pre_prepare [snd_pcm]
+[   59.432366] ALSA-DBG: snd_pcm_action_single(): pre_action() returned 0
+[   59.432369] ALSA-DBG: snd_pcm_action_single(): calling do_action=snd_pcm_do_prepare [snd_pcm]
+[   59.432388] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_prepare(): reached here
+[   59.432393] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432396] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.432432] [vijayp][clk] ENTER wm8960_configure_clocking()
+[   59.432435] [vijayp][clk] iface1=0x2 sysclk=12288000 clk_id=0 freq_in=12288000
+[   59.432439] [vijayp][clk] freq_in (MCLK) = 12288000 Hz
+[   59.432441] [vijayp][clk] SYSCLK MODE = AUTO → Disable PLL, use MCLK
+[   59.432444] [vijayp][clk] Trying direct SYSCLK configuration...
+[   59.432447] [vijayp][clk] Direct SYSCLK config OK: i=0 j=0 k=7
+[   59.432450] [vijayp][clk] Applying SYSCLK: CLOCK1(bits 1-2) = 0
+[   59.432452] [vijayp][clk] Applying LRCLK dividers j=0 (CLOCK1 bits 3-5 and 6-8)
+[   59.432455] [vijayp][clk] Applying BCLK divider k=7 (CLOCK2 bits 0-3)
+[   59.432458] [vijayp][clk] EXIT wm8960_configure_clocking() SUCCESS
+[   59.434345] ALSA-DBG: snd_pcm_action_single(): do_action() returned 0
+[   59.434352] ALSA-DBG: snd_pcm_action_single(): calling post_action=snd_pcm_post_prepare [snd_pcm]
+[   59.434375] ALSA-DBG: snd_pcm_action_single(): post_action DONE
+[   59.434377] ALSA-DBG: snd_pcm_action_single(): EXIT with res=0
+[   59.434385] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.434443] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.434486] [vijayp] init.c function:snd_card_file_add=> sound/core/init.c:snd_card_file_add() card=00000000f6968cef card_id=wm8960soundcard file=0000000051376da7 fullpath=/dev/snd/controlC1 pid=1661 process=speaker-test flags=0x20002
+[   59.434495] [vijayp] init.c function:snd_card_file_add=>  sound/core/init.c:snd_card_file_add() card=00000000f6968cef file=0000000051376da7
+[   59.434499] [vijayp] init.c function:snd_card_file_add=> card=00000000f6968cef, file=0000000051376da7
+[   59.434502] [vijayp] init.c function:snd_card_file_add=> card->number=1, shutdown=0, files_lock=000000002bfc876f
+[   59.434507] [vijayp] init.c function:snd_card_file_add=> kmalloc for mfile=000000007a16a888
+[   59.434509] [vijayp] init.c function:snd_card_file_add=> mfile->file=0000000051376da7, shutdown_list initialized
+[   59.434513] [vijayp] init.c function:snd_card_file_add=> files_lock acquired
+[   59.434515] [vijayp] init.c function:snd_card_file_add=> mfile added to card->files_list
+[   59.434518] [vijayp] init.c function:snd_card_file_add=> get_device() called, card_dev=00000000aa1a4e42
+[   59.434855] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.434860] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2394 ENTER substream=00000000c28d53b5 data=000000004759d9fc interleaved=1 size=12000
+[   59.434866] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2397 sanity_check err=0
+[   59.434870] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2403 is_playback=1 channels=2 access=3
+[   59.434874] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2415 using interleaved_copy
+[   59.434878] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2446 using default copy=000000009da40fb5
+[   59.434882] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2458 nonblock=0
+[   59.434885] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2462 stream locked
+[   59.434888] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2466 accessible_state=0 runtime_state=2
+[   59.434891] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2472 twake=12000
+[   59.434895] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2493 initial avail=48000
+[   59.434899] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=12000 offset=0 avail=48000
+[   59.434903] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2545 appl_ptr=0 appl_ofs=0 cont=48000
+[   59.434907] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2552 frames to copy=12000
+[   59.434911] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2574 calling writer() frames=12000
+[   59.434915] vijayp snd_pcm:interleaved_copy: ENTER substream=00000000c28d53b5 hwoff(frames)=0 off(frames)=0 frames=12000 in_kernel=0
+[   59.434920] vijayp snd_pcm:interleaved_copy: bytes hwoff=0 off=0 frames(bytes)=48000 data=000000004759d9fc transfer=000000009da40fb5
+[   59.434925] vijayp snd_pcm:interleaved_copy: calling do_transfer hwoff=0 data+off=000000004759d9fc frames(bytes)=48000
+[   59.434929] vijayp sound/core/pcm_lib.c:do_transfer:2130 ENTER do_transfer c=0 hwoff=0 bytes=48000 in_kernel=0
+[   59.434933] vijayp sound/core/pcm_lib.c:do_transfer:2138 stream=0 type=1 (ITER_SOURCE=0 ITER_DEST=1)
+[   59.434937] vijayp sound/core/pcm_lib.c:do_transfer:2162 importing user buffer data=000000558aa11e20 bytes=48000
+[   59.434942] vijayp sound/core/pcm_lib.c:do_transfer:2166 import_ubuf() err=0
+[   59.434945] vijayp sound/core/pcm_lib.c:do_transfer:2172 calling transfer (user mode) transfer=ffffffd931419148
+[   59.434948] vijayp transfer=default_write_copy+0x0/0x120 [snd_pcm] (ffffffd931419148)
+[   59.434971] vijayp sound/core/pcm_lib.c:2067 default_write_copy() called: substream=00000000c28d53b5 channel=0 hwoff=0 bytes=48000 iter_count=48000
+[   59.434976] vijayp dma_ptr=00000000dada6182
+[   59.434994] vijayp sound/core/pcm_lib.c:2080 default_write_copy() success
+[   59.434997] vijayp sound/core/pcm_lib.c:do_transfer:2182 transfer() returned err=0
+[   59.435001] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2587 writer() returned err=0
+[   59.435005] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2594 accessible_state again=0
+[   59.435008] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2603 updating appl_ptr=12000
+[   59.435011] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2615 LOOP END xfer=12000 offset=12000 size=0
+[   59.435015] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2633 END_UNLOCK xfer=12000 err=0
+[   59.435019] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2643 FINAL RETURN=12000
+[   59.435024] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.435256] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.435259] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2394 ENTER substream=00000000c28d53b5 data=000000004759d9fc interleaved=1 size=12000
+[   59.435264] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2397 sanity_check err=0
+[   59.435267] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2403 is_playback=1 channels=2 access=3
+[   59.435271] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2415 using interleaved_copy
+[   59.435273] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2446 using default copy=000000009da40fb5
+[   59.435277] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2458 nonblock=0
+[   59.435280] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2462 stream locked
+[   59.435283] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2466 accessible_state=0 runtime_state=2
+[   59.435286] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2472 twake=12000
+[   59.435289] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2493 initial avail=36000
+[   59.435293] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=12000 offset=0 avail=36000
+[   59.435296] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2545 appl_ptr=12000 appl_ofs=12000 cont=36000
+[   59.435300] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2552 frames to copy=12000
+[   59.435303] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2574 calling writer() frames=12000
+[   59.435306] vijayp snd_pcm:interleaved_copy: ENTER substream=00000000c28d53b5 hwoff(frames)=12000 off(frames)=0 frames=12000 in_kernel=0
+[   59.435311] vijayp snd_pcm:interleaved_copy: bytes hwoff=48000 off=0 frames(bytes)=48000 data=000000004759d9fc transfer=000000009da40fb5
+[   59.435315] vijayp snd_pcm:interleaved_copy: calling do_transfer hwoff=48000 data+off=000000004759d9fc frames(bytes)=48000
+[   59.435319] vijayp sound/core/pcm_lib.c:do_transfer:2130 ENTER do_transfer c=0 hwoff=48000 bytes=48000 in_kernel=0
+[   59.435323] vijayp sound/core/pcm_lib.c:do_transfer:2138 stream=0 type=1 (ITER_SOURCE=0 ITER_DEST=1)
+[   59.435327] vijayp sound/core/pcm_lib.c:do_transfer:2162 importing user buffer data=000000558aa11e20 bytes=48000
+[   59.435331] vijayp sound/core/pcm_lib.c:do_transfer:2166 import_ubuf() err=0
+[   59.435334] vijayp sound/core/pcm_lib.c:do_transfer:2172 calling transfer (user mode) transfer=ffffffd931419148
+[   59.435337] vijayp transfer=default_write_copy+0x0/0x120 [snd_pcm] (ffffffd931419148)
+[   59.435355] vijayp sound/core/pcm_lib.c:2067 default_write_copy() called: substream=00000000c28d53b5 channel=0 hwoff=48000 bytes=48000 iter_count=48000
+[   59.435359] vijayp dma_ptr=00000000e8ea7dd5
+[   59.435379] vijayp sound/core/pcm_lib.c:2080 default_write_copy() success
+[   59.435382] vijayp sound/core/pcm_lib.c:do_transfer:2182 transfer() returned err=0
+[   59.435385] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2587 writer() returned err=0
+[   59.435389] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2594 accessible_state again=0
+[   59.435392] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2603 updating appl_ptr=24000
+[   59.435395] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2615 LOOP END xfer=12000 offset=12000 size=0
+[   59.435399] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2633 END_UNLOCK xfer=12000 err=0
+[   59.435402] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2643 FINAL RETURN=12000
+[   59.435407] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.435842] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.435853] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2394 ENTER substream=00000000c28d53b5 data=000000004759d9fc interleaved=1 size=12000
+[   59.435860] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2397 sanity_check err=0
+[   59.435863] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2403 is_playback=1 channels=2 access=3
+[   59.435867] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2415 using interleaved_copy
+[   59.435870] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2446 using default copy=000000009da40fb5
+[   59.435874] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2458 nonblock=0
+[   59.435877] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2462 stream locked
+[   59.435880] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2466 accessible_state=0 runtime_state=2
+[   59.435884] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2472 twake=12000
+[   59.435887] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2493 initial avail=24000
+[   59.435891] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=12000 offset=0 avail=24000
+[   59.435895] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2545 appl_ptr=24000 appl_ofs=24000 cont=24000
+[   59.435899] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2552 frames to copy=12000
+[   59.435902] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2574 calling writer() frames=12000
+[   59.435906] vijayp snd_pcm:interleaved_copy: ENTER substream=00000000c28d53b5 hwoff(frames)=24000 off(frames)=0 frames=12000 in_kernel=0
+[   59.435911] vijayp snd_pcm:interleaved_copy: bytes hwoff=96000 off=0 frames(bytes)=48000 data=000000004759d9fc transfer=000000009da40fb5
+[   59.435915] vijayp snd_pcm:interleaved_copy: calling do_transfer hwoff=96000 data+off=000000004759d9fc frames(bytes)=48000
+[   59.435919] vijayp sound/core/pcm_lib.c:do_transfer:2130 ENTER do_transfer c=0 hwoff=96000 bytes=48000 in_kernel=0
+[   59.435924] vijayp sound/core/pcm_lib.c:do_transfer:2138 stream=0 type=1 (ITER_SOURCE=0 ITER_DEST=1)
+[   59.435927] vijayp sound/core/pcm_lib.c:do_transfer:2162 importing user buffer data=000000558aa11e20 bytes=48000
+[   59.435932] vijayp sound/core/pcm_lib.c:do_transfer:2166 import_ubuf() err=0
+[   59.435935] vijayp sound/core/pcm_lib.c:do_transfer:2172 calling transfer (user mode) transfer=ffffffd931419148
+[   59.435939] vijayp transfer=default_write_copy+0x0/0x120 [snd_pcm] (ffffffd931419148)
+[   59.435965] vijayp sound/core/pcm_lib.c:2067 default_write_copy() called: substream=00000000c28d53b5 channel=0 hwoff=96000 bytes=48000 iter_count=48000
+[   59.435970] vijayp dma_ptr=00000000133b3734
+[   59.435990] vijayp sound/core/pcm_lib.c:2080 default_write_copy() success
+[   59.435993] vijayp sound/core/pcm_lib.c:do_transfer:2182 transfer() returned err=0
+[   59.435997] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2587 writer() returned err=0
+[   59.436000] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2594 accessible_state again=0
+[   59.436003] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2603 updating appl_ptr=36000
+[   59.436007] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2615 LOOP END xfer=12000 offset=12000 size=0
+[   59.436011] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2633 END_UNLOCK xfer=12000 err=0
+[   59.436015] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2643 FINAL RETURN=12000
+[   59.436019] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.436251] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.436255] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2394 ENTER substream=00000000c28d53b5 data=000000004759d9fc interleaved=1 size=12000
+[   59.436259] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2397 sanity_check err=0
+[   59.436262] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2403 is_playback=1 channels=2 access=3
+[   59.436266] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2415 using interleaved_copy
+[   59.436269] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2446 using default copy=000000009da40fb5
+[   59.436273] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2458 nonblock=0
+[   59.436276] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2462 stream locked
+[   59.436279] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2466 accessible_state=0 runtime_state=2
+[   59.436282] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2472 twake=12000
+[   59.436285] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2493 initial avail=12000
+[   59.436289] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=12000 offset=0 avail=12000
+[   59.436293] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2545 appl_ptr=36000 appl_ofs=36000 cont=12000
+[   59.436297] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2552 frames to copy=12000
+[   59.436300] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2574 calling writer() frames=12000
+[   59.436303] vijayp snd_pcm:interleaved_copy: ENTER substream=00000000c28d53b5 hwoff(frames)=36000 off(frames)=0 frames=12000 in_kernel=0
+[   59.436308] vijayp snd_pcm:interleaved_copy: bytes hwoff=144000 off=0 frames(bytes)=48000 data=000000004759d9fc transfer=000000009da40fb5
+[   59.436313] vijayp snd_pcm:interleaved_copy: calling do_transfer hwoff=144000 data+off=000000004759d9fc frames(bytes)=48000
+[   59.436316] vijayp sound/core/pcm_lib.c:do_transfer:2130 ENTER do_transfer c=0 hwoff=144000 bytes=48000 in_kernel=0
+[   59.436321] vijayp sound/core/pcm_lib.c:do_transfer:2138 stream=0 type=1 (ITER_SOURCE=0 ITER_DEST=1)
+[   59.436324] vijayp sound/core/pcm_lib.c:do_transfer:2162 importing user buffer data=000000558aa11e20 bytes=48000
+[   59.436328] vijayp sound/core/pcm_lib.c:do_transfer:2166 import_ubuf() err=0
+[   59.436331] vijayp sound/core/pcm_lib.c:do_transfer:2172 calling transfer (user mode) transfer=ffffffd931419148
+[   59.436335] vijayp transfer=default_write_copy+0x0/0x120 [snd_pcm] (ffffffd931419148)
+[   59.436352] vijayp sound/core/pcm_lib.c:2067 default_write_copy() called: substream=00000000c28d53b5 channel=0 hwoff=144000 bytes=48000 iter_count=48000
+[   59.436357] vijayp dma_ptr=000000009c637626
+[   59.436377] vijayp sound/core/pcm_lib.c:2080 default_write_copy() success
+[   59.436380] vijayp sound/core/pcm_lib.c:do_transfer:2182 transfer() returned err=0
+[   59.436384] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2587 writer() returned err=0
+[   59.436387] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2594 accessible_state again=0
+[   59.436390] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2603 updating appl_ptr=48000
+[   59.436393] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2615 LOOP END xfer=12000 offset=12000 size=0
+[   59.436397] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2623 AUTO start playback
+[   59.436401] ALSA-DBG: snd_pcm_action_single(): ENTER substream=00000000c28d53b5 state=3
+[   59.436404] ALSA-DBG: snd_pcm_action_single(): calling pre_action=snd_pcm_pre_start [snd_pcm]
+[   59.436420] ALSA-DBG: snd_pcm_action_single(): pre_action() returned 0
+[   59.436423] ALSA-DBG: snd_pcm_action_single(): calling do_action=snd_pcm_do_start [snd_pcm]
+[   59.436439] ALSA-DBG: snd_pcm_do_start(): ENTER substream=00000000c28d53b5 state=3
+[   59.436442] ALSA-DBG: snd_pcm_do_start(): Calling driver trigger START (ops->trigger=soc_pcm_trigger [snd_soc_core])
+[   59.436499] ASOC-DBG: soc_pcm_trigger(): ENTER rtd=bcm2835-i2s-wm8960-hifi cmd=1
+[   59.436502] ASOC-DBG: soc_pcm_trigger(): component=fe203000.i2s trigger_start=0 trigger_stop=0
+[   59.436506] ASOC-DBG: soc_pcm_trigger(): component=wm8960.1-001a trigger_start=0 trigger_stop=0
+[   59.436509] ASOC-DBG: soc_pcm_trigger(): component=fe203000.i2s trigger_start=0 trigger_stop=0
+[   59.436512] ASOC-DBG: soc_pcm_trigger(): start_order=0 stop_order=0
+[   59.436515] ASOC-DBG: soc_pcm_trigger(): FINAL start=0 stop=0
+[   59.436518] ASOC-DBG: soc_pcm_trigger(): START LOOP start_index=0
+[   59.436521] ASOC-DBG: soc_pcm_trigger(): calling trigger[0][0]=snd_soc_link_trigger [snd_soc_core]
+[   59.436553] ASOC-DBG: snd_soc_link_trigger(): ENTER rtd=bcm2835-i2s-wm8960-hifi cmd=1 rollback=0
+[   59.436556] ASOC-DBG: snd_soc_link_trigger(): calling soc_link_trigger(substream, 1)
+[   59.436559] ASOC-DBG: soc_link_trigger(): ENTER rtd=bcm2835-i2s-wm8960-hifi cmd=1
+[   59.436563] ASOC-DBG: soc_link_trigger(): NO dai_link trigger present
+[   59.436566] ASOC-DBG: soc_link_trigger(): calling soc_link_ret() next
+[   59.436568] ASOC-DBG: soc_link_trigger(): soc_link_ret() returned 0
+[   59.436571] ASOC-DBG: soc_link_trigger(): EXIT
+[   59.436573] ASOC-DBG: snd_soc_link_trigger(): soc_link_trigger returned 0
+[   59.436575] ASOC-DBG: snd_soc_link_trigger(): calling soc_link_mark_push()
+[   59.436578] ASOC-DBG: snd_soc_link_trigger(): EXIT ret=0
+[   59.436580] ASOC-DBG: soc_pcm_trigger(): trigger[0][0] returned 0
+[   59.436583] ASOC-DBG: soc_pcm_trigger(): calling trigger[0][1]=snd_soc_pcm_component_trigger [snd_soc_core]
+[   59.436615] ASOC-DBG: snd_soc_pcm_component_trigger(): ENTER rtd=bcm2835-i2s-wm8960-hifi cmd=1 rollback=0
+[   59.436619] ASOC-DBG: snd_soc_pcm_component_trigger(): START: component[0]=fe203000.i2s
+[   59.436622] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_trigger=soc_component_trigger [snd_soc_core]
+[   59.436652] ASOC-DBG: soc_component_trigger(): ENTER component=fe203000.i2s cmd=1
+[   59.436655] ASOC-DBG: soc_component_trigger(): component=fe203000.i2s has NO trigger() callback!
+[   59.436658] ASOC-DBG: soc_component_trigger(): calling soc_component_ret() ret=0
+[   59.436661] ASOC-DBG: snd_soc_pcm_component_trigger(): component fe203000.i2s trigger returned 0
+[   59.436664] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_mark_push()
+[   59.436666] ASOC-DBG: snd_soc_pcm_component_trigger(): START: component[1]=wm8960.1-001a
+[   59.436669] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_trigger=soc_component_trigger [snd_soc_core]
+[   59.436699] ASOC-DBG: soc_component_trigger(): ENTER component=wm8960.1-001a cmd=1
+[   59.436702] ASOC-DBG: soc_component_trigger(): component=wm8960.1-001a has NO trigger() callback!
+[   59.436704] ASOC-DBG: soc_component_trigger(): calling soc_component_ret() ret=0
+[   59.436707] ASOC-DBG: snd_soc_pcm_component_trigger(): component wm8960.1-001a trigger returned 0
+[   59.436710] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_mark_push()
+[   59.436712] ASOC-DBG: snd_soc_pcm_component_trigger(): START: component[2]=fe203000.i2s
+[   59.436715] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_trigger=soc_component_trigger [snd_soc_core]
+[   59.436745] ASOC-DBG: soc_component_trigger(): ENTER component=fe203000.i2s cmd=1
+[   59.436748] ASOC-DBG: soc_component_trigger(): calling component->driver->trigger=dmaengine_pcm_trigger [snd_soc_core]
+[   59.436778] sound/soc/soc-generic-dmaengine-pcm.c:dmaengine_pcm_trigger(): reached here
+[   59.436782] [vijayp][DMAENGINE] prepare_and_submit: substream=00000000c28d53b5 stream=PLAYBACK
+[   59.436786] [vijayp][DMAENGINE] dma_addr=0x00000000ce280000 buffer_bytes=192000 period_bytes=48000 direction=1 flags=0x3
+[   59.436791] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_dma_cyclic(): reached here
+[   59.436794] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   59.436798] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
+[   59.436803] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
+[   59.436806] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_set_length(): reached here
+[   59.436809] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
+[   59.436813] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
+[   59.436815] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_set_length(): reached here
+[   59.436818] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
+[   59.436822] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
+[   59.436824] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_set_length(): reached here
+[   59.436827] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
+[   59.436830] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
+[   59.436833] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_set_length(): reached here
+[   59.436836] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
+[   59.436839] [vijayp][DMAENGINE] desc=00000000661cfa98 chan=dma0chan1 device=fe007000.dma-controller
+[   59.436843] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
+[   59.436846] drivers/dma/virt-dma.c:to_virt_desc(): reached here
+[   59.436849] [vijayp][DMAENGINE] dmaengine_submit: cookie=3 (DMA armed, not started yet)
+[   59.436852] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
+[   59.436855] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   59.436858] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
+[   59.436861] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
+[   59.436864] ASOC-DBG: soc_component_trigger(): component->driver->trigger returned ret=0
+[   59.436866] ASOC-DBG: soc_component_trigger(): calling soc_component_ret() ret=0
+[   59.436869] ASOC-DBG: snd_soc_pcm_component_trigger(): component fe203000.i2s trigger returned 0
+[   59.436872] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_mark_push()
+[   59.436874] ASOC-DBG: snd_soc_pcm_component_trigger(): EXIT ret=0
+[   59.436877] ASOC-DBG: soc_pcm_trigger(): trigger[0][1] returned 0
+[   59.436880] ASOC-DBG: soc_pcm_trigger(): calling trigger[0][2]=snd_soc_pcm_dai_trigger [snd_soc_core]
+[   59.436911] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): ENTER cmd=1 rollback=0
+[   59.436916] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): START: dai[0]=fe203000.i2s calling soc_dai_trigger()
+[   59.436919] vijayp sound/soc/soc-dai.c:soc_dai_trigger(): ENTER dai=fe203000.i2s stream=0 cmd=1
+[   59.436923] vijayp sound/soc/soc-dai.c:soc_dai_trigger(): NEXT CALL -> dai->driver->ops->trigger=bcm2835_i2s_trigger [snd_soc_bcm2835_i2s] (dai=fe203000.i2s)
+[   59.436932] vijayp sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_trigger(): ENTER dai=fe203000.i2s stream=PLAYBACK cmd=1
+[   59.436936] vijayp sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_trigger(): START/RESUME -> calling bcm2835_i2s_start_clock()
+[   59.436939] vijayp sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_start_clock(): ENTER dev=0000000017f08b75 fmt=0x1001 provider=0x1000 clk_prepared=1
+[   59.436944] vijayp sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_start_clock(): clock already prepared -> RETURN
+[   59.436947] vijayp sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_trigger(): PLAYBACK path, mask=TXON (0x4)
+[   59.436950] vijayp sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_trigger(): regmap_update_bits(CS_A, mask=0x4)
+[   59.436955] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.436958] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.436963] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.436966] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.436970] vijayp sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_trigger(): I2S ENABLED, RETURN to soc_dai_trigger()
+[   59.436973] vijayp sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_trigger(): EXIT ret=0
+[   59.436976] vijayp sound/soc/soc-dai.c:soc_dai_trigger(): RETURNED from dai->driver->ops->trigger ret=0
+[   59.436979] vijayp sound/soc/soc-dai.c:soc_dai_trigger(): calling soc_dai_ret()
+[   59.436982] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[0]=fe203000.i2s soc_dai_trigger() returned 0
+[   59.436986] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[0]=fe203000.i2s calling soc_dai_mark_push()
+[   59.436990] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): START: dai[1]=wm8960-hifi calling soc_dai_trigger()
+[   59.436993] vijayp sound/soc/soc-dai.c:soc_dai_trigger(): ENTER dai=wm8960-hifi stream=0 cmd=1
+[   59.436997] vijayp sound/soc/soc-dai.c:soc_dai_trigger(): NO dai->driver->ops->trigger for dai=wm8960-hifi
+[   59.437000] vijayp sound/soc/soc-dai.c:soc_dai_trigger(): calling soc_dai_ret()
+[   59.437003] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[1]=wm8960-hifi soc_dai_trigger() returned 0
+[   59.437006] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[1]=wm8960-hifi calling soc_dai_mark_push()
+[   59.437009] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): EXIT ret=0
+[   59.437012] ASOC-DBG: soc_pcm_trigger(): trigger[0][2] returned 0
+[   59.437015] ASOC-DBG: soc_pcm_trigger(): EXIT ret=0
+[   59.437017] ALSA-DBG: snd_pcm_do_start(): trigger() returned 0
+[   59.437020] ALSA-DBG: snd_pcm_do_start(): EXIT with err=0
+[   59.437022] ALSA-DBG: snd_pcm_action_single(): do_action() returned 0
+[   59.437024] ALSA-DBG: snd_pcm_action_single(): calling post_action=snd_pcm_post_start [snd_pcm]
+[   59.437046] ALSA-DBG: snd_pcm_action_single(): post_action DONE
+[   59.437048] ALSA-DBG: snd_pcm_action_single(): EXIT with res=0
+[   59.437050] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2633 END_UNLOCK xfer=12000 err=0
+[   59.437055] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2643 FINAL RETURN=12000
+[   59.437061] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.437294] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.437298] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2394 ENTER substream=00000000c28d53b5 data=000000004759d9fc interleaved=1 size=12000
+[   59.437303] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2397 sanity_check err=0
+[   59.437306] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2403 is_playback=1 channels=2 access=3
+[   59.437310] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2415 using interleaved_copy
+[   59.437313] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2446 using default copy=000000009da40fb5
+[   59.437316] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2458 nonblock=0
+[   59.437320] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2462 stream locked
+[   59.437323] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2466 accessible_state=0 runtime_state=3
+[   59.437326] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2472 twake=12000
+[   59.437330] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2476 calling update_hw_ptr
+[   59.437333] sound/core/pcm_lib.c:snd_pcm_update_hw_ptr(): reached here
+[   59.437336] sound/core/pcm_lib.c:snd_pcm_update_hw_ptr0(): reached here
+[   59.437340] drivers/dma/bcm2835-dma.c:bcm2835_dma_tx_status(): reached here
+[   59.437343] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   59.437346] drivers/dma/virt-dma.c:vchan_find_desc(): reached here
+[   59.437349] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
+[   59.437352] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
+[   59.437357] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2493 initial avail=48
+[   59.437360] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=12000 offset=0 avail=48
+[   59.437364] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2545 appl_ptr=48000 appl_ofs=0 cont=48000
+[   59.437368] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2552 frames to copy=48
+[   59.437371] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2574 calling writer() frames=48
+[   59.437375] vijayp snd_pcm:interleaved_copy: ENTER substream=00000000c28d53b5 hwoff(frames)=0 off(frames)=0 frames=48 in_kernel=0
+[   59.437380] vijayp snd_pcm:interleaved_copy: bytes hwoff=0 off=0 frames(bytes)=192 data=000000004759d9fc transfer=000000009da40fb5
+[   59.437385] vijayp snd_pcm:interleaved_copy: calling do_transfer hwoff=0 data+off=000000004759d9fc frames(bytes)=192
+[   59.437388] vijayp sound/core/pcm_lib.c:do_transfer:2130 ENTER do_transfer c=0 hwoff=0 bytes=192 in_kernel=0
+[   59.437393] vijayp sound/core/pcm_lib.c:do_transfer:2138 stream=0 type=1 (ITER_SOURCE=0 ITER_DEST=1)
+[   59.437396] vijayp sound/core/pcm_lib.c:do_transfer:2162 importing user buffer data=000000558aa11e20 bytes=192
+[   59.437401] vijayp sound/core/pcm_lib.c:do_transfer:2166 import_ubuf() err=0
+[   59.437404] vijayp sound/core/pcm_lib.c:do_transfer:2172 calling transfer (user mode) transfer=ffffffd931419148
+[   59.437407] vijayp transfer=default_write_copy+0x0/0x120 [snd_pcm] (ffffffd931419148)
+[   59.437425] vijayp sound/core/pcm_lib.c:2067 default_write_copy() called: substream=00000000c28d53b5 channel=0 hwoff=0 bytes=192 iter_count=192
+[   59.437430] vijayp dma_ptr=00000000dada6182
+[   59.437433] vijayp sound/core/pcm_lib.c:2080 default_write_copy() success
+[   59.437436] vijayp sound/core/pcm_lib.c:do_transfer:2182 transfer() returned err=0
+[   59.437440] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2587 writer() returned err=0
+[   59.437443] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2594 accessible_state again=0
+[   59.437446] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2603 updating appl_ptr=48048
+[   59.437450] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2615 LOOP END xfer=48 offset=48 size=11952
+[   59.437454] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=11952 offset=48 avail=0
+[   59.437457] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2506 avail=0, waiting...
+[   59.437460] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2527 waiting for avail, twake=11952
+[   59.686478] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
+[   59.686490] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
+[   59.686493] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
+[   59.686502] [VCHAN] vchan_complete(): ENTER chan=dma:tx
+[   59.686506] [VCHAN] copying vc->desc_completed list
+[   59.686509] [VCHAN] cyclic descriptor complete vd=00000000661cfa98
+[   59.686515] [VCHAN] invoking callback for vd=00000000661cfa98
+[   59.686521] ALSA: snd_pcm_period_elapsed() entered
+[   59.686526] sound/core/pcm_lib.c:snd_pcm_update_hw_ptr0(): reached here
+[   59.686533] drivers/dma/bcm2835-dma.c:bcm2835_dma_tx_status(): reached here
+[   59.686536] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   59.686539] drivers/dma/virt-dma.c:vchan_find_desc(): reached here
+[   59.686543] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
+[   59.686546] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
+[   59.686555] [VCHAN] vchan_complete(): EXIT
+[   59.686565] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2531 wait_for_avail returned err=0 avail=11960
+[   59.686573] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2545 appl_ptr=48048 appl_ofs=48 cont=47952
+[   59.686577] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2552 frames to copy=11952
+[   59.686633] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2574 calling writer() frames=11952
+[   59.686638] vijayp snd_pcm:interleaved_copy: ENTER substream=00000000c28d53b5 hwoff(frames)=48 off(frames)=48 frames=11952 in_kernel=0
+[   59.686644] vijayp snd_pcm:interleaved_copy: bytes hwoff=192 off=192 frames(bytes)=47808 data=000000004759d9fc transfer=000000009da40fb5
+[   59.686649] vijayp snd_pcm:interleaved_copy: calling do_transfer hwoff=192 data+off=00000000c907fa9d frames(bytes)=47808
+[   59.686653] vijayp sound/core/pcm_lib.c:do_transfer:2130 ENTER do_transfer c=0 hwoff=192 bytes=47808 in_kernel=0
+[   59.686658] vijayp sound/core/pcm_lib.c:do_transfer:2138 stream=0 type=1 (ITER_SOURCE=0 ITER_DEST=1)
+[   59.686661] vijayp sound/core/pcm_lib.c:do_transfer:2162 importing user buffer data=000000558aa11ee0 bytes=47808
+[   59.686666] vijayp sound/core/pcm_lib.c:do_transfer:2166 import_ubuf() err=0
+[   59.686670] vijayp sound/core/pcm_lib.c:do_transfer:2172 calling transfer (user mode) transfer=ffffffd931419148
+[   59.686673] vijayp transfer=default_write_copy+0x0/0x120 [snd_pcm] (ffffffd931419148)
+[   59.686707] vijayp sound/core/pcm_lib.c:2067 default_write_copy() called: substream=00000000c28d53b5 channel=0 hwoff=192 bytes=47808 iter_count=47808
+[   59.686712] vijayp dma_ptr=0000000029fbe129
+[   59.686744] vijayp sound/core/pcm_lib.c:2080 default_write_copy() success
+[   59.686747] vijayp sound/core/pcm_lib.c:do_transfer:2182 transfer() returned err=0
+[   59.686750] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2587 writer() returned err=0
+[   59.686754] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2594 accessible_state again=0
+[   59.686757] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2603 updating appl_ptr=60000
+[   59.686761] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2615 LOOP END xfer=12000 offset=12000 size=0
+[   59.686765] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2633 END_UNLOCK xfer=12000 err=0
+[   59.686769] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2643 FINAL RETURN=12000
+[   59.686780] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.687016] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.687020] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2394 ENTER substream=00000000c28d53b5 data=000000004759d9fc interleaved=1 size=12000
+[   59.687025] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2397 sanity_check err=0
+[   59.687028] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2403 is_playback=1 channels=2 access=3
+[   59.687032] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2415 using interleaved_copy
+[   59.687035] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2446 using default copy=000000009da40fb5
+[   59.687039] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2458 nonblock=0
+[   59.687042] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2462 stream locked
+[   59.687045] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2466 accessible_state=0 runtime_state=3
+[   59.687048] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2472 twake=12000
+[   59.687052] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2476 calling update_hw_ptr
+[   59.687055] sound/core/pcm_lib.c:snd_pcm_update_hw_ptr(): reached here
+[   59.687057] sound/core/pcm_lib.c:snd_pcm_update_hw_ptr0(): reached here
+[   59.687062] drivers/dma/bcm2835-dma.c:bcm2835_dma_tx_status(): reached here
+[   59.687065] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   59.687068] drivers/dma/virt-dma.c:vchan_find_desc(): reached here
+[   59.687071] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
+[   59.687074] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_size_pos(): reached here
+[   59.687078] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2493 initial avail=32
+[   59.687081] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=12000 offset=0 avail=32
+[   59.687085] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2545 appl_ptr=60000 appl_ofs=12000 cont=36000
+[   59.687089] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2552 frames to copy=32
+[   59.687092] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2574 calling writer() frames=32
+[   59.687096] vijayp snd_pcm:interleaved_copy: ENTER substream=00000000c28d53b5 hwoff(frames)=12000 off(frames)=0 frames=32 in_kernel=0
+[   59.687100] vijayp snd_pcm:interleaved_copy: bytes hwoff=48000 off=0 frames(bytes)=128 data=000000004759d9fc transfer=000000009da40fb5
+[   59.687105] vijayp snd_pcm:interleaved_copy: calling do_transfer hwoff=48000 data+off=000000004759d9fc frames(bytes)=128
+[   59.687109] vijayp sound/core/pcm_lib.c:do_transfer:2130 ENTER do_transfer c=0 hwoff=48000 bytes=128 in_kernel=0
+[   59.687113] vijayp sound/core/pcm_lib.c:do_transfer:2138 stream=0 type=1 (ITER_SOURCE=0 ITER_DEST=1)
+[   59.687116] vijayp sound/core/pcm_lib.c:do_transfer:2162 importing user buffer data=000000558aa11e20 bytes=128
+[   59.687121] vijayp sound/core/pcm_lib.c:do_transfer:2166 import_ubuf() err=0
+[   59.687124] vijayp sound/core/pcm_lib.c:do_transfer:2172 calling transfer (user mode) transfer=ffffffd931419148
+[   59.687127] vijayp transfer=default_write_copy+0x0/0x120 [snd_pcm] (ffffffd931419148)
+[   59.687147] vijayp sound/core/pcm_lib.c:2067 default_write_copy() called: substream=00000000c28d53b5 channel=0 hwoff=48000 bytes=128 iter_count=128
+[   59.687152] vijayp dma_ptr=00000000e8ea7dd5
+[   59.687154] vijayp sound/core/pcm_lib.c:2080 default_write_copy() success
+[   59.687157] vijayp sound/core/pcm_lib.c:do_transfer:2182 transfer() returned err=0
+[   59.687160] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2587 writer() returned err=0
+[   59.687164] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2594 accessible_state again=0
+[   59.687167] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2603 updating appl_ptr=60032
+[   59.687170] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2615 LOOP END xfer=32 offset=32 size=11968
+[   59.687174] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2498 LOOP size=11968 offset=32 avail=0
+[   59.687177] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2506 avail=0, waiting...
+[   59.687181] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2527 waiting for avail, twake=11968
+[   59.747518] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2531 wait_for_avail returned err=-512 avail=0
+[   59.747530] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2633 END_UNLOCK xfer=32 err=-512
+[   59.747534] vijayp sound/core/pcm_lib.c:__snd_pcm_lib_xfer:2643 FINAL RETURN=32
+[   59.747567] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.747655] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.747662] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.747666] ALSA-DBG: snd_pcm_action_single(): ENTER substream=00000000c28d53b5 state=0
+[   59.747672] ALSA-DBG: snd_pcm_action_single(): calling pre_action=snd_pcm_pre_drain_init [snd_pcm]
+[   59.747698] ALSA-DBG: snd_pcm_action_single(): pre_action() returned 0
+[   59.747701] ALSA-DBG: snd_pcm_action_single(): calling do_action=snd_pcm_do_drain_init [snd_pcm]
+[   59.747717] ALSA-DBG: snd_pcm_action_single(): do_action() returned 0
+[   59.747720] ALSA-DBG: snd_pcm_action_single(): calling post_action=snd_pcm_post_drain_init [snd_pcm]
+[   59.747736] ALSA-DBG: snd_pcm_action_single(): post_action DONE
+[   59.747738] ALSA-DBG: snd_pcm_action_single(): EXIT with res=0
+[   59.747746] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.747750] ALSA-DBG: snd_pcm_action_single(): ENTER substream=00000000c28d53b5 state=1
+[   59.747753] ALSA-DBG: snd_pcm_action_single(): calling pre_action=snd_pcm_pre_stop [snd_pcm]
+[   59.747769] ALSA-DBG: snd_pcm_action_single(): pre_action() returned 0
+[   59.747771] ALSA-DBG: snd_pcm_action_single(): calling do_action=snd_pcm_do_stop [snd_pcm]
+[   59.747788] ASOC-DBG: soc_pcm_trigger(): ENTER rtd=bcm2835-i2s-wm8960-hifi cmd=0
+[   59.747791] ASOC-DBG: soc_pcm_trigger(): component=fe203000.i2s trigger_start=0 trigger_stop=0
+[   59.747794] ASOC-DBG: soc_pcm_trigger(): component=wm8960.1-001a trigger_start=0 trigger_stop=0
+[   59.747798] ASOC-DBG: soc_pcm_trigger(): component=fe203000.i2s trigger_start=0 trigger_stop=0
+[   59.747801] ASOC-DBG: soc_pcm_trigger(): start_order=0 stop_order=0
+[   59.747804] ASOC-DBG: soc_pcm_trigger(): FINAL start=0 stop=0
+[   59.747806] ASOC-DBG: soc_pcm_trigger(): STOP LOOP stop_index=0
+[   59.747809] ASOC-DBG: soc_pcm_trigger(): calling trigger[0][2]=snd_soc_pcm_dai_trigger [snd_soc_core]
+[   59.747867] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): ENTER cmd=0 rollback=0
+[   59.747872] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): STOP: dai[0]=fe203000.i2s rollback=0
+[   59.747875] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[0]=fe203000.i2s calling soc_dai_trigger(STOP)
+[   59.747879] vijayp sound/soc/soc-dai.c:soc_dai_trigger(): ENTER dai=fe203000.i2s stream=0 cmd=0
+[   59.747883] vijayp sound/soc/soc-dai.c:soc_dai_trigger(): NEXT CALL -> dai->driver->ops->trigger=bcm2835_i2s_trigger [snd_soc_bcm2835_i2s] (dai=fe203000.i2s)
+[   59.747891] vijayp sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_trigger(): ENTER dai=fe203000.i2s stream=PLAYBACK cmd=0
+[   59.747895] vijayp sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_trigger(): STOP/SUSPEND -> calling bcm2835_i2s_stop()
+[   59.747899] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_stop(): reached here
+[   59.747903] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.747907] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.747911] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.747914] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.747918] vijayp sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_trigger(): EXIT ret=0
+[   59.747921] vijayp sound/soc/soc-dai.c:soc_dai_trigger(): RETURNED from dai->driver->ops->trigger ret=0
+[   59.747924] vijayp sound/soc/soc-dai.c:soc_dai_trigger(): calling soc_dai_ret()
+[   59.747927] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[0]=fe203000.i2s soc_dai_trigger() returned 0
+[   59.747930] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[0]=fe203000.i2s calling soc_dai_mark_pop()
+[   59.747933] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): STOP: dai[1]=wm8960-hifi rollback=0
+[   59.747937] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[1]=wm8960-hifi calling soc_dai_trigger(STOP)
+[   59.747940] vijayp sound/soc/soc-dai.c:soc_dai_trigger(): ENTER dai=wm8960-hifi stream=0 cmd=0
+[   59.747943] vijayp sound/soc/soc-dai.c:soc_dai_trigger(): NO dai->driver->ops->trigger for dai=wm8960-hifi
+[   59.747946] vijayp sound/soc/soc-dai.c:soc_dai_trigger(): calling soc_dai_ret()
+[   59.747949] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[1]=wm8960-hifi soc_dai_trigger() returned 0
+[   59.747952] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): dai[1]=wm8960-hifi calling soc_dai_mark_pop()
+[   59.747956] vijayp sound/soc/soc-dai.c:snd_soc_pcm_dai_trigger(): EXIT ret=0
+[   59.747959] ASOC-DBG: soc_pcm_trigger(): trigger[0][2] returned 0
+[   59.747962] ASOC-DBG: soc_pcm_trigger(): calling trigger[0][1]=snd_soc_pcm_component_trigger [snd_soc_core]
+[   59.747993] ASOC-DBG: snd_soc_pcm_component_trigger(): ENTER rtd=bcm2835-i2s-wm8960-hifi cmd=0 rollback=0
+[   59.747997] ASOC-DBG: snd_soc_pcm_component_trigger(): STOP: component[0]=fe203000.i2s rollback=0
+[   59.748000] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_trigger=soc_component_trigger [snd_soc_core]
+[   59.748030] ASOC-DBG: soc_component_trigger(): ENTER component=fe203000.i2s cmd=0
+[   59.748033] ASOC-DBG: soc_component_trigger(): component=fe203000.i2s has NO trigger() callback!
+[   59.748035] ASOC-DBG: soc_component_trigger(): calling soc_component_ret() ret=0
+[   59.748038] ASOC-DBG: snd_soc_pcm_component_trigger(): component fe203000.i2s STOP trigger returned r=0
+[   59.748041] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_mark_pop()
+[   59.748043] ASOC-DBG: snd_soc_pcm_component_trigger(): STOP: component[1]=wm8960.1-001a rollback=0
+[   59.748046] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_trigger=soc_component_trigger [snd_soc_core]
+[   59.748075] ASOC-DBG: soc_component_trigger(): ENTER component=wm8960.1-001a cmd=0
+[   59.748078] ASOC-DBG: soc_component_trigger(): component=wm8960.1-001a has NO trigger() callback!
+[   59.748081] ASOC-DBG: soc_component_trigger(): calling soc_component_ret() ret=0
+[   59.748084] ASOC-DBG: snd_soc_pcm_component_trigger(): component wm8960.1-001a STOP trigger returned r=0
+[   59.748086] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_mark_pop()
+[   59.748089] ASOC-DBG: snd_soc_pcm_component_trigger(): STOP: component[2]=fe203000.i2s rollback=0
+[   59.748091] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_trigger=soc_component_trigger [snd_soc_core]
+[   59.748121] ASOC-DBG: soc_component_trigger(): ENTER component=fe203000.i2s cmd=0
+[   59.748124] ASOC-DBG: soc_component_trigger(): calling component->driver->trigger=dmaengine_pcm_trigger [snd_soc_core]
+[   59.748154] sound/soc/soc-generic-dmaengine-pcm.c:dmaengine_pcm_trigger(): reached here
+[   59.748158] drivers/dma/bcm2835-dma.c:bcm2835_dma_terminate_all(): reached here
+[   59.748160] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   59.748163] drivers/dma/bcm2835-dma.c:bcm2835_dma_abort(): reached here
+[   59.748166] drivers/dma/bcm2835-dma.c:bcm2835_dma_abort(): reached here
+[   59.748175] drivers/dma/virt-dma.c:vchan_dma_desc_free_list(): reached here
+[   59.748178] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
+[   59.748181] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
+[   59.748185] ASOC-DBG: soc_component_trigger(): component->driver->trigger returned ret=0
+[   59.748188] ASOC-DBG: soc_component_trigger(): calling soc_component_ret() ret=0
+[   59.748190] ASOC-DBG: snd_soc_pcm_component_trigger(): component fe203000.i2s STOP trigger returned r=0
+[   59.748193] ASOC-DBG: snd_soc_pcm_component_trigger(): calling soc_component_mark_pop()
+[   59.748195] ASOC-DBG: snd_soc_pcm_component_trigger(): EXIT ret=0
+[   59.748198] ASOC-DBG: soc_pcm_trigger(): trigger[0][1] returned 0
+[   59.748201] ASOC-DBG: soc_pcm_trigger(): calling trigger[0][0]=snd_soc_link_trigger [snd_soc_core]
+[   59.748231] ASOC-DBG: snd_soc_link_trigger(): ENTER rtd=bcm2835-i2s-wm8960-hifi cmd=0 rollback=0
+[   59.748235] ASOC-DBG: snd_soc_link_trigger(): STOP path, rollback=0
+[   59.748238] ASOC-DBG: snd_soc_link_trigger(): calling soc_link_trigger(substream, 0)
+[   59.748240] ASOC-DBG: soc_link_trigger(): ENTER rtd=bcm2835-i2s-wm8960-hifi cmd=0
+[   59.748244] ASOC-DBG: soc_link_trigger(): NO dai_link trigger present
+[   59.748246] ASOC-DBG: soc_link_trigger(): calling soc_link_ret() next
+[   59.748248] ASOC-DBG: soc_link_trigger(): soc_link_ret() returned 0
+[   59.748250] ASOC-DBG: soc_link_trigger(): EXIT
+[   59.748252] ASOC-DBG: snd_soc_link_trigger(): soc_link_trigger returned 0
+[   59.748255] ASOC-DBG: snd_soc_link_trigger(): calling soc_link_mark_pop(startup)
+[   59.748257] ASOC-DBG: snd_soc_link_trigger(): EXIT ret=0
+[   59.748259] ASOC-DBG: soc_pcm_trigger(): trigger[0][0] returned 0
+[   59.748262] ASOC-DBG: soc_pcm_trigger(): EXIT ret=0
+[   59.748264] ALSA-DBG: snd_pcm_action_single(): do_action() returned 0
+[   59.748266] ALSA-DBG: snd_pcm_action_single(): calling post_action=snd_pcm_post_stop [snd_pcm]
+[   59.748286] ALSA-DBG: snd_pcm_action_single(): post_action DONE
+[   59.748288] ALSA-DBG: snd_pcm_action_single(): EXIT with res=0
+[   59.748293] sound/core/pcm_native.c:snd_pcm_common_ioctl(): reached here
+[   59.748298] drivers/dma/bcm2835-dma.c:bcm2835_dma_tx_status(): reached here
+[   59.748301] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   59.748304] drivers/dma/virt-dma.c:vchan_find_desc(): reached here
+[   59.748307] drivers/dma/bcm2835-dma.c:bcm2835_dma_synchronize(): reached here
+[   59.748310] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   59.748313] drivers/dma/virt-dma.c:vchan_dma_desc_free_list(): reached here
+[   59.748820] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_shutdown(): reached here
+[   59.748829] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_stop(): reached here
+[   59.748832] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.748835] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.748838] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.748841] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_stop_clock(): reached here
+[   59.748848] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.748851] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.748853] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.748856] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_volatile_reg(): reached here
+[   59.748859] sound/soc/bcm/bcm2835-i2s.c:bcm2835_i2s_stop_clock(): reached here
+[   59.748864] drivers/dma/bcm2835-dma.c:bcm2835_dma_tx_status(): reached here
+[   59.748867] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   59.748870] drivers/dma/virt-dma.c:vchan_find_desc(): reached here
+[   59.748873] drivers/dma/bcm2835-dma.c:bcm2835_dma_synchronize(): reached here
+[   59.748875] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   59.748878] drivers/dma/virt-dma.c:vchan_dma_desc_free_list(): reached here
+[   61.011388] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
+[   61.011404] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   61.011416] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_slave_sg(): reached here
+[   61.011419] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   61.011422] drivers/dma/bcm2835-dma.c:bcm2835_dma_count_frames_for_sg(): reached here
+[   61.011425] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
+[   61.011430] drivers/dma/bcm2835-dma.c:bcm2835_dma_fill_cb_chain_with_sg(): reached here
+[   61.011435] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
+[   61.011438] drivers/dma/virt-dma.c:to_virt_desc(): reached here
+[   61.011441] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
+[   61.011444] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   61.011447] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
+[   61.011450] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
+[   61.011542] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
+[   61.011547] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
+[   61.011550] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
+[   61.011553] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
+[   61.011558] [VCHAN] vchan_complete(): ENTER chan=dma:rx-tx
+[   61.011563] [VCHAN] copying vc->desc_completed list
+[   61.011565] [VCHAN] NO cyclic descriptor
+[   61.011569] [VCHAN] invoking callback for vd=0000000000000000
+[   61.011579] [VCHAN] processing descriptor vd=000000007b77fae2
+[   61.011585] [VCHAN] invoking callback for vd=000000007b77fae2 (non-cyclic)
+[   61.011590] [VCHAN] freeing descriptor vd=000000007b77fae2
+[   61.011593] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
+[   61.011598] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
+[   61.011603] [VCHAN] vchan_complete(): EXIT
+[   61.011802] drivers/dma/bcm2835-dma.c:bcm2835_dma_slave_config(): reached here
+[   61.011810] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   61.011819] drivers/dma/bcm2835-dma.c:bcm2835_dma_prep_slave_sg(): reached here
+[   61.011822] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   61.011825] drivers/dma/bcm2835-dma.c:bcm2835_dma_count_frames_for_sg(): reached here
+[   61.011828] drivers/dma/bcm2835-dma.c:bcm2835_dma_create_cb_chain(): reached here
+[   61.011832] drivers/dma/bcm2835-dma.c:bcm2835_dma_fill_cb_chain_with_sg(): reached here
+[   61.011836] drivers/dma/virt-dma.c:vchan_tx_submit(): reached here
+[   61.011839] drivers/dma/virt-dma.c:to_virt_desc(): reached here
+[   61.011842] drivers/dma/bcm2835-dma.c:bcm2835_dma_issue_pending(): reached here
+[   61.011844] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_chan(): reached here
+[   61.011847] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
+[   61.011850] drivers/dma/bcm2835-dma.c:to_bcm2835_dma_desc(): reached here
+[   61.011916] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
+[   61.011919] [vijayp] File drivers/dma/bcm2835-dma.c: Function bcm2835_dma_callback :: => BCM2835 DMA IRQ: period completed
+[   61.011922] drivers/dma/bcm2835-dma.c:bcm2835_dma_callback(): reached here
+[   61.011925] drivers/dma/bcm2835-dma.c:bcm2835_dma_start_desc(): reached here
+[   61.011931] [VCHAN] vchan_complete(): ENTER chan=dma:rx-tx
+[   61.011933] [VCHAN] copying vc->desc_completed list
+[   61.011935] [VCHAN] NO cyclic descriptor
+[   61.011938] [VCHAN] invoking callback for vd=0000000000000000
+[   61.011941] [VCHAN] processing descriptor vd=000000007b77fae2
+[   61.011944] [VCHAN] invoking callback for vd=000000007b77fae2 (non-cyclic)
+[   61.011949] [VCHAN] freeing descriptor vd=000000007b77fae2
+[   61.011952] drivers/dma/bcm2835-dma.c:bcm2835_dma_desc_free(): reached here
+[   61.011954] drivers/dma/bcm2835-dma.c:bcm2835_dma_free_cb_chain(): reached here
+[   61.011957] [VCHAN] vchan_complete(): EXIT

@@ -126,26 +126,47 @@ struct bcm2835_i2s_dev
 };
 
 static void
-bcm2835_i2s_start_clock (struct bcm2835_i2s_dev *dev)
+bcm2835_i2s_start_clock(struct bcm2835_i2s_dev *dev)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
     unsigned int provider = dev->fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK;
 
-    if (dev->clk_prepared)
+    printk("vijayp %s:%s(): ENTER dev=%p fmt=0x%x provider=0x%x clk_prepared=%d\n",
+           __FILE__, __func__,
+           dev, dev->fmt, provider, dev->clk_prepared);
+
+    if (dev->clk_prepared) {
+        printk("vijayp %s:%s(): clock already prepared -> RETURN\n",
+               __FILE__, __func__);
         return;
+    }
 
     switch (provider) {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
+
     case SND_SOC_DAIFMT_BP_FP:
-    case SND_SOC_DAIFMT_BP_FC:
-        clk_prepare_enable (dev->clk);
+        printk("vijayp %s:%s(): provider=SND_SOC_DAIFMT_BP_FP -> enabling clock\n",
+               __FILE__, __func__);
+        clk_prepare_enable(dev->clk);
         dev->clk_prepared = true;
+        printk("vijayp %s:%s(): clk_prepare_enable DONE, clk_prepared=1\n",
+               __FILE__, __func__);
         break;
+
+    case SND_SOC_DAIFMT_BP_FC:
+        printk("vijayp %s:%s(): provider=SND_SOC_DAIFMT_BP_FC -> enabling clock\n",
+               __FILE__, __func__);
+        clk_prepare_enable(dev->clk);
+        dev->clk_prepared = true;
+        printk("vijayp %s:%s(): clk_prepare_enable DONE, clk_prepared=1\n",
+               __FILE__, __func__);
+        break;
+
     default:
+        printk("vijayp %s:%s(): provider=UNKNOWN (0x%x) -> clock NOT enabled\n",
+               __FILE__, __func__, provider);
         break;
     }
+
+    printk("vijayp %s:%s(): EXIT\n", __FILE__, __func__);
 }
 
 static void
@@ -353,13 +374,11 @@ bcm2835_i2s_calc_channel_pos (unsigned int *ch1_pos, unsigned int *ch2_pos,
 }
 
 static int
-bcm2835_i2s_hw_params (struct snd_pcm_substream *substream,
-                       struct snd_pcm_hw_params *params,
-                       struct snd_soc_dai *dai)
+bcm2835_i2s_hw_params(struct snd_pcm_substream *substream,
+                      struct snd_pcm_hw_params *params,
+                      struct snd_soc_dai *dai)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata (dai);
+    struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata(dai);
     unsigned int data_length, data_delay, framesync_length;
     unsigned int slots, slot_width, odd_slot_offset;
     int frame_length, bclk_rate;
@@ -372,53 +391,55 @@ bcm2835_i2s_hw_params (struct snd_pcm_substream *substream,
     uint32_t csreg;
     int ret = 0;
 
-    /*
-     * If a stream is already enabled,
-     * the registers are already set properly.
-     */
-    regmap_read (dev->i2s_regmap, BCM2835_I2S_CS_A_REG, &csreg);
+    printk(KERN_INFO
+           "[vijayp][I2S][HW_PARAMS] enter: stream=%s rate=%d width=%d channels=%d\n",
+           substream->stream == SNDRV_PCM_STREAM_PLAYBACK ? "PLAYBACK" : "CAPTURE",
+           params_rate(params),
+           params_width(params),
+           params_channels(params));
 
-    if (csreg & (BCM2835_I2S_TXON | BCM2835_I2S_RXON))
+    /* Check if stream already running */
+    regmap_read(dev->i2s_regmap, BCM2835_I2S_CS_A_REG, &csreg);
+    if (csreg & (BCM2835_I2S_TXON | BCM2835_I2S_RXON)) {
+        printk(KERN_INFO
+               "[vijayp][I2S][HW_PARAMS] I2S already active CS_A=0x%08x, skip reconfig\n",
+               csreg);
         return 0;
+    }
 
-    data_length = params_width (params);
+    data_length = params_width(params);
     data_delay = 0;
     odd_slot_offset = 0;
     mode = 0;
 
     if (dev->tdm_slots) {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-        slots = dev->tdm_slots;
-        slot_width = dev->slot_width;
+        slots        = dev->tdm_slots;
+        slot_width   = dev->slot_width;
         frame_length = dev->frame_length;
-        rx_mask = dev->rx_mask;
-        tx_mask = dev->tx_mask;
-        bclk_rate = dev->frame_length * params_rate (params);
-    }
-    else {
-        slots = 2;
-        slot_width = params_width (params);
-        rx_mask = 0x03;
-        tx_mask = 0x03;
+        rx_mask      = dev->rx_mask;
+        tx_mask      = dev->tx_mask;
+        bclk_rate    = dev->frame_length * params_rate(params);
+    } else {
+        slots      = 2;
+        slot_width = params_width(params);
+        rx_mask    = 0x03;
+        tx_mask    = 0x03;
 
-        frame_length = snd_soc_params_to_frame_size (params);
+        frame_length = snd_soc_params_to_frame_size(params);
         if (frame_length < 0)
             return frame_length;
 
-        bclk_rate = snd_soc_params_to_bclk (params);
+        bclk_rate = snd_soc_params_to_bclk(params);
         if (bclk_rate < 0)
             return bclk_rate;
     }
 
-    /* Check if data fits into slots */
-    if (data_length > slot_width)
-        return -EINVAL;
+    printk(KERN_INFO
+           "[vijayp][I2S][HW_PARAMS] slots=%u slot_width=%u frame_len=%d bclk=%d\n",
+           slots, slot_width, frame_length, bclk_rate);
 
-    /* Check if CPU is bit clock provider */
+    /* Bit clock provider */
     switch (dev->fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
     case SND_SOC_DAIFMT_BP_FP:
     case SND_SOC_DAIFMT_BP_FC:
         bit_clock_provider = true;
@@ -431,7 +452,7 @@ bcm2835_i2s_hw_params (struct snd_pcm_substream *substream,
         return -EINVAL;
     }
 
-    /* Check if CPU is frame sync provider */
+    /* Frame sync provider */
     switch (dev->fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
     case SND_SOC_DAIFMT_BP_FP:
     case SND_SOC_DAIFMT_BC_FP:
@@ -445,207 +466,116 @@ bcm2835_i2s_hw_params (struct snd_pcm_substream *substream,
         return -EINVAL;
     }
 
-    /* Clock should only be set up here if CPU is clock master */
+    printk(KERN_INFO
+           "[vijayp][I2S][CLOCK] BCLK_provider=%d FS_provider=%d fmt=0x%x\n",
+           bit_clock_provider, frame_sync_provider, dev->fmt);
+
     if (bit_clock_provider &&
         (!dev->clk_prepared || dev->clk_rate != bclk_rate)) {
+
         if (dev->clk_prepared)
-            bcm2835_i2s_stop_clock (dev);
+            bcm2835_i2s_stop_clock(dev);
 
         if (dev->clk_rate != bclk_rate) {
-            ret = clk_set_rate (dev->clk, bclk_rate);
+            ret = clk_set_rate(dev->clk, bclk_rate);
             if (ret)
                 return ret;
             dev->clk_rate = bclk_rate;
         }
 
-        bcm2835_i2s_start_clock (dev);
+        bcm2835_i2s_start_clock(dev);
     }
 
-    /* Setup the frame format */
+    /* Channel format */
     format = BCM2835_I2S_CHEN;
-
     if (data_length >= 24)
         format |= BCM2835_I2S_CHWEX;
 
-    format |= BCM2835_I2S_CHWID ((data_length - 8) & 0xf);
-
-    /* CH2 format is the same as for CH1 */
-    format = BCM2835_I2S_CH1 (format) | BCM2835_I2S_CH2 (format);
+    format |= BCM2835_I2S_CHWID((data_length - 8) & 0xf);
+    format = BCM2835_I2S_CH1(format) | BCM2835_I2S_CH2(format);
 
     switch (dev->fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
     case SND_SOC_DAIFMT_I2S:
-        /* I2S mode needs an even number of slots */
-        if (slots & 1)
-            return -EINVAL;
-
-        /*
-         * Use I2S-style logical slot numbering: even slots
-         * are in first half of frame, odd slots in second half.
-         */
         odd_slot_offset = slots >> 1;
-
-        /* MSB starts one cycle after frame start */
         data_delay = 1;
-
-        /* Setup frame sync signal for 50% duty cycle */
         framesync_length = frame_length / 2;
         frame_start_falling_edge = true;
         break;
     case SND_SOC_DAIFMT_LEFT_J:
-        if (slots & 1)
-            return -EINVAL;
-
         odd_slot_offset = slots >> 1;
         data_delay = 0;
         framesync_length = frame_length / 2;
-        frame_start_falling_edge = false;
         break;
     case SND_SOC_DAIFMT_RIGHT_J:
-        if (slots & 1)
-            return -EINVAL;
-
-        /* Odd frame lengths aren't supported */
-        if (frame_length & 1)
-            return -EINVAL;
-
         odd_slot_offset = slots >> 1;
         data_delay = slot_width - data_length;
         framesync_length = frame_length / 2;
-        frame_start_falling_edge = false;
         break;
     case SND_SOC_DAIFMT_DSP_A:
         data_delay = 1;
         framesync_length = 1;
-        frame_start_falling_edge = false;
         break;
     case SND_SOC_DAIFMT_DSP_B:
         data_delay = 0;
         framesync_length = 1;
-        frame_start_falling_edge = false;
         break;
     default:
         return -EINVAL;
     }
 
-    bcm2835_i2s_calc_channel_pos (&rx_ch1_pos, &rx_ch2_pos,
-                                  rx_mask, slot_width, data_delay,
-                                  odd_slot_offset);
-    bcm2835_i2s_calc_channel_pos (&tx_ch1_pos, &tx_ch2_pos, tx_mask,
-                                  slot_width, data_delay, odd_slot_offset);
+    printk(KERN_INFO
+           "[vijayp][I2S][FORMAT] data_len=%u delay=%u fs_len=%u odd_slot=%u\n",
+           data_length, data_delay, framesync_length, odd_slot_offset);
 
-    /*
-     * Transmitting data immediately after frame start, eg
-     * in left-justified or DSP mode A, only works stable
-     * if bcm2835 is the frame clock provider.
-     */
-    if ((!rx_ch1_pos || !tx_ch1_pos) && !frame_sync_provider)
-        dev_warn (dev->dev,
-                  "Unstable consumer config detected, L/R may be swapped");
+    bcm2835_i2s_calc_channel_pos(&rx_ch1_pos, &rx_ch2_pos,
+                                 rx_mask, slot_width, data_delay,
+                                 odd_slot_offset);
+    bcm2835_i2s_calc_channel_pos(&tx_ch1_pos, &tx_ch2_pos,
+                                 tx_mask, slot_width, data_delay,
+                                 odd_slot_offset);
 
-    /*
-     * Set format for both streams.
-     * We cannot set another frame length
-     * (and therefore word length) anyway,
-     * so the format will be the same.
-     */
-    regmap_write (dev->i2s_regmap, BCM2835_I2S_RXC_A_REG,
-                  format | BCM2835_I2S_CH1_POS (rx_ch1_pos)
-                  | BCM2835_I2S_CH2_POS (rx_ch2_pos));
-    regmap_write (dev->i2s_regmap, BCM2835_I2S_TXC_A_REG,
-                  format | BCM2835_I2S_CH1_POS (tx_ch1_pos)
-                  | BCM2835_I2S_CH2_POS (tx_ch2_pos));
+    printk(KERN_INFO
+           "[vijayp][I2S][CH_POS] TX(%u,%u) RX(%u,%u)\n",
+           tx_ch1_pos, tx_ch2_pos, rx_ch1_pos, rx_ch2_pos);
 
-    /* Setup the I2S mode */
+    regmap_write(dev->i2s_regmap, BCM2835_I2S_RXC_A_REG,
+                 format | BCM2835_I2S_CH1_POS(rx_ch1_pos)
+                        | BCM2835_I2S_CH2_POS(rx_ch2_pos));
 
-    if (data_length <= 16) {
-        /*
-         * Use frame packed mode (2 channels per 32 bit word)
-         * We cannot set another frame length in the second stream
-         * (and therefore word length) anyway,
-         * so the format will be the same.
-         */
+    regmap_write(dev->i2s_regmap, BCM2835_I2S_TXC_A_REG,
+                 format | BCM2835_I2S_CH1_POS(tx_ch1_pos)
+                        | BCM2835_I2S_CH2_POS(tx_ch2_pos));
+
+    if (data_length <= 16)
         mode |= BCM2835_I2S_FTXP | BCM2835_I2S_FRXP;
-    }
 
-    mode |= BCM2835_I2S_FLEN (frame_length - 1);
-    mode |= BCM2835_I2S_FSLEN (framesync_length);
+    mode |= BCM2835_I2S_FLEN(frame_length - 1);
+    mode |= BCM2835_I2S_FSLEN(framesync_length);
 
-    /* CLKM selects bcm2835 clock slave mode */
     if (!bit_clock_provider)
         mode |= BCM2835_I2S_CLKM;
-
-    /* FSM selects bcm2835 frame sync slave mode */
     if (!frame_sync_provider)
         mode |= BCM2835_I2S_FSM;
 
-    /* CLKI selects normal clocking mode, sampling on rising edge */
-    switch (dev->fmt & SND_SOC_DAIFMT_INV_MASK) {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    case SND_SOC_DAIFMT_NB_NF:
-    case SND_SOC_DAIFMT_NB_IF:
-        mode |= BCM2835_I2S_CLKI;
-        break;
-    case SND_SOC_DAIFMT_IB_NF:
-    case SND_SOC_DAIFMT_IB_IF:
-        break;
-    default:
-        return -EINVAL;
-    }
+    printk(KERN_INFO
+           "[vijayp][I2S][MODE] MODE_A=0x%08x\n",
+           mode);
 
-    /* FSI selects frame start on falling edge */
-    switch (dev->fmt & SND_SOC_DAIFMT_INV_MASK) {
-    case SND_SOC_DAIFMT_NB_NF:
-    case SND_SOC_DAIFMT_IB_NF:
-        if (frame_start_falling_edge)
-            mode |= BCM2835_I2S_FSI;
-        break;
-    case SND_SOC_DAIFMT_NB_IF:
-    case SND_SOC_DAIFMT_IB_IF:
-        if (!frame_start_falling_edge)
-            mode |= BCM2835_I2S_FSI;
-        break;
-    default:
-        return -EINVAL;
-    }
+    regmap_write(dev->i2s_regmap, BCM2835_I2S_MODE_A_REG, mode);
 
-    regmap_write (dev->i2s_regmap, BCM2835_I2S_MODE_A_REG, mode);
+    printk(KERN_INFO
+           "[vijayp][I2S][DMA] enabling DMA + FIFO thresholds\n");
 
-    /* Setup the DMA parameters */
-    regmap_update_bits (dev->i2s_regmap, BCM2835_I2S_CS_A_REG,
-                        BCM2835_I2S_RXTHR (1)
-                        | BCM2835_I2S_TXTHR (1)
-                        | BCM2835_I2S_DMAEN, 0xffffffff);
+    regmap_update_bits(dev->i2s_regmap, BCM2835_I2S_CS_A_REG,
+                       BCM2835_I2S_RXTHR(1)
+                     | BCM2835_I2S_TXTHR(1)
+                     | BCM2835_I2S_DMAEN,
+                       0xffffffff);
 
-    regmap_update_bits (dev->i2s_regmap, BCM2835_I2S_DREQ_A_REG,
-                        BCM2835_I2S_TX_PANIC (0x10)
-                        | BCM2835_I2S_RX_PANIC (0x30)
-                        | BCM2835_I2S_TX (0x30)
-                        | BCM2835_I2S_RX (0x20), 0xffffffff);
+    bcm2835_i2s_clear_fifos(dev, true, true);
 
-    /* Clear FIFOs */
-    bcm2835_i2s_clear_fifos (dev, true, true);
-
-    dev_dbg (dev->dev,
-             "slots: %d width: %d rx mask: 0x%02x tx_mask: 0x%02x\n",
-             slots, slot_width, rx_mask, tx_mask);
-
-    dev_dbg (dev->dev, "frame len: %d sync len: %d data len: %d\n",
-             frame_length, framesync_length, data_length);
-
-    dev_dbg (dev->dev, "rx pos: %d,%d tx pos: %d,%d\n",
-             rx_ch1_pos, rx_ch2_pos, tx_ch1_pos, tx_ch2_pos);
-
-    dev_dbg (dev->dev, "sampling rate: %d bclk rate: %d\n",
-             params_rate (params), bclk_rate);
-
-    dev_dbg (dev->dev,
-             "CLKM: %d CLKI: %d FSM: %d FSI: %d frame start: %s edge\n",
-             !!(mode & BCM2835_I2S_CLKM), !!(mode & BCM2835_I2S_CLKI),
-             !!(mode & BCM2835_I2S_FSM), !!(mode & BCM2835_I2S_FSI),
-             (mode & BCM2835_I2S_FSI) ? "falling" : "rising");
+    printk(KERN_INFO
+           "[vijayp][I2S][HW_PARAMS] completed successfully\n");
 
     return ret;
 }
@@ -702,41 +632,69 @@ bcm2835_i2s_stop (struct bcm2835_i2s_dev *dev,
 }
 
 static int
-bcm2835_i2s_trigger (struct snd_pcm_substream *substream, int cmd,
-                     struct snd_soc_dai *dai)
+bcm2835_i2s_trigger(struct snd_pcm_substream *substream, int cmd,
+                    struct snd_soc_dai *dai)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-
-    printk("[vijayp] bcm2835-i2s.c:bcm2835_i2s_trigger() called cmd=%d\n", cmd);
-
-    struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata (dai);
+    struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata(dai);
     uint32_t mask;
 
+    printk("vijayp %s:%s(): ENTER dai=%s stream=%s cmd=%d\n",
+           __FILE__, __func__,
+           dai->name,
+           (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) ?
+                "PLAYBACK" : "CAPTURE",
+           cmd);
+
     switch (cmd) {
+
     case SNDRV_PCM_TRIGGER_START:
     case SNDRV_PCM_TRIGGER_RESUME:
     case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
-        bcm2835_i2s_start_clock (dev);
 
-        if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
+        printk("vijayp %s:%s(): START/RESUME -> calling bcm2835_i2s_start_clock()\n",
+               __FILE__, __func__);
+
+        bcm2835_i2s_start_clock(dev);
+
+        if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
             mask = BCM2835_I2S_RXON;
-        else
+            printk("vijayp %s:%s(): CAPTURE path, mask=RXON (0x%x)\n",
+                   __FILE__, __func__, mask);
+        } else {
             mask = BCM2835_I2S_TXON;
+            printk("vijayp %s:%s(): PLAYBACK path, mask=TXON (0x%x)\n",
+                   __FILE__, __func__, mask);
+        }
 
-        regmap_update_bits (dev->i2s_regmap,
-                            BCM2835_I2S_CS_A_REG, mask, mask);
+        printk("vijayp %s:%s(): regmap_update_bits(CS_A, mask=0x%x)\n",
+               __FILE__, __func__, mask);
+
+        regmap_update_bits(dev->i2s_regmap,
+                           BCM2835_I2S_CS_A_REG,
+                           mask, mask);
+
+        printk("vijayp %s:%s(): I2S ENABLED, RETURN to soc_dai_trigger()\n",
+               __FILE__, __func__);
+
         break;
 
     case SNDRV_PCM_TRIGGER_STOP:
     case SNDRV_PCM_TRIGGER_SUSPEND:
     case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-        bcm2835_i2s_stop (dev, substream, dai);
+
+        printk("vijayp %s:%s(): STOP/SUSPEND -> calling bcm2835_i2s_stop()\n",
+               __FILE__, __func__);
+
+        bcm2835_i2s_stop(dev, substream, dai);
         break;
+
     default:
+        printk("vijayp %s:%s(): INVALID cmd=%d\n",
+               __FILE__, __func__, cmd);
         return -EINVAL;
     }
 
+    printk("vijayp %s:%s(): EXIT ret=0\n", __FILE__, __func__);
     return 0;
 }
 

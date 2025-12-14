@@ -147,31 +147,61 @@ static void dmaengine_pcm_dma_complete(void *arg)
 
 static int dmaengine_pcm_prepare_and_submit(struct snd_pcm_substream *substream)
 {
-	struct dmaengine_pcm_runtime_data *prtd = substream_to_prtd(substream);
-	struct dma_chan *chan = prtd->dma_chan;
-	struct dma_async_tx_descriptor *desc;
-	enum dma_transfer_direction direction;
-	unsigned long flags = DMA_CTRL_ACK;
+        struct dmaengine_pcm_runtime_data *prtd = substream_to_prtd(substream);
+        struct dma_chan *chan = prtd->dma_chan;
+        struct dma_async_tx_descriptor *desc;
+        enum dma_transfer_direction direction;
+        unsigned long flags = DMA_CTRL_ACK;
 
-	direction = snd_pcm_substream_to_dma_direction(substream);
+        direction = snd_pcm_substream_to_dma_direction(substream);
 
-	if (!substream->runtime->no_period_wakeup)
-		flags |= DMA_PREP_INTERRUPT;
+        if (!substream->runtime->no_period_wakeup)
+                flags |= DMA_PREP_INTERRUPT;
 
-	prtd->pos = 0;
-	desc = dmaengine_prep_dma_cyclic(chan,
-		substream->runtime->dma_addr,
-		snd_pcm_lib_buffer_bytes(substream),
-		snd_pcm_lib_period_bytes(substream), direction, flags);
+        prtd->pos = 0;
 
-	if (!desc)
-		return -ENOMEM;
+        /* 🔥 vijayp DEBUG: PCM → DMA handover point */
+        printk(KERN_INFO
+               "[vijayp][DMAENGINE] prepare_and_submit: substream=%p stream=%s\n",
+               substream,
+               substream->stream == SNDRV_PCM_STREAM_PLAYBACK ? "PLAYBACK" : "CAPTURE");
 
-	desc->callback = dmaengine_pcm_dma_complete;
-	desc->callback_param = substream;
-	prtd->cookie = dmaengine_submit(desc);
+        printk(KERN_INFO
+               "[vijayp][DMAENGINE] dma_addr=%pad buffer_bytes=%zu period_bytes=%zu direction=%d flags=0x%lx\n",
+               &substream->runtime->dma_addr,
+               snd_pcm_lib_buffer_bytes(substream),
+               snd_pcm_lib_period_bytes(substream),
+               direction, flags);
 
-	return 0;
+        desc = dmaengine_prep_dma_cyclic(chan,
+                substream->runtime->dma_addr,
+                snd_pcm_lib_buffer_bytes(substream),
+                snd_pcm_lib_period_bytes(substream),
+                direction, flags);
+
+        if (!desc) {
+                printk(KERN_ERR
+                       "[vijayp][DMAENGINE] ERROR: dmaengine_prep_dma_cyclic() failed\n");
+                return -ENOMEM;
+        }
+
+        /* 🔥 vijayp DEBUG: DMA descriptor created */
+        printk(KERN_INFO
+               "[vijayp][DMAENGINE] desc=%p chan=%s device=%s\n",
+               desc,
+               dma_chan_name(chan),
+               dev_name(chan->device->dev));
+
+        desc->callback = dmaengine_pcm_dma_complete;
+        desc->callback_param = substream;
+
+        prtd->cookie = dmaengine_submit(desc);
+
+        printk(KERN_INFO
+               "[vijayp][DMAENGINE] dmaengine_submit: cookie=%d (DMA armed, not started yet)\n",
+               prtd->cookie);
+
+        return 0;
 }
 
 /**
