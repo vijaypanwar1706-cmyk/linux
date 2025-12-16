@@ -1147,32 +1147,36 @@ bcm2835_dma_prep_slave_sg (struct dma_chan *chan,
 }
 
 static struct dma_async_tx_descriptor *
-bcm2835_dma_prep_dma_cyclic (struct dma_chan *chan, dma_addr_t buf_addr,
+bcm2835_dma_prep_dma_cyclic(struct dma_chan *chan, dma_addr_t buf_addr,
                              size_t buf_len, size_t period_len,
                              enum dma_transfer_direction direction,
                              unsigned long flags)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    struct bcm2835_dmadev *od = to_bcm2835_dma_dev (chan->device);
-    struct bcm2835_chan *c = to_bcm2835_dma_chan (chan);
+    struct bcm2835_dmadev *od = to_bcm2835_dma_dev(chan->device);
+    struct bcm2835_chan *c = to_bcm2835_dma_chan(chan);
     struct bcm2835_desc *d;
     dma_addr_t src, dst;
-    u32 info = WAIT_RESP (c->dreq) | WIDE_SOURCE (c->dreq) |
-        WIDE_DEST (c->dreq) | BURST_LENGTH (c->dreq);
+    u32 info = WAIT_RESP(c->dreq) | WIDE_SOURCE(c->dreq) |
+               WIDE_DEST(c->dreq) | BURST_LENGTH(c->dreq);
     u32 extra = 0;
-    size_t max_len = bcm2835_dma_max_frame_length (c);
+    size_t max_len = bcm2835_dma_max_frame_length(c);
     size_t frames;
 
-    /* Grab configuration */
-    if (!is_slave_direction (direction)) {
-        dev_err (chan->device->dev, "%s: bad direction?\n", __func__);
+    printk(KERN_INFO
+           "[vijayp] %s:%s(): ENTER dir=%s buf_addr=%pad buf_len=%zu period=%zu flags=0x%lx\n",
+           __FILE__, __func__,
+           direction == DMA_MEM_TO_DEV ? "MEM_TO_DEV" :
+           direction == DMA_DEV_TO_MEM ? "DEV_TO_MEM" : "OTHER",
+           &buf_addr, buf_len, period_len, flags);
+
+    /* sanity checks */
+    if (!is_slave_direction(direction)) {
+        dev_err(chan->device->dev, "%s: bad direction?\n", __func__);
         return NULL;
     }
 
     if (!buf_len) {
-        dev_err (chan->device->dev,
-                 "%s: bad buffer length (= 0)\n", __func__);
+        dev_err(chan->device->dev, "%s: bad buffer length (=0)\n", __func__);
         return NULL;
     }
 
@@ -1181,67 +1185,60 @@ bcm2835_dma_prep_dma_cyclic (struct dma_chan *chan, dma_addr_t buf_addr,
     else
         period_len = buf_len;
 
-    /*
-     * warn if buf_len is not a multiple of period_len - this may leed
-     * to unexpected latencies for interrupts and thus audiable clicks
-     */
-    if (buf_len % period_len)
-        dev_warn_once (chan->device->dev,
-                       "%s: buffer_length (%zd) is not a multiple of period_len (%zd)\n",
-                       __func__, buf_len, period_len);
-
-    /* Setup DREQ channel */
     if (c->dreq != 0)
-        info |= BCM2835_DMA_PER_MAP (c->dreq);
+        info |= BCM2835_DMA_PER_MAP(c->dreq);
 
     if (direction == DMA_DEV_TO_MEM) {
-        if (c->cfg.src_addr_width != DMA_SLAVE_BUSWIDTH_4_BYTES)
-            return NULL;
-        src = phys_to_dma (chan->device->dev, c->cfg.src_addr);
+        src = phys_to_dma(chan->device->dev, c->cfg.src_addr);
         dst = buf_addr;
         info |= BCM2835_DMA_S_DREQ | BCM2835_DMA_D_INC;
-    }
-    else {
-        if (c->cfg.dst_addr_width != DMA_SLAVE_BUSWIDTH_4_BYTES)
-            return NULL;
-        dst = phys_to_dma (chan->device->dev, c->cfg.dst_addr);
+    } else {
+        dst = phys_to_dma(chan->device->dev, c->cfg.dst_addr);
         src = buf_addr;
         info |= BCM2835_DMA_D_DREQ | BCM2835_DMA_S_INC;
-
-        /* non-lite channels can write zeroes w/o accessing memory */
-        if (buf_addr == od->zero_page && !c->is_lite_channel)
-            info |= BCM2835_DMA_S_IGNORE;
     }
 
-    /* calculate number of frames */
-    frames =                    /* number of periods */
-        DIV_ROUND_UP (buf_len, period_len) *
-        /* number of frames per period */
-        bcm2835_dma_frames_for_length (period_len, max_len);
+    printk(KERN_INFO
+           "[vijayp] %s:%s(): SRC=%pad DST=%pad dreq=%d max_frame=%zu\n",
+           __FILE__, __func__, &src, &dst, c->dreq, max_len);
 
-    /*
-     * allocate the CB chain
-     * note that we need to use GFP_NOWAIT, as the ALSA i2s dmaengine
-     * implementation calls prep_dma_cyclic with interrupts disabled.
-     */
-    d = bcm2835_dma_create_cb_chain (c, direction, true,
+    frames =
+        DIV_ROUND_UP(buf_len, period_len) *
+        bcm2835_dma_frames_for_length(period_len, max_len);
+
+    printk(KERN_INFO
+           "[vijayp] %s:%s(): total_frames=%zu (periods × frames/period)\n",
+           __FILE__, __func__, frames);
+
+    d = bcm2835_dma_create_cb_chain(c, direction, true,
                                      info, extra,
-                                     frames, src, dst, buf_len,
-                                     period_len, GFP_NOWAIT);
+                                     frames, src, dst,
+                                     buf_len, period_len,
+                                     GFP_NOWAIT);
     if (!d)
         return NULL;
 
-    /* wrap around into a loop */
+    printk(KERN_INFO
+           "[vijayp] %s:%s(): CB chain created, wrapping into cyclic loop\n",
+           __FILE__, __func__);
+
     if (c->is_40bit_channel)
         ((struct bcm2711_dma40_scb *)
          d->cb_list[frames - 1].cb)->next_cb =
-            to_40bit_cbaddr (d->cb_list[0].paddr);
+            to_40bit_cbaddr(d->cb_list[0].paddr);
     else
-        d->cb_list[d->frames - 1].cb->next = c->is_2712 ?
-            to_40bit_cbaddr (d->cb_list[0].paddr) : d->cb_list[0].paddr;
+        d->cb_list[d->frames - 1].cb->next =
+            c->is_2712 ?
+            to_40bit_cbaddr(d->cb_list[0].paddr) :
+            d->cb_list[0].paddr;
 
-    return vchan_tx_prep (&c->vc, &d->vd, flags);
+    printk(KERN_INFO
+           "[vijayp] %s:%s(): EXIT descriptor ready, handing to vchan\n",
+           __FILE__, __func__);
+
+    return vchan_tx_prep(&c->vc, &d->vd, flags);
 }
+
 
 static int
 bcm2835_dma_slave_config (struct dma_chan *chan, struct dma_slave_config *cfg)

@@ -136,14 +136,33 @@ static void dmaengine_pcm_dma_complete(void *arg)
 	unsigned int new_pos;
 	struct snd_pcm_substream *substream = arg;
 	struct dmaengine_pcm_runtime_data *prtd = substream_to_prtd(substream);
+	struct snd_pcm_runtime *runtime = substream->runtime;
+
+	printk(KERN_INFO
+	       "[vijayp] %s:%s(): DMA PERIOD DONE stream=%s "
+	       "old_pos=%u period=%u buffer=%u hw_ptr=%lu appl_ptr=%lu\n",
+	       __FILE__, __func__,
+	       substream->stream == SNDRV_PCM_STREAM_PLAYBACK ?
+			"PLAYBACK" : "CAPTURE",
+	       prtd->pos,
+	       snd_pcm_lib_period_bytes(substream),
+	       snd_pcm_lib_buffer_bytes(substream),
+	       runtime->status->hw_ptr,
+	       runtime->control->appl_ptr);
 
 	new_pos = prtd->pos + snd_pcm_lib_period_bytes(substream);
 	if (new_pos >= snd_pcm_lib_buffer_bytes(substream))
 		new_pos = 0;
+
 	prtd->pos = new_pos;
+
+	printk(KERN_INFO
+	       "[vijayp] %s:%s(): updated_pos=%u -> calling snd_pcm_period_elapsed()\n",
+	       __FILE__, __func__, prtd->pos);
 
 	snd_pcm_period_elapsed(substream);
 }
+
 
 static int dmaengine_pcm_prepare_and_submit(struct snd_pcm_substream *substream)
 {
@@ -162,16 +181,23 @@ static int dmaengine_pcm_prepare_and_submit(struct snd_pcm_substream *substream)
 
         /* 🔥 vijayp DEBUG: PCM → DMA handover point */
         printk(KERN_INFO
-               "[vijayp][DMAENGINE] prepare_and_submit: substream=%p stream=%s\n",
+               "[vijayp File:sound/core/pcm_dmaengine.c Function dmaengine_pcm_prepare_and_submit] prepare_and_submit: substream=%p stream=%s\n",
                substream,
                substream->stream == SNDRV_PCM_STREAM_PLAYBACK ? "PLAYBACK" : "CAPTURE");
 
         printk(KERN_INFO
-               "[vijayp][DMAENGINE] dma_addr=%pad buffer_bytes=%zu period_bytes=%zu direction=%d flags=0x%lx\n",
+               "[vijayp File:sound/core/pcm_dmaengine.c Function dmaengine_pcm_prepare_and_submit] dma_addr=%pad buffer_bytes=%zu period_bytes=%zu direction=%d flags=0x%lx\n",
                &substream->runtime->dma_addr,
                snd_pcm_lib_buffer_bytes(substream),
                snd_pcm_lib_period_bytes(substream),
                direction, flags);
+               
+         printk(KERN_INFO
+       "[vijayp File:sound/core/pcm_dmaengine.c Function dmaengine_pcm_prepare_and_submit, next function ==>] %s:%s(): device_prep_dma_cyclic=%ps\n",
+       __FILE__, __func__,
+       chan->device->device_prep_dma_cyclic);
+
+
 
         desc = dmaengine_prep_dma_cyclic(chan,
                 substream->runtime->dma_addr,
@@ -181,13 +207,13 @@ static int dmaengine_pcm_prepare_and_submit(struct snd_pcm_substream *substream)
 
         if (!desc) {
                 printk(KERN_ERR
-                       "[vijayp][DMAENGINE] ERROR: dmaengine_prep_dma_cyclic() failed\n");
+                       "[vijayp File:sound/core/pcm_dmaengine.c Function dmaengine_pcm_prepare_and_submit] ERROR: dmaengine_prep_dma_cyclic() failed\n");
                 return -ENOMEM;
         }
 
         /* 🔥 vijayp DEBUG: DMA descriptor created */
         printk(KERN_INFO
-               "[vijayp][DMAENGINE] desc=%p chan=%s device=%s\n",
+               "[vijayp File:sound/core/pcm_dmaengine.c Function dmaengine_pcm_prepare_and_submit] desc=%p chan=%s device=%s\n",
                desc,
                dma_chan_name(chan),
                dev_name(chan->device->dev));
@@ -198,7 +224,7 @@ static int dmaengine_pcm_prepare_and_submit(struct snd_pcm_substream *substream)
         prtd->cookie = dmaengine_submit(desc);
 
         printk(KERN_INFO
-               "[vijayp][DMAENGINE] dmaengine_submit: cookie=%d (DMA armed, not started yet)\n",
+               "[vijayp File:sound/core/pcm_dmaengine.c Function dmaengine_pcm_prepare_and_submit] dmaengine_submit: cookie=%d (DMA armed, not started yet)\n",
                prtd->cookie);
 
         return 0;
@@ -221,7 +247,7 @@ int snd_dmaengine_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
         int ret = 0;
 
         printk(KERN_INFO
-               "[VIJAY-DMA] %s: stream=%s cmd=%d state=%d hw_ptr=%lu appl_ptr=%lu\n",
+               "[vijayp File:sound/core/pcm_dmaengine.c Function snd_dmaengine_pcm_trigger] %s: stream=%s cmd=%d state=%d hw_ptr=%lu appl_ptr=%lu\n",
                __func__,
                substream->stream == SNDRV_PCM_STREAM_PLAYBACK ?
                         "PLAYBACK" : "CAPTURE",
@@ -234,65 +260,65 @@ int snd_dmaengine_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
 
         case SNDRV_PCM_TRIGGER_START:
                 printk(KERN_INFO
-                       "[VIJAY-DMA] START: prepare + submit DMA desc\n");
+                       "[vijayp File:sound/core/pcm_dmaengine.c Function snd_dmaengine_pcm_trigger] START: prepare + submit DMA desc\n");
 
                 ret = dmaengine_pcm_prepare_and_submit(substream);
                 if (ret) {
                         printk(KERN_ERR
-                               "[VIJAY-DMA] prepare_and_submit FAILED ret=%d\n",
+                               "[vijayp File:sound/core/pcm_dmaengine.c Function snd_dmaengine_pcm_trigger] prepare_and_submit FAILED ret=%d\n",
                                ret);
                         return ret;
                 }
 
                 printk(KERN_INFO
-                       "[VIJAY-DMA] DMA desc submitted, issue_pending()\n");
+                       "[vijayp File:sound/core/pcm_dmaengine.c Function snd_dmaengine_pcm_trigger] DMA desc submitted, issue_pending()\n");
 
                 dma_async_issue_pending(prtd->dma_chan);
                 break;
 
         case SNDRV_PCM_TRIGGER_RESUME:
                 printk(KERN_INFO
-                       "[VIJAY-DMA] RESUME: dmaengine_resume()\n");
+                       "[vijayp File:sound/core/pcm_dmaengine.c Function snd_dmaengine_pcm_trigger] RESUME: dmaengine_resume()\n");
                 dmaengine_resume(prtd->dma_chan);
                 break;
 
         case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
                 printk(KERN_INFO
-                       "[VIJAY-DMA] PAUSE_RELEASE: dmaengine_resume()\n");
+                       "[vijayp File:sound/core/pcm_dmaengine.c Function snd_dmaengine_pcm_trigger] PAUSE_RELEASE: dmaengine_resume()\n");
                 dmaengine_resume(prtd->dma_chan);
                 break;
 
         case SNDRV_PCM_TRIGGER_SUSPEND:
                 printk(KERN_INFO
-                       "[VIJAY-DMA] SUSPEND: info=0x%x\n",
+                       "[vijayp File:sound/core/pcm_dmaengine.c Function snd_dmaengine_pcm_trigger] SUSPEND: info=0x%x\n",
                        runtime->info);
 
                 if (runtime->info & SNDRV_PCM_INFO_PAUSE) {
                         printk(KERN_INFO
-                               "[VIJAY-DMA] dmaengine_pause()\n");
+                               "[vijayp File:sound/core/pcm_dmaengine.c Function snd_dmaengine_pcm_trigger] dmaengine_pause()\n");
                         dmaengine_pause(prtd->dma_chan);
                 } else {
                         printk(KERN_INFO
-                               "[VIJAY-DMA] dmaengine_terminate_async()\n");
+                               "[vijayp File:sound/core/pcm_dmaengine.c Function snd_dmaengine_pcm_trigger] dmaengine_terminate_async()\n");
                         dmaengine_terminate_async(prtd->dma_chan);
                 }
                 break;
 
         case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
                 printk(KERN_INFO
-                       "[VIJAY-DMA] PAUSE_PUSH: dmaengine_pause()\n");
+                       "[vijayp File:sound/core/pcm_dmaengine.c Function snd_dmaengine_pcm_trigger] PAUSE_PUSH: dmaengine_pause()\n");
                 dmaengine_pause(prtd->dma_chan);
                 break;
 
         case SNDRV_PCM_TRIGGER_STOP:
                 printk(KERN_INFO
-                       "[VIJAY-DMA] STOP: dmaengine_terminate_async()\n");
+                       "[vijayp File:sound/core/pcm_dmaengine.c Function snd_dmaengine_pcm_trigger] STOP: dmaengine_terminate_async()\n");
                 dmaengine_terminate_async(prtd->dma_chan);
                 break;
 
         default:
                 printk(KERN_ERR
-                       "[VIJAY-DMA] UNKNOWN CMD=%d\n", cmd);
+                       "[vijayp File:sound/core/pcm_dmaengine.c Function snd_dmaengine_pcm_trigger] UNKNOWN CMD=%d\n", cmd);
                 return -EINVAL;
         }
 
