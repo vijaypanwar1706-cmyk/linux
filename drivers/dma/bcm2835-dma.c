@@ -443,56 +443,70 @@ bcm2835_dma_desc_free (struct virt_dma_desc *vd)
 }
 
 static void
-bcm2835_dma_create_cb_set_length (struct bcm2835_chan *c,
-                                  struct bcm2835_dma_cb *control_block,
-                                  size_t len,
-                                  size_t period_len,
-                                  size_t *total_len, u32 finalextrainfo)
+bcm2835_dma_create_cb_set_length(struct bcm2835_chan *c,
+                                 struct bcm2835_dma_cb *control_block,
+                                 size_t len,
+                                 size_t period_len,
+                                 size_t *total_len,
+                                 u32 finalextrainfo)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    size_t max_len = bcm2835_dma_max_frame_length (c);
-    uint32_t cb_len;
+    size_t max_len = bcm2835_dma_max_frame_length(c);
+    u32 cb_len;
+
+    printk(KERN_DEBUG
+        "vijayp %s:%s(): ENTER len=%zu period_len=%zu total_len=%zu max_len=%zu\n",
+        __FILE__, __func__, len, period_len, *total_len, max_len);
 
     /* set the length taking lite-channel limitations into account */
-    cb_len = min_t (u32, len, max_len);
+    cb_len = min_t(u32, len, max_len);
+
+    printk(KERN_DEBUG
+        "vijayp %s:%s(): initial cb_len=%u\n",
+        __FILE__, __func__, cb_len);
 
     if (period_len) {
-        /*
-         * period_len means: that we need to generate
-         * transfers that are terminating at every
-         * multiple of period_len - this is typically
-         * used to set the interrupt flag in info
-         * which is required during cyclic transfers
-         */
 
-        /* have we filled in period_length yet? */
         if (*total_len + cb_len < period_len) {
-            /* update number of bytes in this period so far */
             *total_len += cb_len;
+
+            printk(KERN_DEBUG
+                "vijayp %s:%s(): within same period, updated total_len=%zu\n",
+                __FILE__, __func__, *total_len);
         }
         else {
-            /* calculate the length that remains to reach period_len */
             cb_len = period_len - *total_len;
 
-            /* reset total_length for next period */
+            printk(KERN_DEBUG
+                "vijayp %s:%s(): period boundary hit, adjusted cb_len=%u\n",
+                __FILE__, __func__, cb_len);
+
             *total_len = 0;
         }
     }
 
     if (c->is_40bit_channel) {
         struct bcm2711_dma40_scb *scb =
-            (struct bcm2711_dma40_scb *) control_block;
+            (struct bcm2711_dma40_scb *)control_block;
 
         scb->len = cb_len;
-        /* add extrainfo bits to ti */
-        scb->ti |= to_bcm2711_ti (finalextrainfo);
+        scb->ti |= to_bcm2711_ti(finalextrainfo);
+
+        printk(KERN_DEBUG
+            "vijayp %s:%s(): 40bit CB set len=%u ti|=0x%x\n",
+            __FILE__, __func__, cb_len, finalextrainfo);
     }
     else {
         control_block->length = cb_len;
-        /* add extrainfo bits to info */
         control_block->info |= finalextrainfo;
+
+        printk(KERN_DEBUG
+            "vijayp %s:%s(): 32bit CB set len=%u info|=0x%x\n",
+            __FILE__, __func__, cb_len, finalextrainfo);
     }
+
+    printk(KERN_DEBUG
+        "vijayp %s:%s(): EXIT final cb_len=%u total_len=%zu\n",
+        __FILE__, __func__, cb_len, *total_len);
 }
 
 static inline size_t
@@ -533,140 +547,151 @@ bcm2835_dma_count_frames_for_sg (struct bcm2835_chan *c,
  * @gfp:            the GFP flag to use for allocation
  */
 static struct bcm2835_desc *
-bcm2835_dma_create_cb_chain (struct bcm2835_chan *c,
-                             enum dma_transfer_direction direction,
-                             bool cyclic, u32 info, u32 finalextrainfo,
-                             size_t frames, dma_addr_t src, dma_addr_t dst,
-                             size_t buf_len, size_t period_len, gfp_t gfp)
+bcm2835_dma_create_cb_chain(struct bcm2835_chan *c,
+                            enum dma_transfer_direction direction,
+                            bool cyclic, u32 info, u32 finalextrainfo,
+                            size_t frames, dma_addr_t src, dma_addr_t dst,
+                            size_t buf_len, size_t period_len, gfp_t gfp)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
     size_t len = buf_len, total_len;
     size_t frame;
     struct bcm2835_desc *d;
     struct bcm2835_cb_entry *cb_entry;
     struct bcm2835_dma_cb *control_block;
 
-    if (!frames)
-        return NULL;
+    printk(KERN_INFO
+        "vijayp %s:%s(): ENTER frames=%zu buf_len=%zu period_len=%zu cyclic=%d dir=%d\n",
+        __FILE__, __func__, frames, buf_len, period_len, cyclic, direction);
 
-    /* allocate and setup the descriptor. */
-    d = kzalloc (struct_size (d, cb_list, frames), gfp);
-    if (!d)
+    if (!frames) {
+        printk(KERN_ERR
+            "vijayp %s:%s(): ERROR frames=0\n",
+            __FILE__, __func__);
         return NULL;
+    }
+
+    /* allocate and setup the descriptor */
+    d = kzalloc(struct_size(d, cb_list, frames), gfp);
+    if (!d) {
+        printk(KERN_ERR
+            "vijayp %s:%s(): ERROR kzalloc failed\n",
+            __FILE__, __func__);
+        return NULL;
+    }
 
     d->c = c;
     d->dir = direction;
     d->cyclic = cyclic;
+
+    printk(KERN_INFO
+        "vijayp %s:%s(): descriptor allocated, starting CB chain creation\n",
+        __FILE__, __func__);
 
     /*
      * Iterate over all frames, create a control block
      * for each frame and link them together.
      */
     for (frame = 0, total_len = 0; frame < frames; d->frames++, frame++) {
-        cb_entry = &d->cb_list[frame];
-        cb_entry->cb = dma_pool_alloc (c->cb_pool, gfp, &cb_entry->paddr);
-        if (!cb_entry->cb)
-            goto error_cb;
 
-        /* fill in the control block */
+        printk(KERN_DEBUG
+            "vijayp %s:%s(): frame=%zu src=%pad dst=%pad len_remaining=%zu\n",
+            __FILE__, __func__, frame, &src, &dst, len);
+
+        cb_entry = &d->cb_list[frame];
+        cb_entry->cb = dma_pool_alloc(c->cb_pool, gfp, &cb_entry->paddr);
+        if (!cb_entry->cb) {
+            printk(KERN_ERR
+                "vijayp %s:%s(): ERROR dma_pool_alloc failed at frame=%zu\n",
+                __FILE__, __func__, frame);
+            goto error_cb;
+        }
+
         control_block = cb_entry->cb;
+
         if (c->is_40bit_channel) {
             struct bcm2711_dma40_scb *scb =
-                (struct bcm2711_dma40_scb *) control_block;
-            scb->ti = to_bcm2711_ti (info);
-            scb->src = lower_32_bits (src);
-            scb->srci = upper_32_bits (src) | to_bcm2711_srci (info);
-            scb->dst = lower_32_bits (dst);
-            scb->dsti = upper_32_bits (dst) | to_bcm2711_dsti (info);
+                (struct bcm2711_dma40_scb *)control_block;
+            scb->ti = to_bcm2711_ti(info);
+            scb->src = lower_32_bits(src);
+            scb->srci = upper_32_bits(src) | to_bcm2711_srci(info);
+            scb->dst = lower_32_bits(dst);
+            scb->dsti = upper_32_bits(dst) | to_bcm2711_dsti(info);
             scb->next_cb = 0;
-        }
-        else {
+        } else {
             control_block->info = info;
             control_block->src = src;
             control_block->dst = dst;
-            if (c->is_2712)
-                control_block->stride = (upper_32_bits (dst) << 8) |
-                    upper_32_bits (src);
-            else
-                control_block->stride = 0;
+            control_block->stride = c->is_2712 ?
+                (upper_32_bits(dst) << 8) | upper_32_bits(src) : 0;
             control_block->next = 0;
         }
 
-        /* set up length in control_block if requested */
         if (buf_len) {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-            /* calculate length honoring period_length */
-            bcm2835_dma_create_cb_set_length (c, control_block,
-                                              len, period_len, &total_len,
-                                              cyclic ? finalextrainfo : 0);
+            bcm2835_dma_create_cb_set_length(
+                c, control_block, len, period_len,
+                &total_len, cyclic ? finalextrainfo : 0);
 
-            /* calculate new remaining length */
+            printk(KERN_DEBUG
+                "vijayp %s:%s(): frame=%zu CB length set, total_len=%zu\n",
+                __FILE__, __func__, frame, total_len);
+
             if (c->is_40bit_channel)
-                len -= ((struct bcm2711_dma40_scb *) control_block)->len;
+                len -= ((struct bcm2711_dma40_scb *)control_block)->len;
             else
                 len -= control_block->length;
         }
 
-        /* link this the last controlblock */
         if (frame && c->is_40bit_channel)
             ((struct bcm2711_dma40_scb *)
              d->cb_list[frame - 1].cb)->next_cb =
-                to_40bit_cbaddr (cb_entry->paddr);
+                to_40bit_cbaddr(cb_entry->paddr);
+
         if (frame && !c->is_40bit_channel)
-            d->cb_list[frame - 1].cb->next = c->is_2712 ?
-                to_40bit_cbaddr (cb_entry->paddr) : cb_entry->paddr;
+            d->cb_list[frame - 1].cb->next =
+                c->is_2712 ?
+                to_40bit_cbaddr(cb_entry->paddr) :
+                cb_entry->paddr;
 
-        /* update src and dst and length */
-        if (src && (info & BCM2835_DMA_S_INC)) {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-            if (c->is_40bit_channel)
-                src += ((struct bcm2711_dma40_scb *) control_block)->len;
-            else
-                src += control_block->length;
-        }
+        if (src && (info & BCM2835_DMA_S_INC))
+            src += c->is_40bit_channel ?
+                ((struct bcm2711_dma40_scb *)control_block)->len :
+                control_block->length;
 
-        if (dst && (info & BCM2835_DMA_D_INC)) {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-            if (c->is_40bit_channel)
-                dst += ((struct bcm2711_dma40_scb *) control_block)->len;
-            else
-                dst += control_block->length;
-        }
+        if (dst && (info & BCM2835_DMA_D_INC))
+            dst += c->is_40bit_channel ?
+                ((struct bcm2711_dma40_scb *)control_block)->len :
+                control_block->length;
 
-        /* Length of total transfer */
-        if (c->is_40bit_channel)
-            d->size += ((struct bcm2711_dma40_scb *) control_block)->len;
-        else
-            d->size += control_block->length;
+        d->size += c->is_40bit_channel ?
+            ((struct bcm2711_dma40_scb *)control_block)->len :
+            control_block->length;
     }
 
-    /* the last frame requires extra flags */
-    if (c->is_40bit_channel) {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-        struct bcm2711_dma40_scb *scb =
-            (struct bcm2711_dma40_scb *) d->cb_list[d->frames - 1].cb;
+    printk(KERN_INFO
+        "vijayp %s:%s(): CB chain created frames=%zu total_size=%zu\n",
+        __FILE__, __func__, d->frames, d->size);
 
-        scb->ti |= to_bcm2711_ti (finalextrainfo);
-    }
-    else {
-        d->cb_list[d->frames - 1].cb->info |= finalextrainfo;
-    }
-
-    /* detect a size mismatch */
-    if (buf_len && (d->size != buf_len))
+    if (buf_len && d->size != buf_len) {
+        printk(KERN_ERR
+            "vijayp %s:%s(): ERROR size mismatch d->size=%zu buf_len=%zu\n",
+            __FILE__, __func__, d->size, buf_len);
         goto error_cb;
+    }
+
+    printk(KERN_INFO
+        "vijayp %s:%s(): EXIT success\n",
+        __FILE__, __func__);
 
     return d;
-  error_cb:
-    bcm2835_dma_free_cb_chain (d);
 
+error_cb:
+    printk(KERN_ERR
+        "vijayp %s:%s(): ERROR cleanup CB chain\n",
+        __FILE__, __func__);
+    bcm2835_dma_free_cb_chain(d);
     return NULL;
 }
+
 
 static void
 bcm2835_dma_fill_cb_chain_with_sg (struct bcm2835_chan *c,
