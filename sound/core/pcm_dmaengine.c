@@ -220,8 +220,6 @@ static int dmaengine_pcm_prepare_and_submit(struct snd_pcm_substream *substream)
 
         desc->callback = dmaengine_pcm_dma_complete;
         desc->callback_param = substream;
-        
-        printk(KERN_INFO "vijayp %s:%s(): before dmaengine_submit desc=%px tx_submit=%ps\n",__FILE__, __func__, desc, desc->tx_submit);
 
         prtd->cookie = dmaengine_submit(desc);
 
