@@ -321,6 +321,9 @@ EXPORT_SYMBOL(of_get_property);
 static int __of_device_is_compatible(const struct device_node *device,
 				     const char *compat, const char *type, const char *name)
 {
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): checking compatible = %s\n",
+        __FILE__, __LINE__, __func__, compat);
+
 	struct property *prop;
 	const char *cp;
 	int index = 0, score = 0;

@@ -372,32 +372,86 @@ static void snd_minor_info_read(struct snd_info_entry *entry, struct snd_info_bu
 
 int __init snd_minor_info_init(void)
 {
-	struct snd_info_entry *entry;
+        struct snd_info_entry *entry;
+        int ret;
 
-	entry = snd_info_create_module_entry(THIS_MODULE, "devices", NULL);
-	if (!entry)
-		return -ENOMEM;
-	entry->c.text.read = snd_minor_info_read;
-	return snd_info_register(entry); /* freed in error path */
+        pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): ENTER\n",
+                __FILE__, __LINE__, __func__);
+
+        entry = snd_info_create_module_entry(THIS_MODULE, "devices", NULL);
+        if (!entry) {
+                pr_err("[vijayp][ALSA][BOOT] %s:%d %s(): snd_info_create_module_entry(devices) FAILED\n",
+                       __FILE__, __LINE__, __func__);
+                return -ENOMEM;
+        }
+
+        pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): snd_info_create_module_entry(devices) OK\n",
+                __FILE__, __LINE__, __func__);
+
+        entry->c.text.read = snd_minor_info_read;
+
+        pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): snd_minor_info_read callback set\n",
+                __FILE__, __LINE__, __func__);
+
+        ret = snd_info_register(entry);
+        if (ret < 0) {
+                pr_err("[vijayp][ALSA][BOOT] %s:%d %s(): snd_info_register(devices) FAILED ret=%d\n",
+                       __FILE__, __LINE__, __func__, ret);
+                return ret;
+        }
+
+        pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): snd_info_register(devices) SUCCESS\n",
+                __FILE__, __LINE__, __func__);
+
+        pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): EXIT\n",
+                __FILE__, __LINE__, __func__);
+
+        return 0;
 }
+
 #endif /* CONFIG_SND_PROC_FS */
 
 /*
  *  INIT PART
  */
-
 static int __init alsa_sound_init(void)
 {
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): ENTER\n",
+		__FILE__, __LINE__, __func__);
+
 	snd_major = major;
 	snd_ecards_limit = cards_limit;
+
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): snd_major=%d snd_ecards_limit=%d\n",
+		__FILE__, __LINE__, __func__,
+		snd_major, snd_ecards_limit);
+
 	if (register_chrdev(major, "alsa", &snd_fops)) {
-		pr_err("ALSA core: unable to register native major device number %d\n", major);
+		pr_err("[vijayp][ALSA][BOOT] %s:%d %s(): register_chrdev failed major=%d\n",
+		       __FILE__, __LINE__, __func__, major);
 		return -EIO;
 	}
+
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): register_chrdev SUCCESS major=%d\n",
+		__FILE__, __LINE__, __func__, major);
+
 	if (snd_info_init() < 0) {
+		pr_err("[vijayp][ALSA][BOOT] %s:%d %s(): snd_info_init FAILED\n",
+		       __FILE__, __LINE__, __func__);
+
 		unregister_chrdev(major, "alsa");
 		return -ENOMEM;
-	}
+	
+
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): snd_info_init SUCCESS\n",
+		__FILE__, __LINE__, __func__);
+
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): EXIT\n",
+		__FILE__, __LINE__, __func__);
+
+	return 0;
+}
+
 
 #ifdef CONFIG_SND_DEBUG
 	sound_debugfs_root = debugfs_create_dir("sound", NULL);

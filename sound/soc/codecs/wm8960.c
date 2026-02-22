@@ -1592,9 +1592,10 @@ wm8960_set_pdata_from_of (struct i2c_client *i2c, struct wm8960_data *pdata)
 static int
 wm8960_i2c_probe (struct i2c_client *i2c)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    struct wm8960_data *pdata = dev_get_platdata (&i2c->dev);
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): WM8960 I2C probe, addr=0x%x\n",
+        __FILE__, __LINE__, __func__, i2c->addr);
+
+	struct wm8960_data *pdata = dev_get_platdata(&i2c->dev);
     struct wm8960_priv *wm8960;
     unsigned int i;
     int ret;

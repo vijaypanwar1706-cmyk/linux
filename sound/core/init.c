@@ -871,6 +871,9 @@ static void trigger_card_free(void *data)
  */
 int snd_card_register(struct snd_card *card)
 {
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): ALSA card registered: %s\n",
+        __FILE__, __LINE__, __func__, card->shortname);
+
 	int err;
 
 	if (snd_BUG_ON(!card))

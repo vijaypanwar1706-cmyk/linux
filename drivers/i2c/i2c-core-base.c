@@ -1993,6 +1993,9 @@ static int __process_new_driver(struct device *dev, void *data)
 
 int i2c_register_driver(struct module *owner, struct i2c_driver *driver)
 {
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): I2C driver registered: %s\n",
+        __FILE__, __LINE__, __func__, driver->driver.name);
+
 	int res;
 
 	/* Can't register until after driver model init */
@@ -2075,6 +2078,9 @@ EXPORT_SYMBOL(i2c_clients_command);
 
 static int __init i2c_init(void)
 {
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): I2C core initialization started\n",
+        __FILE__, __LINE__, __func__);
+
 	int retval;
 
 	retval = of_alias_get_highest_id("i2c");

@@ -428,35 +428,91 @@ snd_info_create_entry(const char *name, struct snd_info_entry *parent,
 
 int __init snd_info_init(void)
 {
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): ENTER\n",
+		__FILE__, __LINE__, __func__);
+
 	snd_proc_root = snd_info_create_entry("asound", NULL, THIS_MODULE);
-	if (!snd_proc_root)
+	if (!snd_proc_root) {
+		pr_err("[vijayp][ALSA][BOOT] %s:%d %s(): snd_info_create_entry(asound) FAILED\n",
+		       __FILE__, __LINE__, __func__);
 		return -ENOMEM;
+	}
+
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): snd_info_create_entry(asound) OK\n",
+		__FILE__, __LINE__, __func__);
+
 	snd_proc_root->mode = S_IFDIR | 0555;
+
 	snd_proc_root->p = proc_mkdir("asound", NULL);
-	if (!snd_proc_root->p)
+	if (!snd_proc_root->p) {
+		pr_err("[vijayp][ALSA][BOOT] %s:%d %s(): proc_mkdir(asound) FAILED\n",
+		       __FILE__, __LINE__, __func__);
 		goto error;
+	}
+
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): proc_mkdir(asound) OK\n",
+		__FILE__, __LINE__, __func__);
+
 #ifdef CONFIG_SND_OSSEMUL
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): CONFIG_SND_OSSEMUL enabled\n",
+		__FILE__, __LINE__, __func__);
+
 	snd_oss_root = create_subdir(THIS_MODULE, "oss");
-	if (!snd_oss_root)
+	if (!snd_oss_root) {
+		pr_err("[vijayp][ALSA][BOOT] %s:%d %s(): create_subdir(oss) FAILED\n",
+		       __FILE__, __LINE__, __func__);
 		goto error;
+	}
+
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): create_subdir(oss) OK\n",
+		__FILE__, __LINE__, __func__);
 #endif
+
 #if IS_ENABLED(CONFIG_SND_SEQUENCER)
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): CONFIG_SND_SEQUENCER enabled\n",
+		__FILE__, __LINE__, __func__);
+
 	snd_seq_root = create_subdir(THIS_MODULE, "seq");
-	if (!snd_seq_root)
+	if (!snd_seq_root) {
+		pr_err("[vijayp][ALSA][BOOT] %s:%d %s(): create_subdir(seq) FAILED\n",
+		       __FILE__, __LINE__, __func__);
 		goto error;
+	}
+
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): create_subdir(seq) OK\n",
+		__FILE__, __LINE__, __func__);
 #endif
+
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): creating info entries\n",
+		__FILE__, __LINE__, __func__);
+
 	if (snd_info_version_init() < 0 ||
 	    snd_minor_info_init() < 0 ||
 	    snd_minor_info_oss_init() < 0 ||
 	    snd_card_info_init() < 0 ||
-	    snd_info_minor_register() < 0)
+	    snd_info_minor_register() < 0) {
+
+		pr_err("[vijayp][ALSA][BOOT] %s:%d %s(): one of info init steps FAILED\n",
+		       __FILE__, __LINE__, __func__);
 		goto error;
+	}
+
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): ALL info entries created SUCCESSFULLY\n",
+		__FILE__, __LINE__, __func__);
+
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): EXIT\n",
+		__FILE__, __LINE__, __func__);
+
 	return 0;
 
- error:
+error:
+	pr_err("[vijayp][ALSA][BOOT] %s:%d %s(): ERROR path, cleaning up\n",
+	       __FILE__, __LINE__, __func__);
+
 	snd_info_free_entry(snd_proc_root);
 	return -ENOMEM;
 }
+
 
 int __exit snd_info_done(void)
 {

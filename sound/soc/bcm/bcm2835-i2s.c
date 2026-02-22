@@ -108,219 +108,177 @@
 #define BCM2835_I2S_MAX_FRAME_LENGTH	1024
 
 /* General device struct */
-struct bcm2835_i2s_dev
-{
-    struct device *dev;
-    struct snd_dmaengine_dai_dma_data dma_data[2];
-    unsigned int fmt;
-    unsigned int tdm_slots;
-    unsigned int rx_mask;
-    unsigned int tx_mask;
-    unsigned int slot_width;
-    unsigned int frame_length;
+struct bcm2835_i2s_dev {
+	struct device				*dev;
+	struct snd_dmaengine_dai_dma_data	dma_data[2];
+	unsigned int				fmt;
+	unsigned int				tdm_slots;
+	unsigned int				rx_mask;
+	unsigned int				tx_mask;
+	unsigned int				slot_width;
+	unsigned int				frame_length;
 
-    struct regmap *i2s_regmap;
-    struct clk *clk;
-    bool clk_prepared;
-    int clk_rate;
+	struct regmap				*i2s_regmap;
+	struct clk				*clk;
+	bool					clk_prepared;
+	int					clk_rate;
 };
 
-static void
-bcm2835_i2s_start_clock(struct bcm2835_i2s_dev *dev)
+static void bcm2835_i2s_start_clock(struct bcm2835_i2s_dev *dev)
 {
-    unsigned int provider = dev->fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK;
+	unsigned int provider = dev->fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK;
 
-    printk("vijayp %s:%s(): ENTER dev=%p fmt=0x%x provider=0x%x clk_prepared=%d\n",
-           __FILE__, __func__,
-           dev, dev->fmt, provider, dev->clk_prepared);
+	if (dev->clk_prepared)
+		return;
 
-    if (dev->clk_prepared) {
-        printk("vijayp %s:%s(): clock already prepared -> RETURN\n",
-               __FILE__, __func__);
-        return;
-    }
-
-    switch (provider) {
-
-    case SND_SOC_DAIFMT_BP_FP:
-        printk("vijayp %s:%s(): provider=SND_SOC_DAIFMT_BP_FP -> enabling clock\n",
-               __FILE__, __func__);
-        clk_prepare_enable(dev->clk);
-        dev->clk_prepared = true;
-        printk("vijayp %s:%s(): clk_prepare_enable DONE, clk_prepared=1\n",
-               __FILE__, __func__);
-        break;
-
-    case SND_SOC_DAIFMT_BP_FC:
-        printk("vijayp %s:%s(): provider=SND_SOC_DAIFMT_BP_FC -> enabling clock\n",
-               __FILE__, __func__);
-        clk_prepare_enable(dev->clk);
-        dev->clk_prepared = true;
-        printk("vijayp %s:%s(): clk_prepare_enable DONE, clk_prepared=1\n",
-               __FILE__, __func__);
-        break;
-
-    default:
-        printk("vijayp %s:%s(): provider=UNKNOWN (0x%x) -> clock NOT enabled\n",
-               __FILE__, __func__, provider);
-        break;
-    }
-
-    printk("vijayp %s:%s(): EXIT\n", __FILE__, __func__);
+	switch (provider) {
+	case SND_SOC_DAIFMT_BP_FP:
+	case SND_SOC_DAIFMT_BP_FC:
+		clk_prepare_enable(dev->clk);
+		dev->clk_prepared = true;
+		break;
+	default:
+		break;
+	}
 }
 
-static void
-bcm2835_i2s_stop_clock (struct bcm2835_i2s_dev *dev)
+static void bcm2835_i2s_stop_clock(struct bcm2835_i2s_dev *dev)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    if (dev->clk_prepared)
-        clk_disable_unprepare (dev->clk);
-    dev->clk_prepared = false;
+	if (dev->clk_prepared)
+		clk_disable_unprepare(dev->clk);
+	dev->clk_prepared = false;
 }
 
-static void
-bcm2835_i2s_clear_fifos (struct bcm2835_i2s_dev *dev, bool tx, bool rx)
+static void bcm2835_i2s_clear_fifos(struct bcm2835_i2s_dev *dev,
+				    bool tx, bool rx)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    int timeout = 1000;
-    uint32_t syncval;
-    uint32_t csreg;
-    uint32_t i2s_active_state;
-    bool clk_was_prepared;
-    uint32_t off;
-    uint32_t clr;
+	int timeout = 1000;
+	uint32_t syncval;
+	uint32_t csreg;
+	uint32_t i2s_active_state;
+	bool clk_was_prepared;
+	uint32_t off;
+	uint32_t clr;
 
-    off = tx ? BCM2835_I2S_TXON : 0;
-    off |= rx ? BCM2835_I2S_RXON : 0;
+	off =  tx ? BCM2835_I2S_TXON : 0;
+	off |= rx ? BCM2835_I2S_RXON : 0;
 
-    clr = tx ? BCM2835_I2S_TXCLR : 0;
-    clr |= rx ? BCM2835_I2S_RXCLR : 0;
+	clr =  tx ? BCM2835_I2S_TXCLR : 0;
+	clr |= rx ? BCM2835_I2S_RXCLR : 0;
 
-    /* Backup the current state */
-    regmap_read (dev->i2s_regmap, BCM2835_I2S_CS_A_REG, &csreg);
-    i2s_active_state = csreg & (BCM2835_I2S_RXON | BCM2835_I2S_TXON);
+	/* Backup the current state */
+	regmap_read(dev->i2s_regmap, BCM2835_I2S_CS_A_REG, &csreg);
+	i2s_active_state = csreg & (BCM2835_I2S_RXON | BCM2835_I2S_TXON);
 
-    /* Start clock if not running */
-    clk_was_prepared = dev->clk_prepared;
-    if (!clk_was_prepared)
-        bcm2835_i2s_start_clock (dev);
+	/* Start clock if not running */
+	clk_was_prepared = dev->clk_prepared;
+	if (!clk_was_prepared)
+		bcm2835_i2s_start_clock(dev);
 
-    /* Stop I2S module */
-    regmap_update_bits (dev->i2s_regmap, BCM2835_I2S_CS_A_REG, off, 0);
+	/* Stop I2S module */
+	regmap_update_bits(dev->i2s_regmap, BCM2835_I2S_CS_A_REG, off, 0);
 
-    /*
-     * Clear the FIFOs
-     * Requires at least 2 PCM clock cycles to take effect
-     */
-    regmap_update_bits (dev->i2s_regmap, BCM2835_I2S_CS_A_REG, clr, clr);
+	/*
+	 * Clear the FIFOs
+	 * Requires at least 2 PCM clock cycles to take effect
+	 */
+	regmap_update_bits(dev->i2s_regmap, BCM2835_I2S_CS_A_REG, clr, clr);
 
-    /* Wait for 2 PCM clock cycles */
+	/* Wait for 2 PCM clock cycles */
 
-    /*
-     * Toggle the SYNC flag. After 2 PCM clock cycles it can be read back
-     * FIXME: This does not seem to work for slave mode!
-     */
-    regmap_read (dev->i2s_regmap, BCM2835_I2S_CS_A_REG, &syncval);
-    syncval &= BCM2835_I2S_SYNC;
+	/*
+	 * Toggle the SYNC flag. After 2 PCM clock cycles it can be read back
+	 * FIXME: This does not seem to work for slave mode!
+	 */
+	regmap_read(dev->i2s_regmap, BCM2835_I2S_CS_A_REG, &syncval);
+	syncval &= BCM2835_I2S_SYNC;
 
-    regmap_update_bits (dev->i2s_regmap, BCM2835_I2S_CS_A_REG,
-                        BCM2835_I2S_SYNC, ~syncval);
+	regmap_update_bits(dev->i2s_regmap, BCM2835_I2S_CS_A_REG,
+			BCM2835_I2S_SYNC, ~syncval);
 
-    /* Wait for the SYNC flag changing it's state */
-    while (--timeout) {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-        regmap_read (dev->i2s_regmap, BCM2835_I2S_CS_A_REG, &csreg);
-        if ((csreg & BCM2835_I2S_SYNC) != syncval)
-            break;
-    }
+	/* Wait for the SYNC flag changing it's state */
+	while (--timeout) {
+		regmap_read(dev->i2s_regmap, BCM2835_I2S_CS_A_REG, &csreg);
+		if ((csreg & BCM2835_I2S_SYNC) != syncval)
+			break;
+	}
 
-    if (!timeout)
-        dev_err (dev->dev, "I2S SYNC error!\n");
+	if (!timeout)
+		dev_err(dev->dev, "I2S SYNC error!\n");
 
-    /* Stop clock if it was not running before */
-    if (!clk_was_prepared)
-        bcm2835_i2s_stop_clock (dev);
+	/* Stop clock if it was not running before */
+	if (!clk_was_prepared)
+		bcm2835_i2s_stop_clock(dev);
 
-    /* Restore I2S state */
-    regmap_update_bits (dev->i2s_regmap, BCM2835_I2S_CS_A_REG,
-                        BCM2835_I2S_RXON | BCM2835_I2S_TXON,
-                        i2s_active_state);
+	/* Restore I2S state */
+	regmap_update_bits(dev->i2s_regmap, BCM2835_I2S_CS_A_REG,
+			BCM2835_I2S_RXON | BCM2835_I2S_TXON, i2s_active_state);
 }
 
-static int
-bcm2835_i2s_set_dai_fmt (struct snd_soc_dai *dai, unsigned int fmt)
+static int bcm2835_i2s_set_dai_fmt(struct snd_soc_dai *dai,
+				      unsigned int fmt)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata (dai);
-    dev->fmt = fmt;
-    return 0;
+	struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata(dai);
+	dev->fmt = fmt;
+	return 0;
 }
 
-static int
-bcm2835_i2s_set_dai_bclk_ratio (struct snd_soc_dai *dai, unsigned int ratio)
+static int bcm2835_i2s_set_dai_bclk_ratio(struct snd_soc_dai *dai,
+				      unsigned int ratio)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata (dai);
+	struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata(dai);
 
-    if (!ratio) {
-        dev->tdm_slots = 0;
-        return 0;
-    }
+	if (!ratio) {
+		dev->tdm_slots = 0;
+		return 0;
+	}
 
-    if (ratio > BCM2835_I2S_MAX_FRAME_LENGTH)
-        return -EINVAL;
+	if (ratio > BCM2835_I2S_MAX_FRAME_LENGTH)
+		return -EINVAL;
 
-    dev->tdm_slots = 2;
-    dev->rx_mask = 0x03;
-    dev->tx_mask = 0x03;
-    dev->slot_width = ratio / 2;
-    dev->frame_length = ratio;
+	dev->tdm_slots = 2;
+	dev->rx_mask = 0x03;
+	dev->tx_mask = 0x03;
+	dev->slot_width = ratio / 2;
+	dev->frame_length = ratio;
 
-    return 0;
+	return 0;
 }
 
-static int
-bcm2835_i2s_set_dai_tdm_slot (struct snd_soc_dai *dai,
-                              unsigned int tx_mask, unsigned int rx_mask,
-                              int slots, int width)
+static int bcm2835_i2s_set_dai_tdm_slot(struct snd_soc_dai *dai,
+	unsigned int tx_mask, unsigned int rx_mask,
+	int slots, int width)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata (dai);
+	struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata(dai);
 
-    if (slots) {
-        if (slots < 0 || width < 0)
-            return -EINVAL;
+	if (slots) {
+		if (slots < 0 || width < 0)
+			return -EINVAL;
 
-        /* Limit masks to available slots */
-        rx_mask &= GENMASK (slots - 1, 0);
-        tx_mask &= GENMASK (slots - 1, 0);
+		/* Limit masks to available slots */
+		rx_mask &= GENMASK(slots - 1, 0);
+		tx_mask &= GENMASK(slots - 1, 0);
 
-        /*
-         * The driver is limited to 2-channel setups.
-         * Check that exactly 2 bits are set in the masks.
-         */
-        if (hweight_long ((unsigned long) rx_mask) != 2
-            || hweight_long ((unsigned long) tx_mask) != 2)
-            return -EINVAL;
+		/*
+		 * The driver is limited to 2-channel setups.
+		 * Check that exactly 2 bits are set in the masks.
+		 */
+		if (hweight_long((unsigned long) rx_mask) != 2
+		    || hweight_long((unsigned long) tx_mask) != 2)
+			return -EINVAL;
 
-        if (slots * width > BCM2835_I2S_MAX_FRAME_LENGTH)
-            return -EINVAL;
-    }
+		if (slots * width > BCM2835_I2S_MAX_FRAME_LENGTH)
+			return -EINVAL;
+	}
 
-    dev->tdm_slots = slots;
+	dev->tdm_slots = slots;
 
-    dev->rx_mask = rx_mask;
-    dev->tx_mask = tx_mask;
-    dev->slot_width = width;
-    dev->frame_length = slots * width;
+	dev->rx_mask = rx_mask;
+	dev->tx_mask = tx_mask;
+	dev->slot_width = width;
+	dev->frame_length = slots * width;
 
-    return 0;
+	return 0;
 }
 
 /*
@@ -334,18 +292,15 @@ bcm2835_i2s_set_dai_tdm_slot (struct snd_soc_dai *dai,
  * translate from logical slot numbers 0 1 2 3 ... into physical slot
  * numbers 0 2 ... 3 4 ...
  */
-static int
-bcm2835_i2s_convert_slot (unsigned int slot, unsigned int odd_offset)
+static int bcm2835_i2s_convert_slot(unsigned int slot, unsigned int odd_offset)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    if (!odd_offset)
-        return slot;
+	if (!odd_offset)
+		return slot;
 
-    if (slot & 1)
-        return (slot >> 1) + odd_offset;
+	if (slot & 1)
+		return (slot >> 1) + odd_offset;
 
-    return slot >> 1;
+	return slot >> 1;
 }
 
 /*
@@ -359,591 +314,619 @@ bcm2835_i2s_convert_slot (unsigned int slot, unsigned int odd_offset)
  * I2S-style TDM slot numbering ( 0 2 ... 3 4 ...) with odd
  * logical slot numbers starting at physical slot odd_offset.
  */
-static void
-bcm2835_i2s_calc_channel_pos (unsigned int *ch1_pos, unsigned int *ch2_pos,
-                              unsigned int mask, unsigned int width,
-                              unsigned int bit_offset,
-                              unsigned int odd_offset)
+static void bcm2835_i2s_calc_channel_pos(
+	unsigned int *ch1_pos, unsigned int *ch2_pos,
+	unsigned int mask, unsigned int width,
+	unsigned int bit_offset, unsigned int odd_offset)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    *ch1_pos = bcm2835_i2s_convert_slot ((ffs (mask) - 1), odd_offset)
-        * width + bit_offset;
-    *ch2_pos = bcm2835_i2s_convert_slot ((fls (mask) - 1), odd_offset)
-        * width + bit_offset;
+	*ch1_pos = bcm2835_i2s_convert_slot((ffs(mask) - 1), odd_offset)
+			* width + bit_offset;
+	*ch2_pos = bcm2835_i2s_convert_slot((fls(mask) - 1), odd_offset)
+			* width + bit_offset;
 }
 
-static int
-bcm2835_i2s_hw_params(struct snd_pcm_substream *substream,
-                      struct snd_pcm_hw_params *params,
-                      struct snd_soc_dai *dai)
+static int bcm2835_i2s_hw_params(struct snd_pcm_substream *substream,
+				 struct snd_pcm_hw_params *params,
+				 struct snd_soc_dai *dai)
 {
-    struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata(dai);
-    unsigned int data_length, data_delay, framesync_length;
-    unsigned int slots, slot_width, odd_slot_offset;
-    int frame_length, bclk_rate;
-    unsigned int rx_mask, tx_mask;
-    unsigned int rx_ch1_pos, rx_ch2_pos, tx_ch1_pos, tx_ch2_pos;
-    unsigned int mode, format;
-    bool bit_clock_provider = false;
-    bool frame_sync_provider = false;
-    bool frame_start_falling_edge = false;
-    uint32_t csreg;
-    int ret = 0;
+	struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata(dai);
+	unsigned int data_length, data_delay, framesync_length;
+	unsigned int slots, slot_width, odd_slot_offset;
+	int frame_length, bclk_rate;
+	unsigned int rx_mask, tx_mask;
+	unsigned int rx_ch1_pos, rx_ch2_pos, tx_ch1_pos, tx_ch2_pos;
+	unsigned int mode, format;
+	bool bit_clock_provider = false;
+	bool frame_sync_provider = false;
+	bool frame_start_falling_edge = false;
+	uint32_t csreg;
+	int ret = 0;
 
-    printk(KERN_INFO
-           "[vijayp][I2S][HW_PARAMS] enter: stream=%s rate=%d width=%d channels=%d\n",
-           substream->stream == SNDRV_PCM_STREAM_PLAYBACK ? "PLAYBACK" : "CAPTURE",
-           params_rate(params),
-           params_width(params),
-           params_channels(params));
+	/*
+	 * If a stream is already enabled,
+	 * the registers are already set properly.
+	 */
+	regmap_read(dev->i2s_regmap, BCM2835_I2S_CS_A_REG, &csreg);
 
-    /* Check if stream already running */
-    regmap_read(dev->i2s_regmap, BCM2835_I2S_CS_A_REG, &csreg);
-    if (csreg & (BCM2835_I2S_TXON | BCM2835_I2S_RXON)) {
-        printk(KERN_INFO
-               "[vijayp][I2S][HW_PARAMS] I2S already active CS_A=0x%08x, skip reconfig\n",
-               csreg);
-        return 0;
-    }
+	if (csreg & (BCM2835_I2S_TXON | BCM2835_I2S_RXON))
+		return 0;
 
-    data_length = params_width(params);
-    data_delay = 0;
-    odd_slot_offset = 0;
-    mode = 0;
+	data_length = params_width(params);
+	data_delay = 0;
+	odd_slot_offset = 0;
+	mode = 0;
 
-    if (dev->tdm_slots) {
-        slots        = dev->tdm_slots;
-        slot_width   = dev->slot_width;
-        frame_length = dev->frame_length;
-        rx_mask      = dev->rx_mask;
-        tx_mask      = dev->tx_mask;
-        bclk_rate    = dev->frame_length * params_rate(params);
-    } else {
-        slots      = 2;
-        slot_width = params_width(params);
-        rx_mask    = 0x03;
-        tx_mask    = 0x03;
+	if (dev->tdm_slots) {
+		slots = dev->tdm_slots;
+		slot_width = dev->slot_width;
+		frame_length = dev->frame_length;
+		rx_mask = dev->rx_mask;
+		tx_mask = dev->tx_mask;
+		bclk_rate = dev->frame_length * params_rate(params);
+	} else {
+		slots = 2;
+		slot_width = params_width(params);
+		rx_mask = 0x03;
+		tx_mask = 0x03;
 
-        frame_length = snd_soc_params_to_frame_size(params);
-        if (frame_length < 0)
-            return frame_length;
+		frame_length = snd_soc_params_to_frame_size(params);
+		if (frame_length < 0)
+			return frame_length;
 
-        bclk_rate = snd_soc_params_to_bclk(params);
-        if (bclk_rate < 0)
-            return bclk_rate;
-    }
+		bclk_rate = snd_soc_params_to_bclk(params);
+		if (bclk_rate < 0)
+			return bclk_rate;
+	}
 
-    printk(KERN_INFO
-           "[vijayp][I2S][HW_PARAMS] slots=%u slot_width=%u frame_len=%d bclk=%d\n",
-           slots, slot_width, frame_length, bclk_rate);
+	/* Check if data fits into slots */
+	if (data_length > slot_width)
+		return -EINVAL;
 
-    /* Bit clock provider */
-    switch (dev->fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
-    case SND_SOC_DAIFMT_BP_FP:
-    case SND_SOC_DAIFMT_BP_FC:
-        bit_clock_provider = true;
-        break;
-    case SND_SOC_DAIFMT_BC_FP:
-    case SND_SOC_DAIFMT_BC_FC:
-        bit_clock_provider = false;
-        break;
-    default:
-        return -EINVAL;
-    }
+	/* Check if CPU is bit clock provider */
+	switch (dev->fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
+	case SND_SOC_DAIFMT_BP_FP:
+	case SND_SOC_DAIFMT_BP_FC:
+		bit_clock_provider = true;
+		break;
+	case SND_SOC_DAIFMT_BC_FP:
+	case SND_SOC_DAIFMT_BC_FC:
+		bit_clock_provider = false;
+		break;
+	default:
+		return -EINVAL;
+	}
 
-    /* Frame sync provider */
-    switch (dev->fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
-    case SND_SOC_DAIFMT_BP_FP:
-    case SND_SOC_DAIFMT_BC_FP:
-        frame_sync_provider = true;
-        break;
-    case SND_SOC_DAIFMT_BP_FC:
-    case SND_SOC_DAIFMT_BC_FC:
-        frame_sync_provider = false;
-        break;
-    default:
-        return -EINVAL;
-    }
+	/* Check if CPU is frame sync provider */
+	switch (dev->fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
+	case SND_SOC_DAIFMT_BP_FP:
+	case SND_SOC_DAIFMT_BC_FP:
+		frame_sync_provider = true;
+		break;
+	case SND_SOC_DAIFMT_BP_FC:
+	case SND_SOC_DAIFMT_BC_FC:
+		frame_sync_provider = false;
+		break;
+	default:
+		return -EINVAL;
+	}
 
-    printk(KERN_INFO
-           "[vijayp][I2S][CLOCK] BCLK_provider=%d FS_provider=%d fmt=0x%x\n",
-           bit_clock_provider, frame_sync_provider, dev->fmt);
+	/* Clock should only be set up here if CPU is clock master */
+	if (bit_clock_provider &&
+	    (!dev->clk_prepared || dev->clk_rate != bclk_rate)) {
+		if (dev->clk_prepared)
+			bcm2835_i2s_stop_clock(dev);
 
-    if (bit_clock_provider &&
-        (!dev->clk_prepared || dev->clk_rate != bclk_rate)) {
+		if (dev->clk_rate != bclk_rate) {
+			ret = clk_set_rate(dev->clk, bclk_rate);
+			if (ret)
+				return ret;
+			dev->clk_rate = bclk_rate;
+		}
 
-        if (dev->clk_prepared)
-            bcm2835_i2s_stop_clock(dev);
+		bcm2835_i2s_start_clock(dev);
+	}
 
-        if (dev->clk_rate != bclk_rate) {
-            ret = clk_set_rate(dev->clk, bclk_rate);
-            if (ret)
-                return ret;
-            dev->clk_rate = bclk_rate;
-        }
+	/* Setup the frame format */
+	format = BCM2835_I2S_CHEN;
 
-        bcm2835_i2s_start_clock(dev);
-    }
+	if (data_length >= 24)
+		format |= BCM2835_I2S_CHWEX;
 
-    /* Channel format */
-    format = BCM2835_I2S_CHEN;
-    if (data_length >= 24)
-        format |= BCM2835_I2S_CHWEX;
+	format |= BCM2835_I2S_CHWID((data_length-8)&0xf);
 
-    format |= BCM2835_I2S_CHWID((data_length - 8) & 0xf);
-    format = BCM2835_I2S_CH1(format) | BCM2835_I2S_CH2(format);
+	/* CH2 format is the same as for CH1 */
+	format = BCM2835_I2S_CH1(format) | BCM2835_I2S_CH2(format);
 
-    switch (dev->fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
-    case SND_SOC_DAIFMT_I2S:
-        odd_slot_offset = slots >> 1;
-        data_delay = 1;
-        framesync_length = frame_length / 2;
-        frame_start_falling_edge = true;
-        break;
-    case SND_SOC_DAIFMT_LEFT_J:
-        odd_slot_offset = slots >> 1;
-        data_delay = 0;
-        framesync_length = frame_length / 2;
-        break;
-    case SND_SOC_DAIFMT_RIGHT_J:
-        odd_slot_offset = slots >> 1;
-        data_delay = slot_width - data_length;
-        framesync_length = frame_length / 2;
-        break;
-    case SND_SOC_DAIFMT_DSP_A:
-        data_delay = 1;
-        framesync_length = 1;
-        break;
-    case SND_SOC_DAIFMT_DSP_B:
-        data_delay = 0;
-        framesync_length = 1;
-        break;
-    default:
-        return -EINVAL;
-    }
+	switch (dev->fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
+	case SND_SOC_DAIFMT_I2S:
+		/* I2S mode needs an even number of slots */
+		if (slots & 1)
+			return -EINVAL;
 
-    printk(KERN_INFO
-           "[vijayp][I2S][FORMAT] data_len=%u delay=%u fs_len=%u odd_slot=%u\n",
-           data_length, data_delay, framesync_length, odd_slot_offset);
+		/*
+		 * Use I2S-style logical slot numbering: even slots
+		 * are in first half of frame, odd slots in second half.
+		 */
+		odd_slot_offset = slots >> 1;
 
-    bcm2835_i2s_calc_channel_pos(&rx_ch1_pos, &rx_ch2_pos,
-                                 rx_mask, slot_width, data_delay,
-                                 odd_slot_offset);
-    bcm2835_i2s_calc_channel_pos(&tx_ch1_pos, &tx_ch2_pos,
-                                 tx_mask, slot_width, data_delay,
-                                 odd_slot_offset);
+		/* MSB starts one cycle after frame start */
+		data_delay = 1;
 
-    printk(KERN_INFO
-           "[vijayp][I2S][CH_POS] TX(%u,%u) RX(%u,%u)\n",
-           tx_ch1_pos, tx_ch2_pos, rx_ch1_pos, rx_ch2_pos);
+		/* Setup frame sync signal for 50% duty cycle */
+		framesync_length = frame_length / 2;
+		frame_start_falling_edge = true;
+		break;
+	case SND_SOC_DAIFMT_LEFT_J:
+		if (slots & 1)
+			return -EINVAL;
 
-    regmap_write(dev->i2s_regmap, BCM2835_I2S_RXC_A_REG,
-                 format | BCM2835_I2S_CH1_POS(rx_ch1_pos)
-                        | BCM2835_I2S_CH2_POS(rx_ch2_pos));
+		odd_slot_offset = slots >> 1;
+		data_delay = 0;
+		framesync_length = frame_length / 2;
+		frame_start_falling_edge = false;
+		break;
+	case SND_SOC_DAIFMT_RIGHT_J:
+		if (slots & 1)
+			return -EINVAL;
 
-    regmap_write(dev->i2s_regmap, BCM2835_I2S_TXC_A_REG,
-                 format | BCM2835_I2S_CH1_POS(tx_ch1_pos)
-                        | BCM2835_I2S_CH2_POS(tx_ch2_pos));
+		/* Odd frame lengths aren't supported */
+		if (frame_length & 1)
+			return -EINVAL;
 
-    if (data_length <= 16)
-        mode |= BCM2835_I2S_FTXP | BCM2835_I2S_FRXP;
+		odd_slot_offset = slots >> 1;
+		data_delay = slot_width - data_length;
+		framesync_length = frame_length / 2;
+		frame_start_falling_edge = false;
+		break;
+	case SND_SOC_DAIFMT_DSP_A:
+		data_delay = 1;
+		framesync_length = 1;
+		frame_start_falling_edge = false;
+		break;
+	case SND_SOC_DAIFMT_DSP_B:
+		data_delay = 0;
+		framesync_length = 1;
+		frame_start_falling_edge = false;
+		break;
+	default:
+		return -EINVAL;
+	}
 
-    mode |= BCM2835_I2S_FLEN(frame_length - 1);
-    mode |= BCM2835_I2S_FSLEN(framesync_length);
+	bcm2835_i2s_calc_channel_pos(&rx_ch1_pos, &rx_ch2_pos,
+		rx_mask, slot_width, data_delay, odd_slot_offset);
+	bcm2835_i2s_calc_channel_pos(&tx_ch1_pos, &tx_ch2_pos,
+		tx_mask, slot_width, data_delay, odd_slot_offset);
 
-    if (!bit_clock_provider)
-        mode |= BCM2835_I2S_CLKM;
-    if (!frame_sync_provider)
-        mode |= BCM2835_I2S_FSM;
+	/*
+	 * Transmitting data immediately after frame start, eg
+	 * in left-justified or DSP mode A, only works stable
+	 * if bcm2835 is the frame clock provider.
+	 */
+	if ((!rx_ch1_pos || !tx_ch1_pos) && !frame_sync_provider)
+		dev_warn(dev->dev,
+			"Unstable consumer config detected, L/R may be swapped");
 
-    printk(KERN_INFO
-           "[vijayp][I2S][MODE] MODE_A=0x%08x\n",
-           mode);
+	/*
+	 * Set format for both streams.
+	 * We cannot set another frame length
+	 * (and therefore word length) anyway,
+	 * so the format will be the same.
+	 */
+	regmap_write(dev->i2s_regmap, BCM2835_I2S_RXC_A_REG, 
+		  format
+		| BCM2835_I2S_CH1_POS(rx_ch1_pos)
+		| BCM2835_I2S_CH2_POS(rx_ch2_pos));
+	regmap_write(dev->i2s_regmap, BCM2835_I2S_TXC_A_REG, 
+		  format
+		| BCM2835_I2S_CH1_POS(tx_ch1_pos)
+		| BCM2835_I2S_CH2_POS(tx_ch2_pos));
 
-    regmap_write(dev->i2s_regmap, BCM2835_I2S_MODE_A_REG, mode);
+	/* Setup the I2S mode */
 
-    printk(KERN_INFO
-           "[vijayp][I2S][DMA] enabling DMA + FIFO thresholds\n");
+	if (data_length <= 16) {
+		/*
+		 * Use frame packed mode (2 channels per 32 bit word)
+		 * We cannot set another frame length in the second stream
+		 * (and therefore word length) anyway,
+		 * so the format will be the same.
+		 */
+		mode |= BCM2835_I2S_FTXP | BCM2835_I2S_FRXP;
+	}
 
-    regmap_update_bits(dev->i2s_regmap, BCM2835_I2S_CS_A_REG,
-                       BCM2835_I2S_RXTHR(1)
-                     | BCM2835_I2S_TXTHR(1)
-                     | BCM2835_I2S_DMAEN,
-                       0xffffffff);
+	mode |= BCM2835_I2S_FLEN(frame_length - 1);
+	mode |= BCM2835_I2S_FSLEN(framesync_length);
 
-    bcm2835_i2s_clear_fifos(dev, true, true);
+	/* CLKM selects bcm2835 clock slave mode */
+	if (!bit_clock_provider)
+		mode |= BCM2835_I2S_CLKM;
 
-    printk(KERN_INFO
-           "[vijayp][I2S][HW_PARAMS] completed successfully\n");
+	/* FSM selects bcm2835 frame sync slave mode */
+	if (!frame_sync_provider)
+		mode |= BCM2835_I2S_FSM;
 
-    return ret;
+	/* CLKI selects normal clocking mode, sampling on rising edge */
+        switch (dev->fmt & SND_SOC_DAIFMT_INV_MASK) {
+	case SND_SOC_DAIFMT_NB_NF:
+	case SND_SOC_DAIFMT_NB_IF:
+		mode |= BCM2835_I2S_CLKI;
+		break;
+	case SND_SOC_DAIFMT_IB_NF:
+	case SND_SOC_DAIFMT_IB_IF:
+		break;
+	default:
+		return -EINVAL;
+	}
+
+	/* FSI selects frame start on falling edge */
+	switch (dev->fmt & SND_SOC_DAIFMT_INV_MASK) {
+	case SND_SOC_DAIFMT_NB_NF:
+	case SND_SOC_DAIFMT_IB_NF:
+		if (frame_start_falling_edge)
+			mode |= BCM2835_I2S_FSI;
+		break;
+	case SND_SOC_DAIFMT_NB_IF:
+	case SND_SOC_DAIFMT_IB_IF:
+		if (!frame_start_falling_edge)
+			mode |= BCM2835_I2S_FSI;
+		break;
+	default:
+		return -EINVAL;
+	}
+
+	regmap_write(dev->i2s_regmap, BCM2835_I2S_MODE_A_REG, mode);
+
+	/* Setup the DMA parameters */
+	regmap_update_bits(dev->i2s_regmap, BCM2835_I2S_CS_A_REG,
+			BCM2835_I2S_RXTHR(1)
+			| BCM2835_I2S_TXTHR(1)
+			| BCM2835_I2S_DMAEN, 0xffffffff);
+
+	regmap_update_bits(dev->i2s_regmap, BCM2835_I2S_DREQ_A_REG,
+			  BCM2835_I2S_TX_PANIC(0x10)
+			| BCM2835_I2S_RX_PANIC(0x30)
+			| BCM2835_I2S_TX(0x30)
+			| BCM2835_I2S_RX(0x20), 0xffffffff);
+
+	/* Clear FIFOs */
+	bcm2835_i2s_clear_fifos(dev, true, true);
+
+	dev_dbg(dev->dev,
+		"slots: %d width: %d rx mask: 0x%02x tx_mask: 0x%02x\n",
+		slots, slot_width, rx_mask, tx_mask);
+
+	dev_dbg(dev->dev, "frame len: %d sync len: %d data len: %d\n",
+		frame_length, framesync_length, data_length);
+
+	dev_dbg(dev->dev, "rx pos: %d,%d tx pos: %d,%d\n",
+		rx_ch1_pos, rx_ch2_pos, tx_ch1_pos, tx_ch2_pos);
+
+	dev_dbg(dev->dev, "sampling rate: %d bclk rate: %d\n",
+		params_rate(params), bclk_rate);
+
+	dev_dbg(dev->dev, "CLKM: %d CLKI: %d FSM: %d FSI: %d frame start: %s edge\n",
+		!!(mode & BCM2835_I2S_CLKM),
+		!!(mode & BCM2835_I2S_CLKI),
+		!!(mode & BCM2835_I2S_FSM),
+		!!(mode & BCM2835_I2S_FSI),
+		(mode & BCM2835_I2S_FSI) ? "falling" : "rising");
+
+	return ret;
 }
 
-static int
-bcm2835_i2s_prepare (struct snd_pcm_substream *substream,
-                     struct snd_soc_dai *dai)
+static int bcm2835_i2s_prepare(struct snd_pcm_substream *substream,
+		struct snd_soc_dai *dai)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata (dai);
-    uint32_t cs_reg;
+	struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata(dai);
+	uint32_t cs_reg;
 
-    snd_pcm_hw_constraint_minmax (substream->runtime,
-                                  SNDRV_PCM_HW_PARAM_PERIOD_BYTES, 256, ~0);
+	snd_pcm_hw_constraint_minmax(substream->runtime,
+		SNDRV_PCM_HW_PARAM_PERIOD_BYTES, 256,
+					~0);
 
-    /*
-     * Clear both FIFOs if the one that should be started
-     * is not empty at the moment. This should only happen
-     * after overrun. Otherwise, hw_params would have cleared
-     * the FIFO.
-     */
-    regmap_read (dev->i2s_regmap, BCM2835_I2S_CS_A_REG, &cs_reg);
+	/*
+	 * Clear both FIFOs if the one that should be started
+	 * is not empty at the moment. This should only happen
+	 * after overrun. Otherwise, hw_params would have cleared
+	 * the FIFO.
+	 */
+	regmap_read(dev->i2s_regmap, BCM2835_I2S_CS_A_REG, &cs_reg);
 
-    if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK
-        && !(cs_reg & BCM2835_I2S_TXE))
-        bcm2835_i2s_clear_fifos (dev, true, false);
-    else if (substream->stream == SNDRV_PCM_STREAM_CAPTURE
-             && (cs_reg & BCM2835_I2S_RXD))
-        bcm2835_i2s_clear_fifos (dev, false, true);
+	if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK
+			&& !(cs_reg & BCM2835_I2S_TXE))
+		bcm2835_i2s_clear_fifos(dev, true, false);
+	else if (substream->stream == SNDRV_PCM_STREAM_CAPTURE
+			&& (cs_reg & BCM2835_I2S_RXD))
+		bcm2835_i2s_clear_fifos(dev, false, true);
 
-    return 0;
+	return 0;
 }
 
-static void
-bcm2835_i2s_stop (struct bcm2835_i2s_dev *dev,
-                  struct snd_pcm_substream *substream,
-                  struct snd_soc_dai *dai)
+static void bcm2835_i2s_stop(struct bcm2835_i2s_dev *dev,
+		struct snd_pcm_substream *substream,
+		struct snd_soc_dai *dai)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    uint32_t mask;
+	uint32_t mask;
 
-    if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
-        mask = BCM2835_I2S_RXON;
-    else
-        mask = BCM2835_I2S_TXON;
+	if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
+		mask = BCM2835_I2S_RXON;
+	else
+		mask = BCM2835_I2S_TXON;
 
-    regmap_update_bits (dev->i2s_regmap, BCM2835_I2S_CS_A_REG, mask, 0);
+	regmap_update_bits(dev->i2s_regmap,
+			BCM2835_I2S_CS_A_REG, mask, 0);
 
-    /* Stop also the clock when not SND_SOC_DAIFMT_CONT */
-    if (!snd_soc_dai_active (dai) && !(dev->fmt & SND_SOC_DAIFMT_CONT))
-        bcm2835_i2s_stop_clock (dev);
+	/* Stop also the clock when not SND_SOC_DAIFMT_CONT */
+	if (!snd_soc_dai_active(dai) && !(dev->fmt & SND_SOC_DAIFMT_CONT))
+		bcm2835_i2s_stop_clock(dev);
 }
 
-static int
-bcm2835_i2s_trigger(struct snd_pcm_substream *substream, int cmd,
-                    struct snd_soc_dai *dai)
+static int bcm2835_i2s_trigger(struct snd_pcm_substream *substream, int cmd,
+			       struct snd_soc_dai *dai)
 {
-    struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata(dai);
-    uint32_t mask;
+	struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata(dai);
+	uint32_t mask;
 
-    printk("vijayp %s:%s(): ENTER dai=%s stream=%s cmd=%d\n",
-           __FILE__, __func__,
-           dai->name,
-           (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) ?
-                "PLAYBACK" : "CAPTURE",
-           cmd);
+	switch (cmd) {
+	case SNDRV_PCM_TRIGGER_START:
+	case SNDRV_PCM_TRIGGER_RESUME:
+	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+		bcm2835_i2s_start_clock(dev);
 
-    switch (cmd) {
+		if (substream->stream == SNDRV_PCM_STREAM_CAPTURE)
+			mask = BCM2835_I2S_RXON;
+		else
+			mask = BCM2835_I2S_TXON;
 
-    case SNDRV_PCM_TRIGGER_START:
-    case SNDRV_PCM_TRIGGER_RESUME:
-    case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+		regmap_update_bits(dev->i2s_regmap,
+				BCM2835_I2S_CS_A_REG, mask, mask);
+		break;
 
-        printk("vijayp %s:%s(): START/RESUME -> calling bcm2835_i2s_start_clock()\n",
-               __FILE__, __func__);
+	case SNDRV_PCM_TRIGGER_STOP:
+	case SNDRV_PCM_TRIGGER_SUSPEND:
+	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+		bcm2835_i2s_stop(dev, substream, dai);
+		break;
+	default:
+		return -EINVAL;
+	}
 
-        bcm2835_i2s_start_clock(dev);
-
-        if (substream->stream == SNDRV_PCM_STREAM_CAPTURE) {
-            mask = BCM2835_I2S_RXON;
-            printk("vijayp %s:%s(): CAPTURE path, mask=RXON (0x%x)\n",
-                   __FILE__, __func__, mask);
-        } else {
-            mask = BCM2835_I2S_TXON;
-            printk("vijayp %s:%s(): PLAYBACK path, mask=TXON (0x%x)\n",
-                   __FILE__, __func__, mask);
-        }
-
-        printk("vijayp %s:%s(): regmap_update_bits(CS_A, mask=0x%x)\n",
-               __FILE__, __func__, mask);
-
-        regmap_update_bits(dev->i2s_regmap,
-                           BCM2835_I2S_CS_A_REG,
-                           mask, mask);
-
-        printk("vijayp %s:%s(): I2S ENABLED, RETURN to soc_dai_trigger()\n",
-               __FILE__, __func__);
-
-        break;
-
-    case SNDRV_PCM_TRIGGER_STOP:
-    case SNDRV_PCM_TRIGGER_SUSPEND:
-    case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
-
-        printk("vijayp %s:%s(): STOP/SUSPEND -> calling bcm2835_i2s_stop()\n",
-               __FILE__, __func__);
-
-        bcm2835_i2s_stop(dev, substream, dai);
-        break;
-
-    default:
-        printk("vijayp %s:%s(): INVALID cmd=%d\n",
-               __FILE__, __func__, cmd);
-        return -EINVAL;
-    }
-
-    printk("vijayp %s:%s(): EXIT ret=0\n", __FILE__, __func__);
-    return 0;
+	return 0;
 }
 
-static int
-bcm2835_i2s_startup (struct snd_pcm_substream *substream,
-                     struct snd_soc_dai *dai)
+static int bcm2835_i2s_startup(struct snd_pcm_substream *substream,
+			       struct snd_soc_dai *dai)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata (dai);
+	struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata(dai);
 
-    if (snd_soc_dai_active (dai))
-        return 0;
+	if (snd_soc_dai_active(dai))
+		return 0;
 
-    /* Should this still be running stop it */
-    bcm2835_i2s_stop_clock (dev);
+	/* Should this still be running stop it */
+	bcm2835_i2s_stop_clock(dev);
 
-    snd_pcm_hw_constraint_minmax (substream->runtime,
-                                  SNDRV_PCM_HW_PARAM_PERIOD_BYTES, 256, ~0);
+	snd_pcm_hw_constraint_minmax(substream->runtime,
+				     SNDRV_PCM_HW_PARAM_PERIOD_BYTES,
+				     256, ~0);
 
-    /* Enable PCM block */
-    regmap_update_bits (dev->i2s_regmap, BCM2835_I2S_CS_A_REG,
-                        BCM2835_I2S_EN, BCM2835_I2S_EN);
+	/* Enable PCM block */
+	regmap_update_bits(dev->i2s_regmap, BCM2835_I2S_CS_A_REG,
+			BCM2835_I2S_EN, BCM2835_I2S_EN);
 
-    /*
-     * Disable STBY.
-     * Requires at least 4 PCM clock cycles to take effect.
-     */
-    regmap_update_bits (dev->i2s_regmap, BCM2835_I2S_CS_A_REG,
-                        BCM2835_I2S_STBY, BCM2835_I2S_STBY);
+	/*
+	 * Disable STBY.
+	 * Requires at least 4 PCM clock cycles to take effect.
+	 */
+	regmap_update_bits(dev->i2s_regmap, BCM2835_I2S_CS_A_REG,
+			BCM2835_I2S_STBY, BCM2835_I2S_STBY);
 
-    return 0;
+	return 0;
 }
 
-static void
-bcm2835_i2s_shutdown (struct snd_pcm_substream *substream,
-                      struct snd_soc_dai *dai)
+static void bcm2835_i2s_shutdown(struct snd_pcm_substream *substream,
+		struct snd_soc_dai *dai)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata (dai);
+	struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata(dai);
 
-    bcm2835_i2s_stop (dev, substream, dai);
+	bcm2835_i2s_stop(dev, substream, dai);
 
-    /* If both streams are stopped, disable module and clock */
-    if (snd_soc_dai_active (dai))
-        return;
+	/* If both streams are stopped, disable module and clock */
+	if (snd_soc_dai_active(dai))
+		return;
 
-    /* Disable the module */
-    regmap_update_bits (dev->i2s_regmap, BCM2835_I2S_CS_A_REG,
-                        BCM2835_I2S_EN, 0);
+	/* Disable the module */
+	regmap_update_bits(dev->i2s_regmap, BCM2835_I2S_CS_A_REG,
+			BCM2835_I2S_EN, 0);
 
-    /*
-     * Stopping clock is necessary, because stop does
-     * not stop the clock when SND_SOC_DAIFMT_CONT
-     */
-    bcm2835_i2s_stop_clock (dev);
+	/*
+	 * Stopping clock is necessary, because stop does
+	 * not stop the clock when SND_SOC_DAIFMT_CONT
+	 */
+	bcm2835_i2s_stop_clock(dev);
 }
 
-static int
-bcm2835_i2s_dai_probe (struct snd_soc_dai *dai)
+static int bcm2835_i2s_dai_probe(struct snd_soc_dai *dai)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata (dai);
+	struct bcm2835_i2s_dev *dev = snd_soc_dai_get_drvdata(dai);
 
-    snd_soc_dai_init_dma_data (dai,
-                               &dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK],
-                               &dev->dma_data[SNDRV_PCM_STREAM_CAPTURE]);
+	snd_soc_dai_init_dma_data(dai,
+				  &dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK],
+				  &dev->dma_data[SNDRV_PCM_STREAM_CAPTURE]);
 
-    return 0;
+	return 0;
 }
 
 static const struct snd_soc_dai_ops bcm2835_i2s_dai_ops = {
-    .probe = bcm2835_i2s_dai_probe,
-    .startup = bcm2835_i2s_startup,
-    .shutdown = bcm2835_i2s_shutdown,
-    .prepare = bcm2835_i2s_prepare,
-    .trigger = bcm2835_i2s_trigger,
-    .hw_params = bcm2835_i2s_hw_params,
-    .set_fmt = bcm2835_i2s_set_dai_fmt,
-    .set_bclk_ratio = bcm2835_i2s_set_dai_bclk_ratio,
-    .set_tdm_slot = bcm2835_i2s_set_dai_tdm_slot,
+	.probe		= bcm2835_i2s_dai_probe,
+	.startup	= bcm2835_i2s_startup,
+	.shutdown	= bcm2835_i2s_shutdown,
+	.prepare	= bcm2835_i2s_prepare,
+	.trigger	= bcm2835_i2s_trigger,
+	.hw_params	= bcm2835_i2s_hw_params,
+	.set_fmt	= bcm2835_i2s_set_dai_fmt,
+	.set_bclk_ratio	= bcm2835_i2s_set_dai_bclk_ratio,
+	.set_tdm_slot	= bcm2835_i2s_set_dai_tdm_slot,
 };
 
 static struct snd_soc_dai_driver bcm2835_i2s_dai = {
-    .name = "bcm2835-i2s",
-    .playback = {
-                 .channels_min = 2,
-                 .channels_max = 2,
-                 .rates = SNDRV_PCM_RATE_CONTINUOUS,
-                 .rate_min = 8000,
-                 .rate_max = 384000,
-                 .formats = SNDRV_PCM_FMTBIT_S16_LE
-                 | SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S32_LE},
-    .capture = {
-                .channels_min = 2,
-                .channels_max = 2,
-                .rates = SNDRV_PCM_RATE_CONTINUOUS,
-                .rate_min = 8000,
-                .rate_max = 384000,
-                .formats = SNDRV_PCM_FMTBIT_S16_LE
-                | SNDRV_PCM_FMTBIT_S24_LE | SNDRV_PCM_FMTBIT_S32_LE},
-    .ops = &bcm2835_i2s_dai_ops,
-    .symmetric_rate = 1,
-    .symmetric_sample_bits = 1,
+	.name	= "bcm2835-i2s",
+	.playback = {
+		.channels_min = 2,
+		.channels_max = 2,
+		.rates =	SNDRV_PCM_RATE_CONTINUOUS,
+		.rate_min =	8000,
+		.rate_max =	384000,
+		.formats =	SNDRV_PCM_FMTBIT_S16_LE
+				| SNDRV_PCM_FMTBIT_S24_LE
+				| SNDRV_PCM_FMTBIT_S32_LE
+		},
+	.capture = {
+		.channels_min = 2,
+		.channels_max = 2,
+		.rates =	SNDRV_PCM_RATE_CONTINUOUS,
+		.rate_min =	8000,
+		.rate_max =	384000,
+		.formats =	SNDRV_PCM_FMTBIT_S16_LE
+				| SNDRV_PCM_FMTBIT_S24_LE
+				| SNDRV_PCM_FMTBIT_S32_LE
+		},
+	.ops = &bcm2835_i2s_dai_ops,
+	.symmetric_rate = 1,
+	.symmetric_sample_bits = 1,
 };
 
-static bool
-bcm2835_i2s_volatile_reg (struct device *dev, unsigned int reg)
+static bool bcm2835_i2s_volatile_reg(struct device *dev, unsigned int reg)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    switch (reg) {
-    case BCM2835_I2S_CS_A_REG:
-    case BCM2835_I2S_FIFO_A_REG:
-    case BCM2835_I2S_INTSTC_A_REG:
-    case BCM2835_I2S_GRAY_REG:
-        return true;
-    default:
-        return false;
-    }
+	switch (reg) {
+	case BCM2835_I2S_CS_A_REG:
+	case BCM2835_I2S_FIFO_A_REG:
+	case BCM2835_I2S_INTSTC_A_REG:
+	case BCM2835_I2S_GRAY_REG:
+		return true;
+	default:
+		return false;
+	}
 }
 
-static bool
-bcm2835_i2s_precious_reg (struct device *dev, unsigned int reg)
+static bool bcm2835_i2s_precious_reg(struct device *dev, unsigned int reg)
 {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    switch (reg) {
-    case BCM2835_I2S_FIFO_A_REG:
-        return true;
-    default:
-        return false;
-    }
+	switch (reg) {
+	case BCM2835_I2S_FIFO_A_REG:
+		return true;
+	default:
+		return false;
+	}
 }
 
 static const struct regmap_config bcm2835_regmap_config = {
-    .reg_bits = 32,
-    .reg_stride = 4,
-    .val_bits = 32,
-    .max_register = BCM2835_I2S_GRAY_REG,
-    .precious_reg = bcm2835_i2s_precious_reg,
-    .volatile_reg = bcm2835_i2s_volatile_reg,
-    .cache_type = REGCACHE_RBTREE,
+	.reg_bits = 32,
+	.reg_stride = 4,
+	.val_bits = 32,
+	.max_register = BCM2835_I2S_GRAY_REG,
+	.precious_reg = bcm2835_i2s_precious_reg,
+	.volatile_reg = bcm2835_i2s_volatile_reg,
+	.cache_type = REGCACHE_RBTREE,
 };
 
 static const struct snd_soc_component_driver bcm2835_i2s_component = {
-    .name = "bcm2835-i2s-comp",
-    .legacy_dai_naming = 1,
+	.name			= "bcm2835-i2s-comp",
+	.legacy_dai_naming	= 1,
 };
 
-static int
-bcm2835_i2s_probe (struct platform_device *pdev)
-{
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-    struct bcm2835_i2s_dev *dev;
-    int ret;
-    void __iomem *base;
-    struct resource *res;
+static int bcm2835_i2s_probe(struct platform_device *pdev)
+{	
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): BCM2835 I2S CPU-DAI probe called\n",
+        __FILE__, __LINE__, __func__);
 
-    dev = devm_kzalloc (&pdev->dev, sizeof (*dev), GFP_KERNEL);
-    if (!dev)
-        return -ENOMEM;
+	struct bcm2835_i2s_dev *dev;
+	int ret;
+	void __iomem *base;
+	struct resource *res;
 
-    /* get the clock */
-    dev->clk_prepared = false;
-    dev->clk = devm_clk_get (&pdev->dev, NULL);
-    if (IS_ERR (dev->clk))
-        return dev_err_probe (&pdev->dev, PTR_ERR (dev->clk),
-                              "could not get clk\n");
+	dev = devm_kzalloc(&pdev->dev, sizeof(*dev),
+			   GFP_KERNEL);
+	if (!dev)
+		return -ENOMEM;
 
-    /* Request ioarea */
-    base = devm_platform_get_and_ioremap_resource (pdev, 0, &res);
-    if (IS_ERR (base))
-        return PTR_ERR (base);
+	/* get the clock */
+	dev->clk_prepared = false;
+	dev->clk = devm_clk_get(&pdev->dev, NULL);
+	if (IS_ERR(dev->clk))
+		return dev_err_probe(&pdev->dev, PTR_ERR(dev->clk),
+				     "could not get clk\n");
 
-    dev->i2s_regmap = devm_regmap_init_mmio (&pdev->dev, base,
-                                             &bcm2835_regmap_config);
-    if (IS_ERR (dev->i2s_regmap))
-        return PTR_ERR (dev->i2s_regmap);
+	/* Request ioarea */
+	base = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+	if (IS_ERR(base))
+		return PTR_ERR(base);
 
-    dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK].addr =
-        res->start + BCM2835_I2S_FIFO_A_REG;
+	dev->i2s_regmap = devm_regmap_init_mmio(&pdev->dev, base,
+				&bcm2835_regmap_config);
+	if (IS_ERR(dev->i2s_regmap))
+		return PTR_ERR(dev->i2s_regmap);
 
-    dev->dma_data[SNDRV_PCM_STREAM_CAPTURE].addr =
-        res->start + BCM2835_I2S_FIFO_A_REG;
+	dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK].addr =
+		res->start + BCM2835_I2S_FIFO_A_REG;
 
-    /* Set the bus width */
-    dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK].addr_width =
-        DMA_SLAVE_BUSWIDTH_4_BYTES;
-    dev->dma_data[SNDRV_PCM_STREAM_CAPTURE].addr_width =
-        DMA_SLAVE_BUSWIDTH_4_BYTES;
+	dev->dma_data[SNDRV_PCM_STREAM_CAPTURE].addr =
+		res->start + BCM2835_I2S_FIFO_A_REG;
 
-    /* Set burst */
-    dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK].maxburst = 2;
-    dev->dma_data[SNDRV_PCM_STREAM_CAPTURE].maxburst = 2;
+	/* Set the bus width */
+	dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK].addr_width =
+		DMA_SLAVE_BUSWIDTH_4_BYTES;
+	dev->dma_data[SNDRV_PCM_STREAM_CAPTURE].addr_width =
+		DMA_SLAVE_BUSWIDTH_4_BYTES;
 
-    /*
-     * Set the PACK flag to enable S16_LE support (2 S16_LE values
-     * packed into 32-bit transfers).
-     */
-    dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK].flags =
-        SND_DMAENGINE_PCM_DAI_FLAG_PACK;
-    dev->dma_data[SNDRV_PCM_STREAM_CAPTURE].flags =
-        SND_DMAENGINE_PCM_DAI_FLAG_PACK;
+	/* Set burst */
+	dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK].maxburst = 2;
+	dev->dma_data[SNDRV_PCM_STREAM_CAPTURE].maxburst = 2;
 
-    /* Store the pdev */
-    dev->dev = &pdev->dev;
-    dev_set_drvdata (&pdev->dev, dev);
+	/*
+	 * Set the PACK flag to enable S16_LE support (2 S16_LE values
+	 * packed into 32-bit transfers).
+	 */
+	dev->dma_data[SNDRV_PCM_STREAM_PLAYBACK].flags =
+		SND_DMAENGINE_PCM_DAI_FLAG_PACK;
+	dev->dma_data[SNDRV_PCM_STREAM_CAPTURE].flags =
+		SND_DMAENGINE_PCM_DAI_FLAG_PACK;
 
-    ret = devm_snd_soc_register_component (&pdev->dev,
-                                           &bcm2835_i2s_component,
-                                           &bcm2835_i2s_dai, 1);
-    if (ret) {
-    printk(KERN_INFO "%s:%s(): reached here\n", __FILE__, __func__);
-    ; /* avoid -Wswitch-unreachable */
-        dev_err (&pdev->dev, "Could not register DAI: %d\n", ret);
-        return ret;
-    }
+	/* Store the pdev */
+	dev->dev = &pdev->dev;
+	dev_set_drvdata(&pdev->dev, dev);
 
-    ret = devm_snd_dmaengine_pcm_register (&pdev->dev, NULL, 0);
-    if (ret) {
-        dev_err (&pdev->dev, "Could not register PCM: %d\n", ret);
-        return ret;
-    }
+	ret = devm_snd_soc_register_component(&pdev->dev,
+			&bcm2835_i2s_component, &bcm2835_i2s_dai, 1);
+	if (ret) {
+		dev_err(&pdev->dev, "Could not register DAI: %d\n", ret);
+		return ret;
+	}
 
-    return 0;
+	ret = devm_snd_dmaengine_pcm_register(&pdev->dev, NULL, 0);
+	if (ret) {
+		dev_err(&pdev->dev, "Could not register PCM: %d\n", ret);
+		return ret;
+	}
+
+	return 0;
 }
 
 static const struct of_device_id bcm2835_i2s_of_match[] = {
-    {.compatible = "brcm,bcm2835-i2s",},
-    {},
+	{ .compatible = "brcm,bcm2835-i2s", },
+	{},
 };
 
-MODULE_DEVICE_TABLE (of, bcm2835_i2s_of_match);
+MODULE_DEVICE_TABLE(of, bcm2835_i2s_of_match);
 
 static struct platform_driver bcm2835_i2s_driver = {
-    .probe = bcm2835_i2s_probe,
-    .driver = {
-               .name = "bcm2835-i2s",
-               .of_match_table = bcm2835_i2s_of_match,
-               },
+	.probe		= bcm2835_i2s_probe,
+	.driver		= {
+		.name	= "bcm2835-i2s",
+		.of_match_table = bcm2835_i2s_of_match,
+	},
 };
 
-module_platform_driver (bcm2835_i2s_driver);
+module_platform_driver(bcm2835_i2s_driver);
 
-MODULE_ALIAS ("platform:bcm2835-i2s");
-MODULE_DESCRIPTION ("BCM2835 I2S interface");
-MODULE_AUTHOR ("Florian Meier <florian.meier@koalo.de>");
-MODULE_LICENSE ("GPL v2");
+MODULE_ALIAS("platform:bcm2835-i2s");
+MODULE_DESCRIPTION("BCM2835 I2S interface");
+MODULE_AUTHOR("Florian Meier <florian.meier@koalo.de>");
+MODULE_LICENSE("GPL v2");

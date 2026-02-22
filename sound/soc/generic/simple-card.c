@@ -702,6 +702,9 @@ static int simple_get_dais_count(struct simple_util_priv *priv,
 
 static int simple_soc_probe(struct snd_soc_card *card)
 {
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): simple-audio-card probe started\n",
+        __FILE__, __LINE__, __func__);
+
 	struct simple_util_priv *priv = snd_soc_card_get_drvdata(card);
 	int ret;
 

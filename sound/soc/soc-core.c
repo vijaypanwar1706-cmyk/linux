@@ -2528,6 +2528,9 @@ EXPORT_SYMBOL_GPL(snd_soc_add_dai_controls);
  */
 int snd_soc_register_card(struct snd_soc_card *card)
 {
+	pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): Registering sound card: %s\n",
+        __FILE__, __LINE__, __func__, card->name);
+
 	if (!card->name || !card->dev)
 		return -EINVAL;
 

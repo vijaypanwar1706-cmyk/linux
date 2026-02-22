@@ -1045,45 +1045,89 @@ static const struct attribute_group *pcm_dev_attr_groups[] = {
 
 static int snd_pcm_dev_register(struct snd_device *device)
 {
-	int cidx, err;
-	struct snd_pcm_substream *substream;
-	struct snd_pcm *pcm;
+        int cidx, err;
+        struct snd_pcm_substream *substream;
+        struct snd_pcm *pcm;
 
-	if (snd_BUG_ON(!device || !device->device_data))
-		return -ENXIO;
-	pcm = device->device_data;
+        pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): ENTER device=%p\n",
+                __FILE__, __LINE__, __func__, device);
 
-	guard(mutex)(&register_mutex);
-	err = snd_pcm_add(pcm);
-	if (err)
-		return err;
-	for (cidx = 0; cidx < 2; cidx++) {
-		int devtype = -1;
-		if (pcm->streams[cidx].substream == NULL)
-			continue;
-		switch (cidx) {
-		case SNDRV_PCM_STREAM_PLAYBACK:
-			devtype = SNDRV_DEVICE_TYPE_PCM_PLAYBACK;
-			break;
-		case SNDRV_PCM_STREAM_CAPTURE:
-			devtype = SNDRV_DEVICE_TYPE_PCM_CAPTURE;
-			break;
-		}
-		/* register pcm */
-		err = snd_register_device(devtype, pcm->card, pcm->device,
-					  &snd_pcm_f_ops[cidx], pcm,
-					  pcm->streams[cidx].dev);
-		if (err < 0) {
-			list_del_init(&pcm->list);
-			return err;
-		}
+        if (snd_BUG_ON(!device || !device->device_data)) {
+                pr_err("[vijayp][ALSA][BOOT] %s:%d %s(): INVALID device or device_data\n",
+                       __FILE__, __LINE__, __func__);
+                return -ENXIO;
+        }
 
-		for (substream = pcm->streams[cidx].substream; substream; substream = substream->next)
-			snd_pcm_timer_init(substream);
-	}
+        pcm = device->device_data;
 
-	pcm_call_notify(pcm, n_register);
-	return err;
+        pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): card=%d pcm_device=%d id=%s\n",
+                __FILE__, __LINE__, __func__,
+                pcm->card->number, pcm->device, pcm->id);
+
+        guard(mutex)(&register_mutex);
+
+        err = snd_pcm_add(pcm);
+        if (err) {
+                pr_err("[vijayp][ALSA][BOOT] %s:%d %s(): snd_pcm_add FAILED err=%d\n",
+                       __FILE__, __LINE__, __func__, err);
+                return err;
+        }
+
+        pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): snd_pcm_add SUCCESS\n",
+                __FILE__, __LINE__, __func__);
+
+        for (cidx = 0; cidx < 2; cidx++) {
+                int devtype = -1;
+
+                if (pcm->streams[cidx].substream == NULL) {
+                        pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): stream[%d] NO substream\n",
+                                __FILE__, __LINE__, __func__, cidx);
+                        continue;
+                }
+
+                switch (cidx) {
+                case SNDRV_PCM_STREAM_PLAYBACK:
+                        devtype = SNDRV_DEVICE_TYPE_PCM_PLAYBACK;
+                        pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): PLAYBACK stream\n",
+                                __FILE__, __LINE__, __func__);
+                        break;
+                case SNDRV_PCM_STREAM_CAPTURE:
+                        devtype = SNDRV_DEVICE_TYPE_PCM_CAPTURE;
+                        pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): CAPTURE stream\n",
+                                __FILE__, __LINE__, __func__);
+                        break;
+                }
+
+                err = snd_register_device(devtype, pcm->card, pcm->device,
+                                          &snd_pcm_f_ops[cidx], pcm,
+                                          pcm->streams[cidx].dev);
+                if (err < 0) {
+                        pr_err("[vijayp][ALSA][BOOT] %s:%d %s(): snd_register_device FAILED devtype=%d err=%d\n",
+                               __FILE__, __LINE__, __func__, devtype, err);
+                        list_del_init(&pcm->list);
+                        return err;
+                }
+
+                pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): snd_register_device SUCCESS devtype=%d\n",
+                        __FILE__, __LINE__, __func__, devtype);
+
+                for (substream = pcm->streams[cidx].substream;
+                     substream;
+                     substream = substream->next) {
+
+                        pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): init timer substream=%p\n",
+                                __FILE__, __LINE__, __func__, substream);
+
+                        snd_pcm_timer_init(substream);
+                }
+        }
+
+        pcm_call_notify(pcm, n_register);
+
+        pr_info("[vijayp][ALSA][BOOT] %s:%d %s(): EXIT err=%d\n",
+                __FILE__, __LINE__, __func__, err);
+
+        return err;
 }
 
 static int snd_pcm_dev_disconnect(struct snd_device *device)
